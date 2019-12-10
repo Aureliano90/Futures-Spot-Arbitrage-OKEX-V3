@@ -1,4 +1,4 @@
-# OKcoin Open API V3 SDK
+# OKEx Open API V3 SDK
 ### API Support 
 
 |联系我们|Contact Us||
