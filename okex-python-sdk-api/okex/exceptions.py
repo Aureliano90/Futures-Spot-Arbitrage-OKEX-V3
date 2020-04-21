@@ -1,12 +1,9 @@
 # coding=utf-8
-import logging
-
+import json
 
 class OkexAPIException(Exception):
 
     def __init__(self, response):
-        # print(response.text + ', ' + str(response.status_code))
-        logging.error("result:" + response.text + str(response.status_code))
         self.code = 0
         try:
             json_res = response.json()

@@ -6,11 +6,7 @@ import dateutil.parser as dp
 import hmac
 import base64
 import zlib
-import logging
 import datetime
-
-log_format = '%(asctime)s - %(levelname)s - %(message)s'
-logging.basicConfig(filename='mylog-ws.json', filemode='w', format=log_format, level=logging.INFO)
 
 
 def get_timestamp():
@@ -62,10 +58,8 @@ def partial(res, timestamp):
     asks = data_obj['asks']
     instrument_id = data_obj['instrument_id']
     print(timestamp + '全量数据bids为：' + str(bids))
-    logging.info('partial bids:' + str(bids))
     print('档数为：' + str(len(bids)))
     print(timestamp + '全量数据asks为：' + str(asks))
-    logging.info('partial asks:' + str(asks))
     print('档数为：' + str(len(asks)))
     return bids, asks, instrument_id
 
@@ -93,7 +87,6 @@ def update_bids(res, bids_p, timestamp):
     else:
         bids_p.sort(key=lambda price: sort_num(price[0]), reverse=True)
         print(timestamp + '合并后的bids为：' + str(bids_p) + '，档数为：' + str(len(bids_p)))
-        logging.info('combine bids:' + str(bids_p))
     return bids_p
 
 
@@ -120,7 +113,6 @@ def update_asks(res, asks_p, timestamp):
     else:
         asks_p.sort(key=lambda price: sort_num(price[0]))
         print(timestamp + '合并后的asks为：' + str(asks_p) + '，档数为：' + str(len(asks_p)))
-        logging.info('combine asks:' + str(asks_p))
     return asks_p
 
 
@@ -198,31 +190,27 @@ async def subscribe_without_login(url, channels):
                 sub_param = {"op": "subscribe", "args": channels}
                 sub_str = json.dumps(sub_param)
                 await ws.send(sub_str)
-                logging.info(f"send: {sub_str}")
 
                 while True:
                     try:
                         res_b = await asyncio.wait_for(ws.recv(), timeout=25)
                     except (asyncio.TimeoutError, websockets.exceptions.ConnectionClosed) as e:
-                        # logging.error(e)
                         try:
                             await ws.send('ping')
                             res_b = await ws.recv()
                             timestamp = get_timestamp()
                             res = inflate(res_b).decode('utf-8')
                             print(timestamp + res)
-                            logging.info(res)
                             continue
                         except Exception as e:
                             timestamp = get_timestamp()
                             print(timestamp + "连接关闭，正在重连……")
-                            logging.error(e)
+                            print(e)
                             break
 
                     timestamp = get_timestamp()
                     res = inflate(res_b).decode('utf-8')
                     print(timestamp + res)
-                    logging.info(f"recv: {res}")
 
                     res = eval(res)
                     if 'event' in res:
@@ -245,16 +233,12 @@ async def subscribe_without_login(url, channels):
                                 # 校验checksum
                                 checksum = res['data'][0]['checksum']
                                 print(timestamp + '推送数据的checksum为：' + str(checksum))
-                                logging.info('get checksum:' + str(checksum))
                                 check_num = check(bids_p, asks_p)
                                 print(timestamp + '校验后的checksum为：' + str(check_num))
-                                logging.info('calculate checksum:' + str(check_num))
                                 if check_num == checksum:
                                     print("校验结果为：True")
-                                    logging.info('checksum: True')
                                 else:
                                     print("校验结果为：False，正在重新订阅……")
-                                    logging.error('checksum: False')
 
                                     # 取消订阅
                                     await unsubscribe_without_login(url, channels, timestamp)
@@ -265,7 +249,6 @@ async def subscribe_without_login(url, channels):
                                         await ws.send(sub_str)
                                         timestamp = get_timestamp()
                                         print(timestamp + f"send: {sub_str}")
-                                        logging.info(f"send: {sub_str}")
 
                             elif res['action'] == 'update':
                                 for j in l:
@@ -280,16 +263,12 @@ async def subscribe_without_login(url, channels):
                                         # 校验checksum
                                         checksum = res['data'][0]['checksum']
                                         print(timestamp + '推送数据的checksum为：' + str(checksum))
-                                        logging.info('get checksum:' + str(checksum))
                                         check_num = check(bids_p, asks_p)
                                         print(timestamp + '校验后的checksum为：' + str(check_num))
-                                        logging.info('calculate checksum:' + str(check_num))
                                         if check_num == checksum:
                                             print("校验结果为：True")
-                                            logging.info('checksum: True')
                                         else:
                                             print("校验结果为：False，正在重新订阅……")
-                                            logging.error('checksum: False')
 
                                             # 取消订阅
                                             await unsubscribe_without_login(url, channels, timestamp)
@@ -300,11 +279,10 @@ async def subscribe_without_login(url, channels):
                                                 await ws.send(sub_str)
                                                 timestamp = get_timestamp()
                                                 print(timestamp + f"send: {sub_str}")
-                                                logging.info(f"send: {sub_str}")
         except Exception as e:
             timestamp = get_timestamp()
             print(timestamp + "连接断开，正在重连……")
-            logging.error(e)
+            print(e)
             continue
 
 
@@ -319,12 +297,10 @@ async def subscribe(url, api_key, passphrase, secret_key, channels):
                 await ws.send(login_str)
                 # time = get_timestamp()
                 # print(time + f"send: {login_str}")
-                # logging.info(f"send: {login_str}")
                 res_b = await ws.recv()
                 res = inflate(res_b).decode('utf-8')
                 time = get_timestamp()
                 print(time + res)
-                logging.info(f"recv: {res}")
 
                 # subscribe
                 sub_param = {"op": "subscribe", "args": channels}
@@ -332,36 +308,32 @@ async def subscribe(url, api_key, passphrase, secret_key, channels):
                 await ws.send(sub_str)
                 time = get_timestamp()
                 print(time + f"send: {sub_str}")
-                logging.info(f"send: {sub_str}")
 
                 while True:
                     try:
                         res_b = await asyncio.wait_for(ws.recv(), timeout=25)
                     except (asyncio.TimeoutError, websockets.exceptions.ConnectionClosed) as e:
-                        # logging.error(e)
                         try:
                             await ws.send('ping')
                             res_b = await ws.recv()
                             time = get_timestamp()
                             res = inflate(res_b).decode('utf-8')
                             print(time + res)
-                            logging.info(res)
                             continue
                         except Exception as e:
                             time = get_timestamp()
                             print(time + "连接关闭，正在重连……")
-                            logging.error(e)
+                            print(e)
                             break
 
                     time = get_timestamp()
                     res = inflate(res_b).decode('utf-8')
                     print(time + res)
-                    logging.info(f"recv: {res}")
 
         except Exception as e:
             time = get_timestamp()
             print(time + "连接断开，正在重连……")
-            logging.error(e)
+            print(e)
             continue
 
 
@@ -374,13 +346,11 @@ async def unsubscribe(url, api_key, passphrase, secret_key, channels):
         await ws.send(login_str)
         # time = get_timestamp()
         # print(time + f"send: {login_str}")
-        # logging.info(f"send: {login_str}")
 
         res_1 = await ws.recv()
         res = inflate(res_1).decode('utf-8')
         time = get_timestamp()
         print(time + res)
-        logging.info(f"recv: {res}")
 
         # unsubscribe
         sub_param = {"op": "unsubscribe", "args": channels}
@@ -388,13 +358,11 @@ async def unsubscribe(url, api_key, passphrase, secret_key, channels):
         await ws.send(sub_str)
         time = get_timestamp()
         print(time + f"send: {sub_str}")
-        logging.info(f"send: {sub_str}")
 
         res_1 = await ws.recv()
         res = inflate(res_1).decode('utf-8')
         time = get_timestamp()
         print(time + res)
-        logging.info(f"recv: {res}")
 
 
 # unsubscribe channels
@@ -405,12 +373,10 @@ async def unsubscribe_without_login(url, channels, timestamp):
         sub_str = json.dumps(sub_param)
         await ws.send(sub_str)
         print(timestamp + f"send: {sub_str}")
-        logging.info(f"send: {sub_str}")
 
         res_1 = await ws.recv()
         res = inflate(res_1).decode('utf-8')
         print(timestamp + f"recv: {res}")
-        logging.info(f"recv: {res}")
 
 
 api_key = ""
@@ -422,7 +388,6 @@ url = 'wss://real.okex.com:8443/ws/v3'
 # 现货
 # 用户币币账户频道
 # channels = ["spot/account:USDT"]
-# channels = ["spot/account:XRP", "futures/account:XRP", "swap/account:XRP-USD-SWAP"]
 # 用户杠杆账户频道
 # channels = ["spot/margin_account:BTC-USDT"]
 # 用户委托策略频道
@@ -430,44 +395,44 @@ url = 'wss://real.okex.com:8443/ws/v3'
 # 用户交易频道
 # channels = ["spot/order:XRP-USDT"]
 # 公共-Ticker频道
-# channels = ["spot/ticker:EOS-USDT"]
+# channels = ["spot/ticker:ETH-USDT"]
 # 公共-K线频道
-# channels = ["spot/candle60s:ETH-USDT"]
+# channels = ["spot/candle60s:BTC-USDT"]
 # 公共-交易频道
 # channels = ["spot/trade:BTC-USDT"]
 # 公共-5档深度频道
-# channels = ["spot/depth5:PLG-USDT"]
+# channels = ["spot/depth5:BTC-USDT"]
 # 公共-400档深度频道
 # channels = ["spot/depth:BTC-USDT"]
-# 公共-全量深度频道
-# channels = ["spot/depth_l2_tbt:XRP-USDT"]
+# 公共-400档增量数据频道
+# channels = ["spot/depth_l2_tbt:BTC-USDT"]
 
 # 交割合约
 # 用户持仓频道
 # channels = ["futures/position:XRP-USD-200327"]
 # 用户账户频道
-# channels = ["futures/account:BTC-USDT"]
+# channels = ["futures/account:XRP"]
 # 用户交易频道
-# channels = ["futures/order:ETH-USD-200117"]
+# channels = ["futures/order:BTC-USDT-200626"]
 # 用户委托策略频道
 # channels = ["futures/order_algo:XRP-USD-200327"]
 # 公共-全量合约信息频道
 # channels = ["futures/instruments"]
 # 公共-Ticker频道
-# channels = ["futures/ticker:BTC-USD-200327"]
+# channels = ["futures/ticker:BTC-USD-200626"]
 # 公共-K线频道
-# channels = ["futures/candle60s:BTC-USD-200327"]
+# channels = ["futures/candle60s:BTC-USD-200626"]
 # 公共-交易频道
 # channels = ["futures/trade:BTC-USD-200117"]
 # 公共-预估交割价频道
-# channels = ["futures/estimated_price:BTC-USD-200327"]
+# channels = ["futures/estimated_price:BTC-USD-200228"]
 # 公共-限价频道
 # channels = ["futures/price_range:BTC-USD-200327"]
 # 公共-5档深度频道
 # channels = ["futures/depth5:BTC-USD-200327"]
 # 公共-400档深度频道
-# channels = ["futures/depth:BSV-USD-200327"]
-# 公共-全量深度频道
+# channels = ["futures/depth:XRP-USD-200327"]
+# 公共-400档增量数据频道
 # channels = ["futures/depth_l2_tbt:BTC-USD-200327"]
 # 公共-标记价格频道
 # channels = ["futures/mark_price:BTC-USD-200327"]
@@ -493,10 +458,10 @@ url = 'wss://real.okex.com:8443/ws/v3'
 # channels = ["swap/price_range:BTC-USD-SWAP"]
 # 公共-5档深度频道
 # channels = ["swap/depth5:BTC-USD-SWAP"]
-# 公共-200档深度频道
+# 公共-400档深度频道
 # channels = ["swap/depth:BTC-USDT-SWAP"]
-# 公共-全量深度频道
-# channels = ["swap/depth_l2_tbt:XRP-USD-SWAP"]
+# 公共-400档增量数据频道
+# channels = ["swap/depth_l2_tbt:BTC-USD-SWAP"]
 # 公共-标记价格频道
 # channels = ["swap/mark_price:BTC-USD-SWAP"]
 
@@ -521,7 +486,7 @@ url = 'wss://real.okex.com:8443/ws/v3'
 # channels = ["option/depth5:BTC-USD-200327-11000-C"]
 # 公共-400档深度频道
 # channels = ["option/depth:BTC-USD-200327-11000-C"]
-# 公共-全量深度频道
+# 公共-400档增量数据频道
 # channels = ["option/depth_l2_tbt:BTC-USD-200327-11000-C"]
 
 # ws公共指数频道
@@ -532,10 +497,10 @@ url = 'wss://real.okex.com:8443/ws/v3'
 
 loop = asyncio.get_event_loop()
 
-#公共数据 不需要登录（行情，K线，交易数据，资金费率，限价范围，深度数据，标记价格）
+#公共数据 不需要登录（行情，K线，交易数据，资金费率，限价范围，深度数据，标记价格等频道）
 loop.run_until_complete(subscribe_without_login(url, channels))
 
-#个人数据 需要登录（用户账户，用户交易，用户持仓）
+#个人数据 需要登录（用户账户，用户交易，用户持仓等频道）
 # loop.run_until_complete(subscribe(url, api_key, passphrase, secret_key, channels))
 
 loop.close()

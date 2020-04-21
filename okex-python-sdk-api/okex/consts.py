@@ -115,6 +115,9 @@ FUTURE_HOLDS = '/api/futures/v3/instruments/'
 FUTURE_LIMIT = '/api/futures/v3/instruments/'
 FUTURE_MARK = '/api/futures/v3/instruments/'
 FUTURE_LIQUIDATION = '/api/futures/v3/instruments/'
+FUTURE_AUTO_MARGIN = '/api/futures/v3/accounts/auto_margin'
+FUTURE_CHANGE_MARGIN = '/api/futures/v3/position/margin'
+FUTURE_HISTORY_SETTLEMENT = '/api/futures/v3/settlement/history'
 
 # swap
 SWAP_POSITIONS = '/api/swap/v3/position'
@@ -133,6 +136,8 @@ SWAP_FILLS = '/api/swap/v3/fills'
 SWAP_INSTRUMENTS = '/api/swap/v3/instruments'
 SWAP_TICKETS = '/api/swap/v3/instruments/ticker'
 SWAP_RATE = '/api/swap/v3/rate'
+SWAP_CLOSE_POSITION = '/api/swap/v3/close_position'
+SWAP_CANCEL_ALL = '/api/swap/v3/cancel_all'
 
 # index
 INDEX_GET_CONSTITUENTS = '/api/index/v3/'
@@ -150,3 +155,6 @@ OPTION_ACCOUNT = '/api/option/v3/accounts/'
 OPTION_TRADE_FEE = '/api/option/v3/trade_fee'
 OPTION_INDEX = '/api/option/v3/underlying'
 OPTION_INSTRUMENTS = '/api/option/v3/instruments/'
+
+# system
+SYSTEM_STATUS = '/api/system/v3/status'
