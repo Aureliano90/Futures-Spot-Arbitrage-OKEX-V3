@@ -80,6 +80,7 @@ class Websocket extends Utils{
                 print_r($ntime." $data\n");
 //                    print_r($ntime." $i $data\n");
                 $con->send($data);
+//                $con->send($data);
 
             };
 
@@ -134,6 +135,7 @@ class Websocket extends Utils{
                     print_r($ntime . " $data\n");
 
                     $con->send($data);
+//                    $con->send($data);
                 }
             };
 

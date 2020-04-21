@@ -32,6 +32,9 @@ class SpotApi extends Utils {
     const SPOT_CANCEL_BATCH_ALGOS = '/api/spot/v3/cancel_batch_algos/';
     const SPOT_ALGO_LIST = '/api/spot/v3/algo';
 
+
+    const SPOT_TRADE_FEE = '/api/spot/v3/trade_fee/';
+
     // 币币账户信息
     public function getAccountInfo()
     {
@@ -235,5 +238,11 @@ class SpotApi extends Utils {
         if ($limit) $params['limit'] = $limit;
 
         return $this->request(self::SPOT_ALGO_LIST, $params, 'GET', true);
+    }
+
+    //
+    public function getTradeFee()
+    {
+        return $this->request(self::SPOT_TRADE_FEE, '', 'GET', true);
     }
 }

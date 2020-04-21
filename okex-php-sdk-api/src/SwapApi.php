@@ -52,6 +52,9 @@ class SwapApi extends Utils {
     const SWAP_ALGO_LIST = '/api/swap/v3/order_algo';
     const SWAP_TRADE_FEE = '/api/swap/v3/trade_fee';
 
+    const SWAP_CLOSE_POSITION = '/api/swap/v3/close_position';
+    const SWAP_CANCEL_ALL = '/api/swap/v3/cancel_all';
+
 
     // 获取合约账户所有的持仓信息
     public function getPosition()
@@ -292,7 +295,7 @@ class SwapApi extends Utils {
         return $this->request(self::SWAP_MARK_PRICE.$instrument_id.'/mark_price', [], 'GET');
     }
 
-    // 公共-获取合约标记价格
+    //
     public function getHistoricalFundingRate($instrument_id)
     {
         return $this->request(self::SWAP_HISTORICAL_FUNDING_RATE.$instrument_id.'/historical_funding_rate', [], 'GET');
@@ -341,11 +344,31 @@ class SwapApi extends Utils {
         return $this->request(self::SWAP_ALGO_LIST."/$instrument_id", $params, 'GET', true);
     }
 
-    // 获取委托单列表
+    //
     public function getTradeFee()
     {
         return $this->request(self::SWAP_TRADE_FEE, '', 'GET', true);
     }
 
+    // 市价全平
+    public function closePosition($instrument_id,$direction)
+    {
+        $params = [
+            'instrument_id'=> $instrument_id,
+            'direction' => $direction,
+        ];
 
+        return $this->request(self::SWAP_CLOSE_POSITION, $params, 'POST');
+    }
+
+    // 撤销所有平仓挂单
+    public function cancelAll($instrument_id,$direction)
+    {
+        $params = [
+            'instrument_id'=> $instrument_id,
+            'direction' => $direction,
+        ];
+
+        return $this->request(self::SWAP_CANCEL_ALL, $params, 'POST');
+    }
 }
