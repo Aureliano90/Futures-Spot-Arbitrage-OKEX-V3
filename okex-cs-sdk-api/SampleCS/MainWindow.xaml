@@ -307,6 +307,8 @@
                                 <TextBox Width="96" Height="26" Text="{Binding Transfer.currency}" VerticalContentAlignment="Center"></TextBox>
                                 <Label Height="26">数量：</Label>
                                 <TextBox Width="106" Height="26" Text="{Binding Transfer.amount}"></TextBox>
+                                <Label Width="40"   >type：</Label>
+                                <TextBox Width="96" Height="26"  Text="{Binding Transfer.type}"></TextBox>
                                 <Label Height="26">from：</Label>
                                 <ComboBox Width="62" Height="26" ItemsSource="{Binding transferTypes}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValue="{Binding Transfer.from}">
                                 </ComboBox>
@@ -534,7 +536,7 @@
             <TabItem Header="交割合约">
                 <ScrollViewer Margin="2,0,0,0">
                     <StackPanel Orientation="Vertical">
-                        <Grid Height="153">
+                        <Grid Height="195">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="225*"/>
@@ -573,6 +575,8 @@
                             <Button Content="委托策略撤单" HorizontalAlignment="Left" Margin="270,125,0,0" VerticalAlignment="Top" Width="100" Click="cancel_algos_futures" Grid.Column="3"/>
 
                             <Button Content="获取当前手续费费率" HorizontalAlignment="Left" Margin="375,125,0,0" VerticalAlignment="Top" Width="130" Click="btnFutures_GetTrade_fee" Grid.Column="3"/>
+                            <Button Content="增加/减少保证金" HorizontalAlignment="Left" Margin="15,149,0,0" VerticalAlignment="Top" Width="130" Click="btn_margin" Grid.Column="1"/>
+                            <Button Content="设置逐仓自动增加保证金" HorizontalAlignment="Left" Margin="153,149,0,0" VerticalAlignment="Top" Width="130" Click="btn_auto_margin" Grid.Column="1" Grid.ColumnSpan="2"/>
 
                         </Grid>
                         <GroupBox Header="设置逐仓合约杠杆倍数">
@@ -748,6 +752,8 @@
                             <Button Content="获取账户手续费费率" HorizontalAlignment="Left" Margin="572,101,-25,0" VerticalAlignment="Top" Width="111" Click="btnTrade_fee" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
                             <Button Content="委托策略下单" HorizontalAlignment="Left" Margin="85,125,0,0" VerticalAlignment="Top" Width="111" Click="btnorder_algo_swap" RenderTransformOrigin="4.486,-0.737" Grid.ColumnSpan="2" Grid.Column="1"/>
                             <Button Content="委托策略撤单" HorizontalAlignment="Left" Margin="99,125,0,0" VerticalAlignment="Top" Width="111" Click="btncancel_algos_swap" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
+                            <Button Content="市价全平" HorizontalAlignment="Left" Margin="215,125,0,0" VerticalAlignment="Top" Width="111" Click="btn_close_position" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
+                            <Button Content="撤销所有平仓挂单" HorizontalAlignment="Left" Margin="331,125,0,0" VerticalAlignment="Top" Width="111" Click="btn_cancel_all" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
 
                         </Grid>
                         <GroupBox Header="搜索参数" Width="811">
@@ -1382,48 +1388,52 @@
                 <GroupBox>
                     <StackPanel Orientation="Vertical">
                         <Grid Height="396">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="284*"/>
+                                <ColumnDefinition Width="531*"/>
+                            </Grid.ColumnDefinitions>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,8,0,0" Width="83">underlying:</Label>
                             <TextBox Name="option_underlying" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,13,0,0" Width="161"></TextBox>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="279,9,0,0" Width="83">order_id:</Label>
-                            <TextBox Name="option_order_id" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="357,13,0,0" Width="165"></TextBox>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="543,8,0,0" Width="83">client_oid:</Label>
-                            <TextBox  Name="option_client_oid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="629,13,0,0" Width="165" RenderTransformOrigin="2.48,0.412"></TextBox>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="279,9,0,0" Width="83" Grid.ColumnSpan="2">order_id:</Label>
+                            <TextBox Name="option_order_id" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="73,13,0,0" Width="165" Grid.Column="1"></TextBox>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="259,8,0,0" Width="83" Grid.Column="1">client_oid:</Label>
+                            <TextBox  Name="option_client_oid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="345,13,0,0" Width="165" RenderTransformOrigin="2.48,0.412" Grid.Column="1"></TextBox>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,35,0,0" Width="83">instrument_id:</Label>
                             <TextBox Name="option_instrument_id" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,40,0,0" Width="161"></TextBox>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="279,35,0,0" Width="83">request_id:</Label>
-                            <TextBox Name="option_request_id" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="357,40,0,0" Width="165"></TextBox>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="543,35,0,0" Width="83">new_size:</Label>
-                            <TextBox Name="option_new_size" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="629,40,0,0" Width="165" RenderTransformOrigin="2.48,0.412"></TextBox>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="279,35,0,0" Width="83" Grid.ColumnSpan="2">request_id:</Label>
+                            <TextBox Name="option_request_id" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="73,40,0,0" Width="165" Grid.Column="1"></TextBox>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="259,35,0,0" Width="83" Grid.Column="1">new_size:</Label>
+                            <TextBox Name="option_new_size" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="345,40,0,0" Width="165" RenderTransformOrigin="2.48,0.412" Grid.Column="1"></TextBox>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,62,0,0" Width="83">new_price:</Label>
                             <TextBox Name="option_new_price" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,67,0,0" Width="161"></TextBox>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="279,62,0,0" Width="83">size:</Label>
-                            <TextBox Name="option_size" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="357,67,0,0" Width="165"></TextBox>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="543,62,0,0" Width="83">delivery:</Label>
-                            <TextBox Name="option_delivery" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="629,67,0,0" Width="165" RenderTransformOrigin="2.48,0.412"></TextBox>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="279,62,0,0" Width="83" Grid.ColumnSpan="2">size:</Label>
+                            <TextBox Name="option_size" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="73,67,0,0" Width="165" Grid.Column="1"></TextBox>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="259,62,0,0" Width="83" Grid.Column="1">delivery:</Label>
+                            <TextBox Name="option_delivery" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="345,67,0,0" Width="165" RenderTransformOrigin="2.48,0.412" Grid.Column="1"></TextBox>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,89,0,0" Width="83">after:</Label>
                             <TextBox Name="option_after" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,94,0,0" Width="161"></TextBox>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="279,89,0,0" Width="83">before:</Label>
-                            <TextBox Name="option_before" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="357,94,0,0" Width="165"></TextBox>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="543,89,0,0" Width="83">limit:</Label>
-                            <TextBox Name="option_limit" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="629,94,0,0" Width="165" RenderTransformOrigin="2.48,0.412"></TextBox>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="279,89,0,0" Width="83" Grid.ColumnSpan="2">before:</Label>
+                            <TextBox Name="option_before" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="73,94,0,0" Width="165" Grid.Column="1"></TextBox>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="259,89,0,0" Width="83" Grid.Column="1">limit:</Label>
+                            <TextBox Name="option_limit" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="345,94,0,0" Width="165" RenderTransformOrigin="2.48,0.412" Grid.Column="1"></TextBox>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,116,0,0" Width="83">start:</Label>
                             <TextBox Name="option_start" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,121,0,0" Width="161"></TextBox>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="279,116,0,0" Width="83">end:</Label>
-                            <TextBox Name="option_end" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="357,121,0,0" Width="165"></TextBox>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="543,116,0,0" Width="83">granularity:</Label>
-                            <TextBox Name="option_granularity" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="629,121,0,0" Width="165" RenderTransformOrigin="2.48,0.412"></TextBox>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="279,116,0,0" Width="83" Grid.ColumnSpan="2">end:</Label>
+                            <TextBox Name="option_end" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="73,121,0,0" Width="165" Grid.Column="1"></TextBox>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="259,116,0,0" Width="83" Grid.Column="1">granularity:</Label>
+                            <TextBox Name="option_granularity" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="345,121,0,0" Width="165" RenderTransformOrigin="2.48,0.412" Grid.Column="1"></TextBox>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,143,0,0" Width="83">state:</Label>
                             <TextBox Name="option_state" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,148,0,0" Width="161"></TextBox>
-                            <Label  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="279,143,0,0" Width="83">side:</Label>
-                            <TextBox Name="option_side" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="357,148,0,0" Width="165"></TextBox>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="543,143,0,0" Width="83">order_type:</Label>
-                            <TextBox Name="option_order_type" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="629,148,0,0" Width="165" RenderTransformOrigin="2.48,0.412"></TextBox>
+                            <Label  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="279,143,0,0" Width="83" Grid.ColumnSpan="2">side:</Label>
+                            <TextBox Name="option_side" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="73,148,0,0" Width="165" Grid.Column="1"></TextBox>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="259,143,0,0" Width="83" Grid.Column="1">order_type:</Label>
+                            <TextBox Name="option_order_type" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="345,148,0,0" Width="165" RenderTransformOrigin="2.48,0.412" Grid.Column="1"></TextBox>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,170,0,0" Width="83">price:</Label>
                             <TextBox Name="option_price" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,175,0,0" Width="161"></TextBox>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="279,170,0,0" Width="83">match_pirce:</Label>
-                            <TextBox Name="option_match_price" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="357,175,0,0" Width="165"></TextBox>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="279,170,0,0" Width="83" Grid.ColumnSpan="2">match_pirce:</Label>
+                            <TextBox Name="option_match_price" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="73,175,0,0" Width="165" Grid.Column="1"></TextBox>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,197,0,0" Width="135">order_ids(client_oids)</Label>
-                            <TextBox Name="option_order_ids" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="145,202,0,0" Width="649" >
+                            <TextBox Name="option_order_ids" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="145,202,0,0" Width="649" Grid.ColumnSpan="2" >
                                 <TextBox.Resources>
                                     <VisualBrush x:Key="HintText" TileMode="None" Opacity="0.5" Stretch="None" AlignmentX="Left">
                                         <VisualBrush.Visual>
@@ -1444,9 +1454,9 @@
                                     </Style>
                                 </TextBox.Style>
                             </TextBox>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,215,0,0" Width="795" FontStyle="Italic">示例: order_id1|new_size1,order_id2|new_size2或者client_oid1|request_id1|new_size1,client_oid2|request_id2|new_size2</Label>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,215,0,0" Width="795" FontStyle="Italic" Grid.ColumnSpan="2">示例: order_id1|new_size1,order_id2|new_size2或者client_oid1|request_id1|new_size1,client_oid2|request_id2|new_size2</Label>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,235,0,0" Width="100">order_data</Label>
-                            <TextBox Name="option_order_data" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,240,0,0" Width="694" >
+                            <TextBox Name="option_order_data" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,240,0,0" Width="694" Grid.ColumnSpan="2" >
                                 <TextBox.Resources>
                                     <VisualBrush x:Key="HintText" TileMode="None" Opacity="0.5" Stretch="None" AlignmentX="Left">
                                         <VisualBrush.Visual>
@@ -1467,29 +1477,55 @@
                                     </Style>
                                 </TextBox.Style>
                             </TextBox>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,255,0,0" Width="795" FontStyle="Italic" >示例: instrument_id1|size1|price1|side1|order_type1|match_price1,instrument_id2|size2|price2|side2|order_type2|match_price2</Label>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,255,0,0" Width="795" FontStyle="Italic" Grid.ColumnSpan="2" >示例: instrument_id1|size1|price1|side1|order_type1|match_price1,instrument_id2|size2|price2|side2|order_type2|match_price2</Label>
 
                             <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,290,0,0" Width="135" Click="btngetOptionAccountsAsync">获取单个标的物账户信息</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,290,0,0" Width="135" Click="btnAmend_batch_orders">批量修改未完成订单</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="290,290,0,0" Width="135" Click="btnAmend_order">修改未完成订单</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="430,290,0,0" Width="135" Click="btngetOptionBook">获取期权合约的深度数据</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="570,290,0,0" Width="115" Click="btnCancel_Batch_Orders">批量撤销未完成订单</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="690,290,0,0" Width="100" Click="btnCancel_Order">撤销未完成订单</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,290,0,0" Width="135" Click="btnAmend_batch_orders" Grid.ColumnSpan="2">批量修改未完成订单</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,290,0,0" Width="135" Click="btnAmend_order" Grid.Column="1">修改未完成订单</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="146,290,0,0" Width="135" Click="btngetOptionBook" Grid.Column="1">获取期权合约的深度数据</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="286,290,0,0" Width="115" Click="btnCancel_Batch_Orders" Grid.Column="1">批量撤销未完成订单</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="406,290,0,0" Width="100" Click="btnCancel_Order" Grid.Column="1">撤销未完成订单</Button>
                             <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,316,0,0" Width="135" Click="btngetOptionDeal_data">获取期权合约成交记录</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,316,0,0" Width="135" Click="btngetOptionFills">获取最近成交明细</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="290,316,0,0" Width="135" Click="btngetOptionInstrument_summary_byinis">获取某个合约详细定价</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="430,316,0,0" Width="135" Click="btngetOptionInstrument_summary">获取同一标的下所有合约详细定价</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="570,316,0,0" Width="115" Click="btngetOptionInstrument">获取可用合约列表</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="690,316,0,0" Width="100" Click="btngetOptionLedgert">列出账户资产流水</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,316,0,0" Width="135" Click="btngetOptionFills" Grid.ColumnSpan="2">获取最近成交明细</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,316,0,0" Width="135" Click="btngetOptionInstrument_summary_byinis" Grid.Column="1">获取某个合约详细定价</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="146,316,0,0" Width="135" Click="btngetOptionInstrument_summary" Grid.Column="1">获取同一标的下所有合约详细定价</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="286,316,0,0" Width="115" Click="btngetOptionInstrument" Grid.Column="1">获取可用合约列表</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="406,316,0,0" Width="100" Click="btngetOptionLedgert" Grid.Column="1">列出账户资产流水</Button>
                             <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,341,0,0" Width="135" Click="btngetOptionLine">获取期权合约的K线数据</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,341,0,0" Width="135" Click="btngetOrder_information">查询单个订单状态</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="290,341,0,0" Width="135" Click="btngetOrder_list">获取当前所有的订单列表</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="430,341,0,0" Width="135" Click="btngetOrder">下单</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="570,341,0,0" Width="115" Click="btngetOrders">批量下单</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="690,341,0,0" Width="100" Click="btngetPosition">获取某个标的下的持仓信息</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,341,0,0" Width="135" Click="btngetOrder_information" Grid.ColumnSpan="2">查询单个订单状态</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,341,0,0" Width="135" Click="btngetOrder_list" Grid.Column="1">获取当前所有的订单列表</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="146,341,0,0" Width="135" Click="btngetOrder" Grid.Column="1">下单</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="286,341,0,0" Width="115" Click="btngetOrders" Grid.Column="1">批量下单</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="406,341,0,0" Width="100" Click="btngetPosition" Grid.Column="1">获取某个标的下的持仓信息</Button>
                             <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,366,0,0" Width="135" Click="btngetTicker">获取某个期权合约的ticker信息</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,366,0,0" Width="135" Click="btngetTrade_fee">获取手续费率</Button>
-                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="290,366,0,0" Width="135" Click="btngetUnderlying">获取期权交易已支持的标的指数列表</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,366,0,0" Width="135" Click="btngetTrade_fee" Grid.ColumnSpan="2">获取手续费率</Button>
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,366,0,0" Width="135" Click="btngetUnderlying" Grid.Column="1">获取期权交易已支持的标的指数列表</Button>
+                        </Grid>
+                    </StackPanel>
+                </GroupBox>
+            </TabItem>
+            <TabItem Header="获取系统升级状态">
+                <GroupBox>
+                    <StackPanel Orientation="Vertical">
+                        <Grid Height="396">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="284*"/>
+                                <ColumnDefinition Width="531*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="获取系统升级状态" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" Width="99" Click="btnGetStatus"/>
+                        </Grid>
+                    </StackPanel>
+                </GroupBox>
+            </TabItem>
+            <TabItem Header="指数API">
+                <GroupBox>
+                    <StackPanel Orientation="Vertical">
+                        <Grid Height="396">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="284*"/>
+                                <ColumnDefinition Width="531*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="获取指数成分" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" Width="99" Click="btnGetConstituents"/>
                         </Grid>
                     </StackPanel>
                 </GroupBox>

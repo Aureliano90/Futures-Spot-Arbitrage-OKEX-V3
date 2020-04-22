@@ -726,14 +726,14 @@ namespace OKExSDK
                 return contentStr;
             }
         }
-        public async Task<string> order_algo(string instrument_id, string type, string order_type, string size, string trigger_price, string algo_price)
+        public async Task<string> order_algo(string instrument_id, string type, string order_type, string size, string trigger_price, string algo_price,string algo_type)
         {
             //止盈止损 trigger_price	algo_price
             //跟踪委托callback_rate, trigger_price
             //冰山委托algo_variance, avg_amount, price_limit
             //时间加权 sweep_range,  sweep_ratio , single_limit,price_limit,time_interval
             var url = $"{this.BASEURL}{this.FUTURES_SEGMENT}/order_algo";
-            var body = new { instrument_id = instrument_id, type = type, order_type = order_type, size = size, trigger_price = trigger_price, algo_price = algo_price };
+            var body = new { instrument_id = instrument_id, type = type, order_type = order_type, size = size, trigger_price = trigger_price, algo_price = algo_price, algo_type= algo_type };
             var bodyStr = JsonConvert.SerializeObject(body);
             using (var client = new HttpClient(new HttpInterceptor(this._apiKey, this._secret, this._passPhrase, bodyStr)))
             {
@@ -762,6 +762,30 @@ namespace OKExSDK
                 var res = await client.GetAsync(url);
                 string content = await res.Content.ReadAsStringAsync();
                 return content;
+            }
+        }
+         public async Task<string> margin(string instrument_id, string direction,string type,string amount)
+        {
+            string url = $"{this.BASEURL}{this.FUTURES_SEGMENT}/position/margin";
+            var body = new { instrument_id = instrument_id, direction = direction, type = type, amount = amount };
+            string bodyStr = JsonConvert.SerializeObject(body).Replace("\"[", "[").Replace("]\"", "]").Replace("\\\"", "\"");
+            using (var client = new HttpClient(new HttpInterceptor(this._apiKey, this._secret, this._passPhrase, bodyStr)))
+            {
+                var res = await client.PostAsync(url, new StringContent(bodyStr, Encoding.UTF8, "application/json"));
+                var contentStr = await res.Content.ReadAsStringAsync();
+                return contentStr;
+            }
+        }
+        public async Task<string> auto_margin(string underlying, string type)
+        {
+            string url = $"{this.BASEURL}{this.FUTURES_SEGMENT}/accounts/auto_margin";
+            var body = new { underlying = underlying,  type = type};
+            string bodyStr = JsonConvert.SerializeObject(body).Replace("\"[", "[").Replace("]\"", "]").Replace("\\\"", "\"");
+            using (var client = new HttpClient(new HttpInterceptor(this._apiKey, this._secret, this._passPhrase, bodyStr)))
+            {
+                var res = await client.PostAsync(url, new StringContent(bodyStr, Encoding.UTF8, "application/json"));
+                var contentStr = await res.Content.ReadAsStringAsync();
+                return contentStr;
             }
         }
     }

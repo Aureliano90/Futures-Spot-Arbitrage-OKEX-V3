@@ -31,5 +31,6 @@ namespace OKExSDK.Models.Account
         /// </summary>
         public string instrument_id { get; set; }
         public string to_instrument_id { get; set; }
+        public string type { get; set; }
     }
 }

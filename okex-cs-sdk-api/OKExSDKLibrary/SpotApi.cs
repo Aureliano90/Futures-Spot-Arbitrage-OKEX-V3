@@ -478,11 +478,12 @@ namespace OKExSDK
         }
         public async Task<string> getOrder_algoAsync(string instrument_id, int order_type, int? status, int? algo_id, int? before, int? after, int? limit)
         {
-            var url = $"{ this.BASEURL}{this.SPOT_SEGMENT}/order_algo/{instrument_id}";
+            var url = $"{ this.BASEURL}{this.SPOT_SEGMENT}/algo";
 
             using (var client = new HttpClient(new HttpInterceptor(this._apiKey, this._secret, this._passPhrase, null)))
             {
                 var queryParams = new Dictionary<string, string>();
+                queryParams.Add("instrument_id", instrument_id);
                 queryParams.Add("order_type", order_type.ToString());
                 if (status.HasValue)
                 {

@@ -15,7 +15,7 @@ namespace OKExSDK
 {
     public class WebSocketor : IDisposable
     {
-        string url = "wss://real.okex.com:10442/ws/v3";
+        string url = "wss://real.okex.com:8443/ws/v3";
         ClientWebSocket ws = null;
         CancellationTokenSource cts = new CancellationTokenSource();
         public event WebSocketPushHandler WebSocketPush;
@@ -48,16 +48,16 @@ namespace OKExSDK
                 await rebootAsync();
             };
         }
-        public void test()
-        {
-            receive();
-        }
+
         public async Task ConnectAsync()
         {
+            
             await ws.ConnectAsync(new Uri(url), cts.Token);
+           
             closeCheckTimer.Interval = 31000;
             closeCheckTimer.Start();
             receive();
+            keeponline();
         }
 
         public async Task LoginAsync(string apiKey, string secret, string phrase)
@@ -110,6 +110,24 @@ namespace OKExSDK
                 pendingChannels.Enqueue(new PendingChannel { action = "subscribe", args = args });
                 setPendingTimer();
             }
+        }
+        public  void keeponline()
+        {
+            Task.Factory.StartNew(
+                async () =>
+                {
+                    while (ws.State == WebSocketState.Open)
+                    {
+                        Thread.Sleep(10000);
+                        if (ws.State == WebSocketState.Open)
+                        {
+                            byte[] buffer = Encoding.UTF8.GetBytes("ping");
+                            await ws.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                            closeCheckTimer.Interval = 31000;
+                        }
+                    }
+                }, cts.Token, TaskCreationOptions.LongRunning,
+                 TaskScheduler.Default);
         }
         public async Task UnSubscribe(List<string> args)
         {

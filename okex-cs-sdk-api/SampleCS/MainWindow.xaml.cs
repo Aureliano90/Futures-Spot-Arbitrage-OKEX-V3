@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -42,10 +43,13 @@ namespace SampleCS
         private EttApi ettApi;
         private SwapApi swapApi;
         private OptionApi optionApi;
+        private IndexApi indexApi ;
+        private SystemApi systemApi;
 
         private string apiKey = "";
         private string secret = "";
         private string passPhrase = "";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -57,7 +61,10 @@ namespace SampleCS
             this.ettApi = new EttApi(this.apiKey, this.secret, this.passPhrase);
             this.swapApi = new SwapApi(this.apiKey, this.secret, this.passPhrase);
             this.optionApi = new OptionApi(this.apiKey, this.secret, this.passPhrase);
+            this.indexApi = new IndexApi(this.apiKey, this.secret, this.passPhrase);
+            this.systemApi = new SystemApi(this.apiKey, this.secret, this.passPhrase);
             this.DataContext = new MainViewModel();
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls;
         }
         private void btnSetKey(object sender, RoutedEventArgs e)
         {
@@ -783,7 +790,7 @@ namespace SampleCS
             //单一账户币种信息
             try
             {
-                var resResult = await this.accountApi.getWalletInfoByCurrencyAsync("OKB");
+                var resResult = await this.accountApi.getWalletInfoByCurrencyAsync("usdt");
                 if (resResult.Type == JTokenType.Object)
                 {
                     JToken codeJToken;
@@ -940,21 +947,8 @@ namespace SampleCS
             //账单流水查询
             try
             {
-                var resResult = await this.accountApi.getLedgerAsync("eos", "2", 1, null, 10);
-                if (resResult.Type == JTokenType.Object)
-                {
-                    JToken codeJToken;
-                    if (((JObject)resResult).TryGetValue("code", out codeJToken))
-                    {
-                        var errorInfo = resResult.ToObject<ErrorResult>();
-                        Console.WriteLine("错误代码：" + errorInfo.code + ",错误消息：" + errorInfo.message);
-                    }
-                }
-                else
-                {
-                    var walletLedger = resResult.ToObject<List<AccountLedger>>();
-                    Console.WriteLine(JsonConvert.SerializeObject(walletLedger));
-                }
+                var resResult = await this.accountApi.getLedgerAsync("usdt", "20", null, null, 10);
+                Console.WriteLine(resResult);
             }
             catch (Exception ex)
             {
@@ -1061,7 +1055,7 @@ namespace SampleCS
         {
             try
             {
-                var resResult = await this.spotApi.getAccountByCurrencyAsync("eos");
+                var resResult = await this.spotApi.getAccountByCurrencyAsync("trx");
 
 
                 Console.WriteLine(resResult);
@@ -1262,7 +1256,7 @@ namespace SampleCS
         {
             try
             {
-                var resResult = await this.spotApi.getOrdersAsync("BTC-USDT", "2", null, null, 10);
+                var resResult = await this.spotApi.getOrdersAsync("BTC-USDT", "7", null, null, 10);
                 if (resResult.Type == JTokenType.Object)
                 {
                     JToken codeJToken;
@@ -1852,7 +1846,7 @@ namespace SampleCS
                 Console.WriteLine(ex.Message);
             }
         }
-        
+
         private async void btnGetMarginOrders(object sender, RoutedEventArgs e)
         {
             try
@@ -2337,7 +2331,7 @@ namespace SampleCS
         {
             try
             {
-                var resResult = await this.swapApi.order_algo("BTC-USD-SWAP", "1", "1", "1", "432.11", "341.99");
+                var resResult = await this.swapApi.order_algo("BTC-USD-SWAP", "1", "1", "1", "432.11", "341.99", "1");
 
                 Console.WriteLine(resResult);
             }
@@ -2877,7 +2871,7 @@ namespace SampleCS
             {
                 await websocketor.Subscribe(new List<string>() { $"{channel}" });
             }
-            
+
         }
         private string cleanTag(string content)
         {
@@ -3113,7 +3107,7 @@ namespace SampleCS
         {
             try
             {
-                var resResult = await this.futureApi.order_algo("ETC-USD-191206", "1", "1", "1", "432.11", "341.99");
+                var resResult = await this.futureApi.order_algo("ETC-USD-191206", "1", "1", "1", "432.11", "341.99", "1");
 
                 Console.WriteLine(resResult);
             }
@@ -3521,7 +3515,7 @@ namespace SampleCS
 
                 if (!string.IsNullOrWhiteSpace(order_type))
                 {
-                    data.Add("order_type",order_type);
+                    data.Add("order_type", order_type);
                 }
                 data.Add("price", price);
                 data.Add("size", size);
@@ -3529,7 +3523,7 @@ namespace SampleCS
                 {
                     data.Add("match_price", match_price);
                 }
-                string bodyStr =JsonConvert.SerializeObject(data) ;
+                string bodyStr = JsonConvert.SerializeObject(data);
                 Console.WriteLine(bodyStr);
 
                 var res = await this.optionApi.getOrder(bodyStr);
@@ -3553,9 +3547,10 @@ namespace SampleCS
                 string order_data = this.option_order_data.Text;
                 List<object> order_data_list = new List<object>();
                 List<string> list_data = order_data.Split(',').ToList();
-                list_data.ForEach(order => {
+                list_data.ForEach(order =>
+                {
                     string[] detail = order.Split('|');
-                    if(detail.Length != 6)
+                    if (detail.Length != 6)
                     {
                         Console.WriteLine("您输入的参数格式有误，请重新输入！");
                         return;
@@ -3646,11 +3641,11 @@ namespace SampleCS
                 string content = await this.spotApi.getTrade_fee();
                 Console.WriteLine(content);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
             }
-     
+
         }
         private async void btnFutures_GetTrade_fee(object sender, RoutedEventArgs e)
         {
@@ -3690,14 +3685,14 @@ namespace SampleCS
                 Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
             }
         }
-        private async void btnMargin_SetLeverage(object sender,RoutedEventArgs e)
+        private async void btnMargin_SetLeverage(object sender, RoutedEventArgs e)
         {
             try
             {
                 string instrument_id = "";
-                var data = new { leverage="10" };
+                var data = new { leverage = "10" };
                 string bodystr = JsonConvert.SerializeObject(data);
-                string content = await this.marginApi.SetLeverage(instrument_id,bodystr);
+                string content = await this.marginApi.SetLeverage(instrument_id, bodystr);
                 Console.WriteLine(content);
             }
             catch (Exception ex)
@@ -3711,6 +3706,100 @@ namespace SampleCS
             {
                 string instrument_id = "BTC-USDT";
                 string content = await this.marginApi.mark_price(instrument_id);
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        /// <summary>
+        /// 增加/减少保证金
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void btn_margin(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string instrument_id = "";
+                string direction = "";
+                string type = "";
+                string amount = "";
+                string content = await this.futureApi.margin(instrument_id,direction,type,amount);
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        // <summary>
+        /// 设置逐仓自动增加保证金
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void btn_auto_margin(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string underlying = "BTC-USDT";
+                string type = "1";
+                string content =await this.futureApi.auto_margin(underlying,type);
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btn_close_position(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string instrument_id = "";
+                string direction = "";
+                string content = await this.swapApi.close_position(instrument_id,direction);
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btn_cancel_all(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string instrument_id = "";
+                string direction = "";
+                string content =await this.swapApi.cancel_all(instrument_id,direction);
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+
+        private async void btnGetStatus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string content = await this.systemApi.status();
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btnGetConstituents(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string instrument_id = "BTC-USDT";
+                string content = await this.indexApi.constituents(instrument_id);
                 Console.WriteLine(content);
             }
             catch (Exception ex)

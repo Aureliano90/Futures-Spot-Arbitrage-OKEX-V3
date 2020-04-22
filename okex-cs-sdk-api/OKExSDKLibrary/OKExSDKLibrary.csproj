@@ -75,6 +75,7 @@
     <Compile Include="FuturesApi.cs" />
     <Compile Include="GeneralApi.cs" />
     <Compile Include="HttpInterceptor.cs" />
+    <Compile Include="IndexApi.cs" />
     <Compile Include="MarginApi.cs" />
     <Compile Include="Models\Account\AccountLedger.cs" />
     <Compile Include="Models\Account\Currency.cs" />
@@ -202,6 +203,7 @@
     <Compile Include="SdkApi.cs" />
     <Compile Include="SpotApi.cs" />
     <Compile Include="SwapApi.cs" />
+    <Compile Include="SystemApi.cs" />
     <Compile Include="WebSocketor.cs" />
   </ItemGroup>
   <ItemGroup>
