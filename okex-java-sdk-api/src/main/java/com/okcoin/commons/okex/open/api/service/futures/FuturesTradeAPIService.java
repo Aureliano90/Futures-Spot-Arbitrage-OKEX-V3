@@ -4,12 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.okcoin.commons.okex.open.api.bean.futures.param.*;
 import com.okcoin.commons.okex.open.api.bean.futures.result.*;
-import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-
-import java.util.List;
 
 /**
  * Futures Trade API Service
@@ -132,7 +127,7 @@ public interface FuturesTradeAPIService {
      * Change the futures Fixed LeverRate
      *
      * @param underlying       eg: btc-usd
-     * @param instrumentId   eg: BTC-USD-190628
+     * @param instrument_id   eg: BTC-USD-190628
      * @param direction      eg: long
      * @param leverage       eg: 10
      * @return
@@ -191,4 +186,9 @@ public interface FuturesTradeAPIService {
                                  String limit);
 
     JSONObject getTradeFee();
+
+    //增加/减少保证金
+    JSONObject modifyMargin(ModifyMarginParam modifyMarginParam);
+
+    JSONObject modifyFixedMargin(ModifyFixedMargin modifyFixedMargin);
 }

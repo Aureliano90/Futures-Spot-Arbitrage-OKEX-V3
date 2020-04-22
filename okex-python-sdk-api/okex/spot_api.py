@@ -1,6 +1,6 @@
 from .client import Client
 from .consts import *
-
+import json
 
 class SpotAPI(Client):
 
@@ -89,13 +89,15 @@ class SpotAPI(Client):
         return self._request_with_params(GET, SPOT_FILLS, params, cursor=True)
 
     # take order_algo
-    def take_order_algo(self, instrument_id, mode, order_type, size, side, trigger_price='', algo_price='',
+    def take_order_algo(self, instrument_id, mode, order_type, size, side, trigger_price='', algo_price='', algo_type='',
                         callback_rate='', algo_variance='', avg_amount='', limit_price='', sweep_range='',
                         sweep_ratio='', single_limit='', time_interval=''):
         params = {'instrument_id': instrument_id, 'mode': mode, 'order_type': order_type, 'size': size, 'side': side}
         if order_type == '1':  # 止盈止损参数
             params['trigger_price'] = trigger_price
             params['algo_price'] = algo_price
+            if algo_type:
+                params['algo_type'] = algo_type
         elif order_type == '2':  # 跟踪委托参数
             params['callback_rate'] = callback_rate
             params['trigger_price'] = trigger_price

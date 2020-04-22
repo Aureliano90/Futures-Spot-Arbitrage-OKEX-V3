@@ -28,7 +28,13 @@ public class SpotAccountAPITest extends SpotAPIBaseTests {
         this.spotAccountAPIService = new SpotAccountAPIServiceImpl(this.config);
     }
 
-    //获取服务器时间
+
+    /**
+     * 获取服务器时间
+     * 获取API服务器的时间。此接口为公共接口，不需要身份验证
+     * 限速规则：20次/2s
+     * GET /api/general/v3/time
+     */
     @Test
     public void time() {
         final ServerTimeDto serverTimeDto = this.spotAccountAPIService.time();
@@ -41,7 +47,7 @@ public class SpotAccountAPITest extends SpotAPIBaseTests {
     /**
      * 币币账户信息
      * 获取币币账户资产列表(仅展示拥有资金的币对)，查询各币种的余额、冻结和可用等信息
-     * 20次/2s
+     * 限速规则：20次/2s
      * GET /api/spot/v3/accounts
      */
     @Test
@@ -58,20 +64,20 @@ public class SpotAccountAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getAccountByCurrency() {
-        final Account account = this.spotAccountAPIService.getAccountByCurrency("ETH");
+        final Account account = this.spotAccountAPIService.getAccountByCurrency("XRP");
         this.toResultString(SpotAccountAPITest.LOG, "account", account);
     }
 
     /**
-     * 账单流水
+     * 账单流水查询
      * 列出账户资产流水。账户资产流水是指导致账户余额增加或减少的行为。
      * 流水会分页，并且按时间倒序排序和存储，最新的排在最前面。请参阅分页部分以获取第一页之后的其他记录。 本接口能查询最近3个月的数据。
-     * 限速规则：20次/2s
+     * 限速规则：10次/2s
      * GET /api/spot/v3/accounts/<currency>/ledger
      */
     @Test
     public void getLedgersByCurrency() {
-        final Object ledgers = this.spotAccountAPIService.getLedgersByCurrency("OKB", "", "", "100","");
+        final Object ledgers = this.spotAccountAPIService.getLedgersByCurrency("XRP", "", "", "100","");
         this.toResultString(SpotAccountAPITest.LOG, "ledges", ledgers);
     }
 

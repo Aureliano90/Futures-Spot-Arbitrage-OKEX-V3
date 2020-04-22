@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -113,15 +115,15 @@ public class APIHttpClient {
         }
         return sign;
     }
-
+    //返回请求路径url
     private String url(final Request request) {
         return request.url().toString();
     }
-
+    //将请求方法转变为大写，并返回
     private String method(final Request request) {
         return request.method().toUpperCase();
     }
-
+    //返回请求路径
     private String requestPath(final Request request) {
         String url = this.url(request);
         url = url.replace(this.config.getEndpoint(), APIConstants.EMPTY);
@@ -138,7 +140,9 @@ public class APIHttpClient {
     private String queryString(final Request request) {
         final String url = this.url(request);
         request.body();
+        //请求参数为空字符串
         String queryString = APIConstants.EMPTY;
+        //如果URL中包含？即存在参数的拼接
         if (url.contains(APIConstants.QUESTION)) {
             queryString = url.substring(url.lastIndexOf(APIConstants.QUESTION) + 1);
         }
@@ -159,7 +163,9 @@ public class APIHttpClient {
     private void printRequest(final Request request, final String timestamp) {
         final String method = this.method(request);
         final String requestPath = this.requestPath(request);
+
         final String queryString = this.queryString(request);
+
         final String body;
         try {
             body = this.body(request);
@@ -168,15 +174,15 @@ public class APIHttpClient {
         }
         final StringBuilder requestInfo = new StringBuilder();
 
-        //requestInfo.append("\n").append("\tSecret-Key: ").append(this.credentials.getSecretKey());
+
         requestInfo.append("\n\tRequest").append("(").append(DateUtils.timeToString(null, 4)).append("):");
+       //拼接Url
         requestInfo.append("\n\t\t").append("Url: ").append(this.url(request));
         requestInfo.append("\n\t\t").append("Method: ").append(method);
         requestInfo.append("\n\t\t").append("Headers: ");
         final Headers headers = request.headers();
         if (headers != null && headers.size() > 0) {
             for (final String name : headers.names()) {
-                //if(name=="Accept" || name=="Content-Type" || name == "OK-ACCESS-TIMESTAMP")
                 requestInfo.append("\n\t\t\t").append(name).append(": ").append(headers.get(name));
             }
         }

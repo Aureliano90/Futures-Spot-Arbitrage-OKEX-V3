@@ -62,8 +62,8 @@ public interface SpotProductAPIService {
 
     List<String[]> getCandles_1(String product, String granularity, String start, String end);
 
-    String getIndex(String instrument_id);
 
-    String getMarginMarkPrice(String instrument_id);
+
+
 
 }

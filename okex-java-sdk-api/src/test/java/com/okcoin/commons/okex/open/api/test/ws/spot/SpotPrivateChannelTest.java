@@ -58,7 +58,7 @@ public class SpotPrivateChannelTest {
         }
         //创建一个list集合，添加要订阅的频道名称
         final ArrayList<String> list = new ArrayList<>();
-        list.add("spot/margin_account:NEO-USDT");
+        list.add("spot/margin_account:BTC-USDT");
         webSocketClient.subscribe(list);
         //为保证测试方法不停，需要让线程延迟
         try {
@@ -98,7 +98,7 @@ public class SpotPrivateChannelTest {
     public void orderChannel() {
         //创建一个list集合，添加要订阅的频道名称
         final ArrayList<String> list = new ArrayList<>();
-        list.add("spot/order:NEO-USDT");
+        list.add("spot/order:BTC-USDT");
         webSocketClient.subscribe(list);
         //为保证测试方法不停，需要让线程延迟
         try {

@@ -94,6 +94,14 @@ class SwapAPI(Client):
             params['limit'] = limit
         return self._request_with_params(GET, SWAP_FILLS, params, cursor=True)
 
+    def close_position(self, instrument_id, direction):
+        params = {'instrument_id': instrument_id, 'direction': direction}
+        return self._request_with_params(POST, SWAP_CLOSE_POSITION, params)
+
+    def cancel_all(self, instrument_id, direction):
+        params = {'instrument_id': instrument_id, 'direction': direction}
+        return self._request_with_params(POST, SWAP_CANCEL_ALL, params)
+
     def get_instruments(self):
         return self._request_without_params(GET, SWAP_INSTRUMENTS)
 
@@ -162,13 +170,15 @@ class SwapAPI(Client):
         return self._request_without_params(GET, SWAP_ACCOUNTS + '/' + str(instrument_id) + '/holds')
 
     # take order_algo
-    def take_order_algo(self, instrument_id, type, order_type, size, trigger_price='', algo_price='',
+    def take_order_algo(self, instrument_id, type, order_type, size, trigger_price='', algo_price='', algo_type='',
                         callback_rate='', algo_variance='', avg_amount='', price_limit='', sweep_range='',
                         sweep_ratio='', single_limit='', time_interval=''):
         params = {'instrument_id': instrument_id, 'type': type, 'order_type': order_type, 'size': size}
         if order_type == '1':  # 止盈止损参数（最多同时存在10单）
             params['trigger_price'] = trigger_price
             params['algo_price'] = algo_price
+            if algo_type:
+                params['algo_type'] = algo_type
         elif order_type == '2':  # 跟踪委托参数（最多同时存在10单）
             params['callback_rate'] = callback_rate
             params['trigger_price'] = trigger_price

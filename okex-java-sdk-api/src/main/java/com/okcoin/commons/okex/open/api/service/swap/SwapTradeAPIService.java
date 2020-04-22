@@ -75,4 +75,9 @@ public interface SwapTradeAPIService {
                          String before,
                          String after,
                          String limit);
+
+    //市价全平
+    String closePosition(ClosePosition closePosition);
+
+    String CancelAll(CancelAllParam cancelAllParam);
 }

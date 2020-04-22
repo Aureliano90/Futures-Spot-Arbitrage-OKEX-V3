@@ -54,6 +54,10 @@ class FuturesApi extends Utils {
     const FUTURE_CLOSE_POSITION = '/api/futures/v3/close_position';
     const FUTURE_CANCEL_ALL = '/api/futures/v3/cancel_all';
 
+    const FUTURE_TRADE_FEE = '/api/futures/v3/trade_fee';
+
+
+
     // 获取合约账户所有的持仓信息
     public function getPosition()
     {
@@ -360,5 +364,11 @@ class FuturesApi extends Utils {
         ];
 
         return $this->request(self::FUTURE_CANCEL_ALL, $params, 'POST');
+    }
+
+    //
+    public function getTradeFee()
+    {
+        return $this->request(self::FUTURE_TRADE_FEE, '', 'GET', true);
     }
 }

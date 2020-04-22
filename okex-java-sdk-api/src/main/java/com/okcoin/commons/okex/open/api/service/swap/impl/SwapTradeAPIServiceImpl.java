@@ -92,7 +92,17 @@ public class SwapTradeAPIServiceImpl implements SwapTradeAPIService {
     }
     //获取委托单列表
     @Override
-    public String getSwapOrders(String instrument_id, String order_type, String status, String algo_id, String before, String after, String limit) {
+    public String getSwapOrders(String instrument_id, String order_type, String status, String algo_id, String before, String after, String limit ) {
         return this.client.executeSync(this.api.getSwapOrders(instrument_id,order_type,status,algo_id,before,after,limit));
+    }
+
+    @Override
+    public String closePosition(ClosePosition closePosition) {
+        return this.client.executeSync(this.api.closePosition(closePosition));
+    }
+
+    @Override
+    public String CancelAll(CancelAllParam cancelAllParam) {
+        return this.client.executeSync(this.api.CancelAll(cancelAllParam));
     }
 }

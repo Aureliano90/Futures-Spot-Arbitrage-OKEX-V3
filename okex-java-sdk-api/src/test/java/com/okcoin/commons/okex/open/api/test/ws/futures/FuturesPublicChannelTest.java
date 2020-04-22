@@ -65,8 +65,7 @@ public class FuturesPublicChannelTest {
     public void tickerChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/ticker:BTC-USD-200327");
-        channel.add("futures/ticker:BTC-USD-200125");
+        channel.add("futures/ticker:BTC-USD-200925");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -97,7 +96,7 @@ public class FuturesPublicChannelTest {
     public void klineChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/candle60s:BTC-USD-200327");
+        channel.add("futures/candle60s:BTC-USD-200925");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -116,7 +115,7 @@ public class FuturesPublicChannelTest {
     public void tradeChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/trade:BTC-USD-200327");
+        channel.add("futures/trade:BTC-USD-200925");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -135,7 +134,7 @@ public class FuturesPublicChannelTest {
     public void estimatedPriceChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/estimated_price:BTC-USD-191220");
+        channel.add("futures/estimated_price:BTC-USD-200925");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -154,7 +153,7 @@ public class FuturesPublicChannelTest {
     public void priceRangeChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/price_range:BTC-USD-191227");
+        channel.add("futures/price_range:BTC-USDT-200925");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -173,7 +172,7 @@ public class FuturesPublicChannelTest {
     public void depth5Channel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/depth5:BTC-USD-200327");
+        channel.add("futures/depth5:BTC-USD-200925");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -194,7 +193,7 @@ public class FuturesPublicChannelTest {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
         //400档位深度校验
-        channel.add("futures/depth:BTC-USD-200327");
+        channel.add("futures/depth:TRX-USD-200925");
 
         //调用订阅方法
         webSocketClient.subscribe(channel);
@@ -206,12 +205,12 @@ public class FuturesPublicChannelTest {
         }
     }
 
-    //公共全量深度频道
+    //公共-400档增量数据频道
     @Test
     public void depth12Channel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/depth_l2_tbt:ETC-USD-200327");
+        channel.add("futures/depth_l2_tbt:BCH-USD-200925");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -230,7 +229,7 @@ public class FuturesPublicChannelTest {
     public void Channel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/mark_price:BTC-USD-191227");
+        channel.add("futures/mark_price:BTC-USD-200925");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -247,7 +246,7 @@ public class FuturesPublicChannelTest {
     public void unsubscribeChannel() {
         ArrayList<String> list = Lists.newArrayList();
         //添加要取消订阅的频道名
-        list.add("futures/candle60s:BTC-USD-191220");
+        list.add("futures/candle60s:BTC-USD-200925");
         //订阅
         webSocketClient.subscribe(list);
         //取消订阅

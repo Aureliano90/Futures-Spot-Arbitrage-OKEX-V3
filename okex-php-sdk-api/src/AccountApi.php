@@ -25,6 +25,11 @@ class AccountApi extends Utils
     const ACCOUNT_CURRENCIES = '/api/account/v3/currencies/';
     const ACCOUNT_WITHDRAWAL_FEE = '/api/account/v3/withdrawal/fee/';
 
+    const ACCOUNT_ASSET_VALUATION = '/api/account/v3/asset-valuation/';
+    const ACCOUNT_SUB_ACCOUNT = '/api/account/v3/sub-account/';
+
+
+
     // 资金账户信息，多个币种
     public function getWalletInfo()
     {
@@ -134,4 +139,23 @@ class AccountApi extends Utils
         if ($currency) $params['currency'] = $currency;
         return $this->request(self::ACCOUNT_WITHDRAWAL_FEE, $params, 'GET', true);
     }
+
+    //
+    public function getAssetValuation($account_type='', $valuation_currency='')
+    {
+        $params = [];
+        if ($account_type) $params['account_type'] = $account_type;
+        if ($valuation_currency) $params['valuation_currency'] = $valuation_currency;
+        return $this->request(self::ACCOUNT_ASSET_VALUATION, $params, 'GET', true);
+    }
+
+    //
+    public function getSubAccount($sub_account)
+    {
+        $params = [];
+        if ($sub_account) $params['sub-account'] = $sub_account;
+        return $this->request(self::ACCOUNT_SUB_ACCOUNT, $params, 'GET', true);
+    }
+
+
 }

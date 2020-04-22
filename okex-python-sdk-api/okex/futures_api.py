@@ -123,11 +123,13 @@ class FutureAPI(Client):
         return self._request_with_params(POST, FUTURE_CANCEL_ALL, params)
 
     # take order_algo
-    def take_order_algo(self, instrument_id, type, order_type, size, trigger_price='', algo_price='', callback_rate='', algo_variance='', avg_amount='', price_limit='', sweep_range='', sweep_ratio='', single_limit='', time_interval=''):
+    def take_order_algo(self, instrument_id, type, order_type, size, trigger_price='', algo_price='', algo_type='', callback_rate='', algo_variance='', avg_amount='', price_limit='', sweep_range='', sweep_ratio='', single_limit='', time_interval=''):
         params = {'instrument_id': instrument_id, 'type': type, 'order_type': order_type, 'size': size}
         if order_type == '1': # 止盈止损参数（最多同时存在10单）
             params['trigger_price'] = trigger_price
             params['algo_price'] = algo_price
+            if algo_type:
+                params['algo_type'] = algo_type
         elif order_type == '2': # 跟踪委托参数（最多同时存在10单）
             params['callback_rate'] = callback_rate
             params['trigger_price'] = trigger_price
@@ -242,3 +244,24 @@ class FutureAPI(Client):
     # query mark price
     def get_mark_price(self, instrument_id):
         return self._request_without_params(GET, FUTURE_MARK + str(instrument_id) + '/mark_price')
+
+    # set auto margin
+    def set_auto_margin(self, underlying, type):
+        params = {'underlying': underlying, 'type': type}
+        return self._request_with_params(POST, FUTURE_AUTO_MARGIN, params)
+
+    # change margin
+    def change_margin(self, instrument_id, direction, type, amount):
+        params = {'instrument_id': instrument_id, 'direction': direction, 'type': type, 'amount': amount}
+        return self._request_with_params(POST, FUTURE_CHANGE_MARGIN, params)
+
+    # get history settlement
+    def get_history_settlement(self, instrument_id, start='', limit='', end=''):
+        params = {'instrument_id': instrument_id}
+        if start:
+            params['start'] = start
+        if limit:
+            params['limit'] = limit
+        if end:
+            params['end'] = end
+        return self._request_with_params(GET, FUTURE_HISTORY_SETTLEMENT, params)

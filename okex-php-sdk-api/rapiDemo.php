@@ -15,6 +15,7 @@ use okv3\Config;
 use okv3\FuturesApi;
 use okv3\MarginApi;
 use okv3\OptionsApi;
+use okv3\OthersAPI;
 use okv3\SpotApi;
 use okv3\SwapApi;
 use Workerman\Connection\AsyncTcpConnection;
@@ -41,8 +42,12 @@ $coin = "XMR";
 //$res = $obj -> getWithdrawalHistory();
 // 查询单个币种的提币记录
 //$res = $obj -> getCoinWithdrawalHistory($coin);
-// 获取所有币种的充值记录
-//$res = $obj -> getDepositHistory();
+// 获取账户资产估值
+//$res = $obj -> getAssetValuation();
+// 获取账户资产估值
+//$res = $obj -> getSubAccount("liuheng");
+// 获取子账户余额信息
+//$res = $obj -> get();
 // 查询单个币种的充值记录
 //$res = $obj -> getCoinDepositHistory($coin);
 // 获取币种列表
@@ -71,7 +76,15 @@ $obj = new SpotApi(Config::$config);
 // 获取订单信息
 //$res = $obj -> getOrderInfo($instrumentId,"3271189018971137");
 // 获取成交明细
-$res = $obj -> getFills($instrumentId,"3230072570268672");
+//$res = $obj -> getFills($instrumentId,"3230072570268672");
+// 策略委托下单-止盈止损- mode为1是币币， mode为1是币币杠杆，
+//$res = $obj -> takeAlgoOrderStop($instrumentId,"1","1", "1", "buy", "1","1");
+// 委托策略撤单-止盈止损
+//$res = $obj -> revokeAlgoOrders($instrumentId,["401671"], "1");
+// 获取委托单列表-止盈止损
+//$res = $obj -> getAlgoList($instrumentId, "1", '','401671','','','');
+// 获取当前账户交易手续费费率
+//$res = $obj -> getTradeFee();
 // 获取币对信息
 //$res = $obj -> getCoinInfo();
 // 获取深度数据
@@ -79,17 +92,12 @@ $res = $obj -> getFills($instrumentId,"3230072570268672");
 // 获取全部ticker信息
 //$res = $obj -> getTicker();
 // 获取某个ticker信息
-//$res = $obj -> getSpecificTicker($instrumentId);
+$res = $obj -> getSpecificTicker($instrumentId);
 // 获取成交数据
 //$res = $obj -> getDeal($instrumentId);
 // 获取K线
 //$res = $obj -> getKine($instrumentId,3600);
-// 策略委托下单-止盈止损- mode为1是币币， mode为1是币币杠杆，
-//$res = $obj -> takeAlgoOrderStop($instrumentId,"1","1", "1", "buy", "1","1");
-// 委托策略撤单-止盈止损
-//$res = $obj -> revokeAlgoOrders($instrumentId,["401671"], "1");
-// 获取委托单列表-止盈止损
-//$res = $obj -> getAlgoList($instrumentId, "1", '','401671','','','');
+
 
 // 币币杠杆账户信息
 $instrumentId = "EOS-USDT";
@@ -122,10 +130,15 @@ $obj = new MarginApi(Config::$config);
 //$res = $obj -> getOrderInfo($instrumentId,"3292706588398592");
 // 获取成交明细
 //$res = $obj -> getFills($instrumentId,"3292706588398592");
-
+// 获取杠杆倍数
+//$res = $obj -> getLeverage($instrumentId);
+// 获取杠杆倍数
+//$res = $obj -> setLeverage($instrumentId, "10");
+// 公共-获取标记价格
+//$res = $obj -> getMarkPrice($instrumentId);
 
 // 交割合约-Ticker
-$instrumentId = "EOS-USD-191227";
+$instrumentId = "EOS-USD-200626";
 $coin = "EOS";
 $obj = new FuturesApi(Config::$config);
 // 合约持仓信息
@@ -188,9 +201,15 @@ $obj = new FuturesApi(Config::$config);
 // 获取委托单列表-止盈止损
 //$res = $obj -> getAlgoList($instrumentId, "1", '',"3121188",'','','');
 
+// 设置合约币种账户模式
 //$res = $obj -> setMarginMode($coin, "crossed");
+//市价全平
 //$res = $obj -> closePosition($instrumentId, "long");
+//撤销所有平仓挂单
 //$res = $obj -> cancelAll($instrumentId, "long");
+
+// 获取账户手续费费率
+//$res = $obj -> getTradeFee();
 
 
 // 永续合约
@@ -260,8 +279,16 @@ $obj = new SwapApi(Config::$config);
 //$res = $obj -> revokeAlgoOrders($instrumentId,["375065465116119040"], "1");
 // 获取委托单列表-止盈止损
 //$res = $obj -> getAlgoList($instrumentId, "1", '',"375065465116119040",'','','');
+
+// 获取账户手续费费率
 //$res = $obj -> getTradeFee();
 
+//市价全平
+//$res = $obj -> closePosition($instrumentId, "long");
+//撤销所有平仓挂单
+//$res = $obj -> cancelAll($instrumentId, "long");
+// 指数
+//$res = $obj->getHistoricalFundingRate($instrumentId);
 
 // 期权
 $instrumentId = "TBTC-USD-191213-7500-C";
@@ -306,7 +333,14 @@ $obj = new OptionsApi(Config::$config);
 // 公共-获取K线数据
 //$res = $obj->getKline($instrumentId,"60");
 
-// 指数
-//$res = $obj->getHistoricalFundingRate($instrumentId);
+// 其他接口
+$instrumentId = "BTC-USD";
+$obj = new OthersAPI(Config::$config);
+//获取服务时间
+//$res = $obj->getServerTime();
+//公共-获取指数成分
+//$res = $obj->getConstituents($instrumentId);
+
+//$res = $obj->getStatus("0");
 
 print_r($res);

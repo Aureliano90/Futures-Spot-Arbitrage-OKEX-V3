@@ -9,6 +9,16 @@ public class SwapOrderParam {
     //止盈止损
     private String trigger_price;
     private String algo_price;
+
+    public String getAlgo_type() {
+        return algo_type;
+    }
+
+    public void setAlgo_type(String algo_type) {
+        this.algo_type = algo_type;
+    }
+
+    private String algo_type;
     //跟踪委托
     private String callback_rate;
     //冰山委托

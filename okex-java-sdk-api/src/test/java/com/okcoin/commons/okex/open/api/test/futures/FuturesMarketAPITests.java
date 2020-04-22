@@ -52,7 +52,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentBook() {
-        Book book = marketAPIService.getInstrumentBook("BTC-USD-200327", "","");
+        Book book = marketAPIService.getInstrumentBook("BTC-USD-200925", "100","10");
         toResultString(LOG, "Instrument-Book", book);
     }
 
@@ -65,7 +65,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentTicker() {
-        Ticker ticker = marketAPIService.getInstrumentTicker("LTC-USD-200327");
+        Ticker ticker = marketAPIService.getInstrumentTicker("LTC-USD-200925");
         toResultString(LOG, "Instrument-Ticker", ticker);
     }
 
@@ -89,7 +89,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentTrades() {
-        List<Trades> trades = marketAPIService.getInstrumentTrades("BTC-USD-200327", "", "", "");
+        List<Trades> trades = marketAPIService.getInstrumentTrades("XRP-USDT-200925", "", "", "");
         toResultString(LOG, "Instrument-Trades", trades);
     }
 
@@ -101,12 +101,12 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentCandles() {
-//        String start = "2019-07-15T03:10:00.000Z";
-//        String end = "2019-07-15T03:15:00.000Z";
-        JSONArray array = marketAPIService.getInstrumentCandles("BTC-USD-200327",
-                                                                "",
-                                                                "",
-                                                                "60");
+        String start = "2020-04-20T00:00:00.000Z";
+        String end = "2020-04-21T00:00:00.000Z";
+        JSONArray array = marketAPIService.getInstrumentCandles("BTC-USD-200925",
+                                                                start,
+                                                                end,
+                                                                "300");
         toResultString(LOG, "Instrument-Candles", array);
     }
 
@@ -118,7 +118,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentIndex() {
-        Index index = marketAPIService.getInstrumentIndex("BTC-USD-200327");
+        Index index = marketAPIService.getInstrumentIndex("XRP-USDT-200925");
         toResultString(LOG, "Instrument-Book", index);
     }
 
@@ -142,7 +142,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentEstimatedPrice() {
-        EstimatedPrice estimatedPrice = marketAPIService.getInstrumentEstimatedPrice("BTC-USD-200327");
+        EstimatedPrice estimatedPrice = marketAPIService.getInstrumentEstimatedPrice("BTC-USD-200925");
         toResultString(LOG, "Instrument-Estimated-Price", estimatedPrice);
     }
 
@@ -154,7 +154,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentHolds() {
-        Holds holds = marketAPIService.getInstrumentHolds("BTC-USD-200327");
+        Holds holds = marketAPIService.getInstrumentHolds("BTC-USD-200925");
         toResultString(LOG, "Instrument-Holds", holds);
     }
 
@@ -166,7 +166,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentPriceLimit() {
-        PriceLimit priceLimit = marketAPIService.getInstrumentPriceLimit("BTC-USD-200327");
+        PriceLimit priceLimit = marketAPIService.getInstrumentPriceLimit("BTC-USD-200925");
         toResultString(LOG, "Instrument-Price-Limit", priceLimit);
     }
 
@@ -178,7 +178,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentLiquidation() {
-        List<Liquidation> liquidations = marketAPIService.getInstrumentLiquidation("BTC-USD-200327", "1", "", "", "");
+        List<Liquidation> liquidations = marketAPIService.getInstrumentLiquidation("BTC-USD-200925", "1", "", "", "");
         toResultString(LOG, "Instrument-Liquidation", liquidations);
     }
 
@@ -190,8 +190,20 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetMarkPrice() {
-        JSONObject jsonObject = marketAPIService.getMarkPrice("BTC-USD-200327");
+        JSONObject jsonObject = marketAPIService.getMarkPrice("BTC-USD-200925");
         toResultString(LOG, "MarkPrice", jsonObject);
+    }
+
+    /**
+     * 公共-获取历史结算/交割记录
+     * GET/api/futures/v3/settlement/history
+     * 获取历史结算/交割记录
+     * 限速规则：1次/60s
+     */
+    @Test
+    public void testGetSettlementHistory(){
+        JSONArray result = marketAPIService.getSettlementHistory("BTC-USDT-200925","","","");
+        toResultString(LOG,"result",result);
     }
 
 

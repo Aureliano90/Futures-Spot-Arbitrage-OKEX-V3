@@ -138,7 +138,7 @@ public class APIClient {
             throw new APIException("APIClient executeSync exception.", e);
         }
     }
-
+    //输出响应（请求头，状态码，信息以及ResponseBody）
     private void printResponse(final Response response) {
         final StringBuilder responseInfo = new StringBuilder();
         responseInfo.append("\n\tResponse").append("(").append(DateUtils.timeToString(null, 4)).append("):");

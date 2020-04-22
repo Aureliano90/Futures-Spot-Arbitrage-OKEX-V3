@@ -4,8 +4,8 @@ from .consts import *
 
 class AccountAPI(Client):
 
-    def __init__(self, api_key, api_secret_key, passphrase, use_server_time=False):
-        Client.__init__(self, api_key, api_secret_key, passphrase, use_server_time)
+    def __init__(self, api_key, api_secret_key, passphrase, use_server_time=False, first=False):
+        Client.__init__(self, api_key, api_secret_key, passphrase, use_server_time, first)
 
     # get all currencies list
     def get_currencies(self):
@@ -80,8 +80,8 @@ class AccountAPI(Client):
         return self._request_without_params(GET, COIN_TOP_UP_RECORD + str(currency))
 
     # coin transfer
-    def coin_transfer(self, currency, amount, account_from, account_to, sub_account='', instrument_id='', to_instrument_id=''):
-        params = {'currency': currency, 'amount': amount, 'from': account_from, 'to': account_to}
+    def coin_transfer(self, currency, amount, type, account_from, account_to, sub_account='', instrument_id='', to_instrument_id=''):
+        params = {'currency': currency, 'amount': amount, 'type': type, 'from': account_from, 'to': account_to}
         if sub_account:
             params['sub_account'] = sub_account
         if instrument_id:

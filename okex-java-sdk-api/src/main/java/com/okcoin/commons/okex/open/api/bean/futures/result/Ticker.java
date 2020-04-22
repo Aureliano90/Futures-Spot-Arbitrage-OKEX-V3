@@ -38,6 +38,41 @@ public class Ticker {
      */
     private String timestamp;
 
+    public String getLast_qty() {
+        return last_qty;
+    }
+
+    public void setLast_qty(String last_qty) {
+        this.last_qty = last_qty;
+    }
+
+    public String getBest_ask_size() {
+        return best_ask_size;
+    }
+
+    public void setBest_ask_size(String best_ask_size) {
+        this.best_ask_size = best_ask_size;
+    }
+
+    public String getBest_bid_size() {
+        return best_bid_size;
+    }
+
+    public void setBest_bid_size(String best_bid_size) {
+        this.best_bid_size = best_bid_size;
+    }
+
+    private String last_qty;
+    private String best_ask_size;
+    private String best_bid_size;
+
+
+
+
+
+
+
+
     public String getInstrument_id() { return instrument_id; }
 
     public void setInstrument_id(String instrument_id) { this.instrument_id = instrument_id; }

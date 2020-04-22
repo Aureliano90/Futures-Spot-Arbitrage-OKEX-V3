@@ -22,6 +22,7 @@ public class FuturesAPIBaseTests extends BaseTests {
         config.setApiKey("");
         config.setSecretKey("");
         config.setPassphrase("");
+
         config.setPrint(true);
         config.setI18n(I18nEnum.SIMPLIFIED_CHINESE);
         return config;

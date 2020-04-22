@@ -69,7 +69,7 @@ public interface MarginOrderAPIService {
      * @return
      */
     OrderInfo getOrderByProductIdAndOrderId(String instrument_id, String order_id);
-    OrderInfo getOrderByClientOid(String instrument_id, String client_oid);
+    OrderInfo getOrderByClientOid(String client_oid,String instrument_id);
 
     /**
      * 订单列表

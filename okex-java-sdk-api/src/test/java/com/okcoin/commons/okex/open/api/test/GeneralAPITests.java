@@ -41,6 +41,7 @@ public class GeneralAPITests extends FuturesAPIBaseTests {
         toResultString(LOG, "ServerTime", time);
     }
 
+    //获取法币汇率借口
     @Test
     public void testExchangeRate() {
         ExchangeRate exchangeRates = generalAPIService.getExchangeRate();

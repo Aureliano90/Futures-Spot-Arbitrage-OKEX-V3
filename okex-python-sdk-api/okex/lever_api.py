@@ -57,7 +57,7 @@ class LeverAPI(Client):
         return self._request_with_params(POST, LEVER_REPAYMENT_COIN, params)
 
     # take order
-    def take_order(self, instrument_id, side, margin_trading, client_oid='', type='', order_type='', price='', size='', notional=''):
+    def take_order(self, instrument_id, side, margin_trading, client_oid='', type='', order_type='0', price='', size='', notional=''):
         params = {'instrument_id': instrument_id, 'side': side, 'margin_trading': margin_trading, 'client_oid': client_oid, 'type': type, 'order_type': order_type, 'price': price, 'size': size, 'notional': notional}
         return self._request_with_params(POST, LEVER_ORDER, params)
 

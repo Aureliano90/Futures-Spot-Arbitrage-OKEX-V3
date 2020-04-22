@@ -3,19 +3,13 @@ package com.okcoin.commons.okex.open.api.test.futures;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.okcoin.commons.okex.open.api.bean.futures.param.*;
-import com.okcoin.commons.okex.open.api.bean.futures.result.CancelFuturesOrdeResult;
-import com.okcoin.commons.okex.open.api.bean.futures.result.FuturesOrderResult;
-import com.okcoin.commons.okex.open.api.bean.futures.result.Holds;
-import com.okcoin.commons.okex.open.api.bean.futures.result.OrderResult;
-import com.okcoin.commons.okex.open.api.enums.FuturesTransactionTypeEnum;
+import com.okcoin.commons.okex.open.api.bean.futures.result.*;
 import com.okcoin.commons.okex.open.api.service.futures.FuturesTradeAPIService;
 import com.okcoin.commons.okex.open.api.service.futures.impl.FuturesTradeAPIServiceImpl;
-import com.okcoin.commons.okex.open.api.utils.OrderIdUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.util.resources.cldr.mg.LocaleNames_mg;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,7 +56,7 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     @Test
     public void testGetInstrumentPosition() {
         Long time1 = new Date().getTime();
-        JSONObject positions1 = tradeAPIService.getInstrumentPosition("XRP-USDT-200327");
+        JSONObject positions1 = tradeAPIService.getInstrumentPosition("BSV-USD-200424");
         toResultString(LOG, "instrument-Position", positions1);
         Long time2 = new Date().getTime();
         System.out.println(time2-time1);
@@ -82,13 +76,13 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
 
     /**
      * 单个币种合约账户信息
-     * GET /api/futures/v3/accounts/{currency}
+     * GET /api/futures/v3/accounts/{underlying}
      * 获取单个币种的合约账户信息
      * 限速规则：20次/2s （根据underlying，分别限速）
      */
     @Test
     public void testGetAccountsByCurrency() {
-        JSONObject accountsByCurrency = tradeAPIService.getAccountsByCurrency("BSV-USDT");
+        JSONObject accountsByCurrency = tradeAPIService.getAccountsByCurrency("BSV-USD");
         toResultString(LOG, "Accounts-Currency", accountsByCurrency);
     }
 
@@ -110,7 +104,7 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     @Test
     public void testChangeLeverageOnFixed() {
         //JSONObject jsonObject = tradeAPIService.changeLeverageOnFixed(currency, instrument_id, direction, leverage);
-        JSONObject jsonObject = tradeAPIService.changeLeverageOnFixed("BTC-USD", "BTC-USD-200327", "long", "15");
+        JSONObject jsonObject = tradeAPIService.changeLeverageOnFixed("XRP-USDT", "XRP-USDT-200925", "long", "15.5");
         toResultString(LOG, "Change-fixed-Leverage", jsonObject);
     }
 
@@ -133,7 +127,7 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetAccountsLedgerByCurrency() {
-        JSONArray ledger = tradeAPIService.getAccountsLedgerByCurrency("XRP-USDT","","","","13");
+        JSONArray ledger = tradeAPIService.getAccountsLedgerByCurrency("BSV-USD","","","","");
         toResultString(LOG, "Ledger", ledger);
     }
 
@@ -144,7 +138,7 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetAccountsHoldsByinstrument_id() {
-        JSONObject ledger = tradeAPIService.getAccountsHoldsByInstrumentId("XRP-USDT-200214");
+        JSONObject ledger = tradeAPIService.getAccountsHoldsByInstrumentId("XRP-USDT-200925");
         toResultString(LOG, "Ledger", ledger);
     }
 
@@ -153,15 +147,15 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      * OKEx合约交易提供了限价单下单模式。只有当您的账户有足够的资金才能下单。
      * 一旦下单，您的账户资金将在订单生命周期内被冻结。被冻结的资金以及数量取决于订单指定的类型和参数。
      * POST /api/futures/v3/order
-     * 限速规则：40次/2s （根据underlying，分别限速）
+     * 限速规则：60次/2s （根据underlying，分别限速）
      */
     @Test
     public void testOrder() {
         Order order = new Order();
-        order.setinstrument_id("XRP-USDT-200327");
-        order.setClient_oid("ctt0206test02");
-        order.setType("2");
-        order.setPrice("0.4");
+        order.setinstrument_id("XRP-USDT-200925");
+        order.setClient_oid("testfutures1");
+        order.setType("1");
+        order.setPrice("0.17");
         order.setSize("1");
         order.setMatch_price("0");
         order.setOrder_type("0");
@@ -173,27 +167,27 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      * 批量下单
      * 批量进行合约下单操作。每个合约可批量下10个单。
      * POST /api/futures/v3/orders
-     * 限速规则：20次/2s （根据underlying，分别限速）
+     * 限速规则：30次/2s （根据underlying，分别限速）
      */
     @Test
     public void testOrders() {
         Orders orders = new Orders();
         //设置instrument_id
-        orders.setInstrument_id("XRP-USDT-200327");
+        orders.setInstrument_id("XRP-USDT-200925");
         List<OrdersItem> orders_data = new ArrayList<OrdersItem>();
         OrdersItem item1 = new OrdersItem();
-        item1.setClient_oid("ctt0327orders01");
+        item1.setClient_oid("ctt0422orders01");
         item1.setOrder_type("0");
         item1.setType("1");
-        item1.setPrice("0.1800");
+        item1.setPrice("0.1700");
         item1.setSize("1");
         item1.setMatch_price("0");
 
         OrdersItem item2 = new OrdersItem();
-        item2.setClient_oid("ctt0327orders02");
-        item1.setOrder_type("0");
+        item2.setClient_oid("ctt0422orders02");
+        item2.setOrder_type("0");
         item2.setType("1");
-        item2.setPrice("0.1818");
+        item2.setPrice("0.1699");
         item2.setSize("1");
         item2.setMatch_price("0");
 
@@ -210,11 +204,11 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      * GET /api/futures/v3/orders/<instrument_id>
      * 列出您当前所有的订单信息。本接口能查询最近7天的数据。
      * 这个请求支持分页，并且按委托时间倒序排序和存储，最新的排在最前面。
-     * 限速规则：20次/2s （根据underlying，分别限速）
+     * 限速规则：10次/2s （根据underlying，分别限速）
      */
     @Test
     public void testGetOrders() {
-        JSONObject result = tradeAPIService.getOrders("XRP-USDT-200214", "0", "", "", "");
+        JSONObject result = tradeAPIService.getOrders("XRP-USDT-200925", "0", "", "", "");
         toResultString(LOG, "Get-Orders", result);
     }
 
@@ -223,19 +217,19 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      * 通过订单ID获取单个订单信息。已撤销的未成交单只保留2个小时。
      * GET /api/futures/v3/orders/<instrument_id>/<order_id>或
      * GET /api/futures/v3/orders/<instrument_id>/<client_oid>
-     * 限速规则：40次/2s （根据underlying，分别限速）
+     * 限速规则：60次/2s （根据underlying，分别限速）
      */
     @Test
     public void testGetOrderByOrderId() {
     //3932093177765889
-        JSONObject result = tradeAPIService.getOrderByOrderId("XRP-USDT-200327", "4374329825008641");
+        JSONObject result = tradeAPIService.getOrderByOrderId("XRP-USDT-200925", "4769928841379843 ");
         toResultString(LOG, "Get-Order", result);
     }
 
     @Test
     public void testGetOrderByClientOid() {
         //3932093177765889
-        JSONObject result = tradeAPIService.getOrderByClientOid("XRP-USDT-200327", "ctt0104test01");
+        JSONObject result = tradeAPIService.getOrderByClientOid("XRP-USDT-200925", "ctt0422orders02");
         toResultString(LOG, "Get-Order", result);
     }
 
@@ -250,7 +244,7 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     @Test
     public void testCancelOrderByOrderId() {
 
-        JSONObject result = tradeAPIService.cancelOrderByOrderId("XRP-USDT-200214", "4374319621159937");
+        JSONObject result = tradeAPIService.cancelOrderByOrderId("XRP-USDT-200626", "4574797169474561");
         toResultString(LOG, "Cancel-Instrument-Order", result);
     }
     @Test
@@ -270,10 +264,11 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
         CancelOrders cancelOrders = new CancelOrders();
         List<String> list = new ArrayList<String>();
         //通过订单号撤销订单
-        list.add("4238577093921793");
-        list.add("4238577093987329");
+        list.add("4769913883697153");
+        list.add("4766231082376193");
+
         cancelOrders.setOrder_ids(list);
-        JSONObject result = tradeAPIService.cancelOrders("XRP-USDT-200327", cancelOrders);
+        JSONObject result = tradeAPIService.cancelOrders("XRP-USDT-200925", cancelOrders);
         toResultString(LOG, "Cancel-Instrument-Orders", result);
     }
     @Test
@@ -281,10 +276,10 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
         CancelOrders cancelOrders = new CancelOrders();
         List<String> list = new ArrayList<String>();
         //通过client_oid撤销订单
-        list.add("");
-        list.add("");
+        list.add("ctt0422orders01");
+        list.add("ctt0422orders02");
         cancelOrders.setClient_oids(list);
-        JSONObject result = tradeAPIService.cancelOrders("XRP-USDT-191227", cancelOrders);
+        JSONObject result = tradeAPIService.cancelOrders("XRP-USDT-200925", cancelOrders);
         toResultString(LOG, "Cancel-Instrument-Orders", result);
     }
 
@@ -292,12 +287,12 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      * 获取成交明细
      * GET /api/futures/v3/fills
      * 获取最近的成交明细列表，本接口能查询最近7天的数据。
-     * 限速规则：20 次/2s （根据underlying，分别限速）
+     * 限速规则：10 次/2s （根据underlying，分别限速）
      */
     @Test
     public void testGetFills() {
 
-        JSONArray result = tradeAPIService.getFills("XRP-USDT-200327", "4055058885740547", "", "", "");
+        JSONArray result = tradeAPIService.getFills("BSV-USD-200424", "", "", "", "");
         toResultString(LOG, "Get-Fills", result);
     }
 
@@ -322,12 +317,12 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      * 市价全平接口，其中BTC合约持仓小于或等于999张时才能调用，
      * 否则报错；类似的，其他币种合约的持仓应该小于或等于9999张。
      * POST /api/futures/v3/close_position
-     * 限速规则：5次/2s （根据underlying，分别限速）
+     * 限速规则：2次/2s （根据underlying，分别限速）
      */
     @Test
     public void testClosePositions() {
         ClosePositions closePositions = new ClosePositions();
-        closePositions.setInstrument_id("BTC-USD-200327");
+        closePositions.setInstrument_id("XRP-USDT-200925");
         closePositions.setDirection("long");
         JSONObject jsonObject = tradeAPIService.closePositions(closePositions);
         toResultString(LOG, "closePositions", jsonObject);
@@ -342,7 +337,7 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     @Test
     public void testcancelAll() {
         CancelAll  cancelAll = new CancelAll();
-        cancelAll.setInstrument_id("XRP-USDT-200327");
+        cancelAll.setInstrument_id("XRP-USDT-200925");
         cancelAll.setDirection("long");
         JSONObject jsonObject = tradeAPIService.cancelAll(cancelAll);
         toResultString(LOG, "cancelAll", jsonObject);
@@ -351,11 +346,11 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     /**
      * 获取合约挂单冻结数量
      * GET/api/futures/v3/accounts/<instrument_id>/hold
-     * 限速规则：20次/2s （根据underlying，分别限速）
+     * 限速规则：5次/2s （根据underlying，分别限速）
      */
     @Test
     public void testGetHolds() {
-        Holds holds = tradeAPIService.getHolds("BTC-USD-200327");
+        Holds holds = tradeAPIService.getHolds("XRP-USDT-200925");
         toResultString(LOG, "Instrument-Holds", holds);
     }
 
@@ -369,14 +364,15 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     public void testFuturesOrder(){
         FuturesOrderParam futuresOrderParam=new FuturesOrderParam();
         //公共参数
-        futuresOrderParam.setInstrument_id("XRP-USDT-200327");
-        futuresOrderParam.setType("3");
+        futuresOrderParam.setInstrument_id("XRP-USDT-200925");
+        futuresOrderParam.setType("1");
         futuresOrderParam.setOrder_type("1");
         futuresOrderParam.setSize("1");
 
         //止盈止损
-        futuresOrderParam.setTrigger_price("0.285");
-        futuresOrderParam.setAlgo_price("0.283");
+        futuresOrderParam.setTrigger_price("0.17");
+        futuresOrderParam.setAlgo_price("0.165");
+        //futuresOrderParam.setAlgo_type("2");
 
         //跟踪委托
        /* futuresOrderParam.setCallback_rate("");
@@ -407,10 +403,10 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     @Test
     public void testCancelFuturesOrder(){
         CancelFuturesOrder cancelFuturesOrder=new CancelFuturesOrder();
-        cancelFuturesOrder.setInstrument_id("XRP-USDT-200327");
+        cancelFuturesOrder.setInstrument_id("XRP-USDT-200925");
         cancelFuturesOrder.setOrder_type("1");
         List<String> algo_ids=new ArrayList<String>();
-        algo_ids.add("1923724");
+        algo_ids.add("14678");
         cancelFuturesOrder.setAlgo_ids(algo_ids);
 
         CancelFuturesOrdeResult cancelFuturesOrdeResult=tradeAPIService.cancelFuturesOrder(cancelFuturesOrder);
@@ -426,18 +422,55 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     @Test
     public void testFindFuturesOrder(){
 
-        String result = tradeAPIService.findFuturesOrder("XRP-USD-200327", "1", "1", "", "","","20");
+        String result = tradeAPIService.findFuturesOrder("XRP-USDT-200925", "1", "3","", "", "","");
         toResultString(LOG, "Get-FuturesOrders", result);
 
     }
-    //当前账户交易手续等级的费率
+
+    /**
+     * 当前账户交易手续等级的费率
+     * 获取您当前账户交易等级对应的手续费费率，母账户下的子账户的费率和母账户一致。每天凌晨0点更新一次
+     * GET/api/futures/v3/trade_fee
+     * 限速规则：1次/10s
+     */
     @Test
     public void testGetTradeFee(){
         JSONObject result = tradeAPIService.getTradeFee();
         toResultString(LOG, "result", result);
-
     }
 
+    /**
+     * 增加/减少保证金
+     * 增加/减少某逐仓仓位的保证金
+     * POST/api/futures/v3/position/margin
+     * 限速规则：5次/2s
+     */
+    @Test
+    public void testModifyMargin(){
+        ModifyMarginParam modifyMarginParam = new ModifyMarginParam();
+        modifyMarginParam.setInstrument_id("XRP-USDT-200925");
+        modifyMarginParam.setDirection("short");
+        modifyMarginParam.setAmount("0.5");
+        modifyMarginParam.setType("2");
 
+        JSONObject result = tradeAPIService.modifyMargin(modifyMarginParam);
+        toResultString(LOG, "result", result);
+    }
+
+    /**
+     * 设置逐仓自动增加保证金
+     * 按币种开启逐仓增加保证金，只有逐仓模式才可开启自动追加保证金功能。
+     * POST /api/futures/v3/accounts/auto_margin
+     * 限速规则：5次/2s （根据underlying，分别限速）
+     */
+    @Test
+    public void testModifyFixedMargin(){
+        ModifyFixedMargin modifyFixedMargin = new ModifyFixedMargin();
+        modifyFixedMargin.setUnderlying("XRP-US");
+        modifyFixedMargin.setType("2");
+
+        JSONObject result = tradeAPIService.modifyFixedMargin(modifyFixedMargin);
+        toResultString(LOG, "result", result);
+    }
 
 }

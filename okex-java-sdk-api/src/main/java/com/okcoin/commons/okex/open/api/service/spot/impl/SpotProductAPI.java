@@ -47,11 +47,9 @@ public interface SpotProductAPI {
                                       @Query("start") String start,
                                       @Query("end") String end);
 
-    @GET("/api/index/v3/{instrument_id}/constituents")
-    Call<String> getIndex(@Path("instrument_id") String instrument_id);
 
 
-    @GET("/api/margin/v3/instruments/{instrument_id}/mark_price")
-    Call<String> getMarginMarkPrice(@Path("instrument_id") String instrument_id);
+
+
 
 }

@@ -103,10 +103,6 @@ $callbackTime = function ($data) use ($obj){
 /**
  * spot
  */
-$instrumentId = "TRX-USDK";
-$instrumentId = "OKB-ETH";
-$instrumentId = "TRIO-USDT";
-$instrumentId = "XMR-ETH";
 $instrumentId = "BTC-USDT";
 $coin = "EOS";
 //$obj->subscribe($callbackTime,"spot/ticker:$instrumentId");
@@ -146,9 +142,7 @@ $coin = "EOS";
 //$obj->subscribe($callback,"futures/estimated_price:$instrumentId");
 //$obj->subscribe($callbackTime,"futures/price_range:$instrumentId");
 //$obj->subscribe($callback,"futures/mark_price:$instrumentId");
-//$obj->subscribe($callback,"futures/mark_price:$instrumentId");
 //$obj->subscribe($callback,["futures/instruments"]);
-//$obj->subscribe($callback,"futures/depth_l2_tbt:$instrumentId");
 //$obj->subscribe($callback,"futures/order_algo:$instrumentId");
 
 //$obj->subscribe($callbackTime,["futures/position:$instrumentId","spot/order:EOS-USDT","swap/order:EOS-USD-SWAP"]);
@@ -165,6 +159,7 @@ $coin = "EOS";
 //$obj->subscribe($callbackTime,"swap/depth:$instrumentId");
 //$obj->subscribe($callbackTime,"swap/depth5:$instrumentId");
 //$obj->subscribe($callbackTime,"swap/depth:$instrumentId");
+$obj->subscribe($callbackTime,"swap/depth_l2_tbt:$instrumentId");
 //$obj->subscribe($callback,"swap/trade:$instrumentId");
 //$obj->subscribe($callback,"swap/account:$instrumentId");
 //$obj->subscribe($callbackTime,"swap/order:$instrumentId");
@@ -193,7 +188,7 @@ $coin = "EOS";
 /**
  * option
  */
-$instrumentId= "BTC-USD-191227-12500-C";
+$instrumentId= "BTC-USD-200626-5500-C";
 $underlying = "TBTC-USD";
 $coin = "BTC";
 //$obj->subscribe($callbackTime,"option/instruments:$underlying");
@@ -202,6 +197,7 @@ $coin = "BTC";
 //$obj->subscribe($callbackTime,"option/trade:$instrumentId");
 //$obj->subscribe($callbackTime,"option/depth5:$instrumentId");
 //$obj->subscribe($callbackTime,"option/depth:$instrumentId");
+//$obj->subscribe($callbackTime,"option/depth_l2_tbt:$instrumentId");
 //$obj->subscribe($callback,"option/account:$instrumentId");
 //$obj->subscribe($callbackTime,"option/position:$instrumentId");
 //$obj->subscribe($callbackTime,"option/order:$instrumentId");

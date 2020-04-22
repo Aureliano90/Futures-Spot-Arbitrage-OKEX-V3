@@ -26,7 +26,6 @@ public class OptionMarketAPITests extends OptionAPIBaseTests{
      * HTTP请求
      * GET /api/option/v3/underlying
      * */
-    //公共-获取标的指数
     @Test
     public void testGetUnderlying(){
         JSONArray result = marketAPIService.getUnderlying();
@@ -40,7 +39,6 @@ public class OptionMarketAPITests extends OptionAPIBaseTests{
      * HTTP请求
      * GET /api/option/v3/instruments/<underlying>
      * */
-    //公共-获取期权合约
     @Test
     public void testGetInstrumrnt(){
         JSONArray result = marketAPIService.getInstruments("BTC-USD","","");
@@ -55,7 +53,7 @@ public class OptionMarketAPITests extends OptionAPIBaseTests{
      * */
     @Test
     public void testGetAllSummary(){
-        JSONArray result = marketAPIService.getAllSummary("BTC-USD","200327");
+        JSONArray result = marketAPIService.getAllSummary("BTC-USD","200925");
         toResultString(LOG,"",result);
     }
     /***
@@ -67,7 +65,7 @@ public class OptionMarketAPITests extends OptionAPIBaseTests{
        //公共-获取单个期权合约的详细定价
     @Test
     public void testGetDetailPrice(){
-        JSONObject result = marketAPIService.getDetailPrice("BTC-USD","BTC-USD-200327-9500-C");
+        JSONObject result = marketAPIService.getDetailPrice("BTC-USD","BTC-USD-200925-7000-C");
         toResultString(LOG,"result",result);
     }
     /**
@@ -79,7 +77,7 @@ public class OptionMarketAPITests extends OptionAPIBaseTests{
      * GET /api/option/v3/instruments/<instrument_id>/book*/
     @Test
     public void testGetDepthData(){
-        JSONObject result = marketAPIService.getDepthData("BTC-USD-200327-7500-C","");
+        JSONObject result = marketAPIService.getDepthData("BTC-USD-200925-7000-C","10");
         toResultString(LOG,"result",result);
     }
     /***
@@ -90,10 +88,9 @@ public class OptionMarketAPITests extends OptionAPIBaseTests{
      * HTTP请求
      * GET /api/option/v3/instruments/<instrument_id>/trades
      * */
-    //获取期权合约的成交记录
     @Test
     public void testGetTradeList(){
-        JSONArray result = marketAPIService.getTradeList("BTC-USD-200327-7500-C","","","");
+        JSONArray result = marketAPIService.getTradeList("BTC-USD-200925-7000-C","","","");
         toResultString(LOG,"",result);
     }
 
@@ -105,10 +102,9 @@ public class OptionMarketAPITests extends OptionAPIBaseTests{
      * HTTP请求
      * GET /api/option/v3/instruments/<instrument_id>/ticker
      * */
-    //获取单个期权合约的ticker信息
     @Test
     public void testGetTicker(){
-        JSONObject result = marketAPIService.getTicker("BTC-USD-200327-7500-C");
+        JSONObject result = marketAPIService.getTicker("BTC-USD-200925-7000-C");
         toResultString(LOG,"result",result);
     }
     /***
@@ -118,10 +114,9 @@ public class OptionMarketAPITests extends OptionAPIBaseTests{
      * HTTP请求
      * GET /api/option/v3/instruments/<instrument_id>/candles
      * */
-    //获取K线数据
     @Test
     public void testGetCandles(){
-        JSONArray result = marketAPIService.getCandles("BTC-USD-200327-7500-C");
+        JSONArray result = marketAPIService.getCandles("BTC-USD-200925-7000-C");
         toResultString(LOG,"result",result);
     }
 

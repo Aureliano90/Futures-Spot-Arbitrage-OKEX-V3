@@ -9,10 +9,11 @@ package com.okcoin.commons.okex.open.api.test.ws.spot.config;
 public class WebSocketConfig {
 
     // okex webSocket url
-    private static final String SERVICE_URL = "wss://real.okex.com:8443/ws/v3?_compress=false";
+    private static final String SERVICE_URL = "wss://real.okex.com:8443/ws/v3";
     private static final String API_KEY = "";
     private static final String SECRET_KEY = "";
     private static final String PASSPHRASE = "";
+
 
     public static void publicConnect(WebSocketClient webSocketClient) {
         webSocketClient.connection(SERVICE_URL);

@@ -108,14 +108,12 @@ public class WebSocketClient {
             public void onMessage(final WebSocket webSocket, final ByteString bytes) {
                 //测试服务器返回的字节
                 final String byteString=bytes.toString();
-                //System.out.println("byteString::::::"+byteString);
+
                 final String s = uncompress(bytes.toByteArray());
                 //判断是否是深度接口
                 if (s.contains("\"table\":\"futures/depth\",")||s.contains("\"table\":\"futures/depth_l2_tbt\",")||s.contains("\"table\":\"swap/depth\",")) {//是深度接口
                     if (s.contains("partial")) {//是第一次的200档，记录下第一次的200档
                         String[] strs=s.split("],");
-                        //System.out.println(strs.length);
-                        //System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + s);
                         JSONObject rst = JSONObject.fromObject(s);
                         net.sf.json.JSONArray dataArr = net.sf.json.JSONArray.fromObject(rst.get("data"));
                         JSONObject data = JSONObject.fromObject(dataArr.get(0));
@@ -124,7 +122,7 @@ public class WebSocketClient {
                         String instrumentId = data.get("instrument_id").toString();
                         bookMap.put(instrumentId,oldBook);
                     } else if (s.contains("\"action\":\"update\",")) {//是后续的增量，则需要进行深度合并
-                        //System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + s);
+
                         JSONObject rst = JSONObject.fromObject(s);
                         net.sf.json.JSONArray dataArr = net.sf.json.JSONArray.fromObject(rst.get("data"));
                         JSONObject data = JSONObject.fromObject(dataArr.get(0));
@@ -164,7 +162,7 @@ public class WebSocketClient {
                         }
                     }
                 } else {//不是深度接口
-                    //logger.info(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4)  + " Receive: " + s);
+
                     System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + s);
                 }
                 if (null != s && s.contains("login")) {

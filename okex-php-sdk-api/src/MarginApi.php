@@ -27,6 +27,12 @@ class MarginApi extends Utils {
     const MARGIN_ORDER_INFO = '/api/margin/v3/orders/';
     const MARGIN_FILLS = '/api/margin/v3/fills';
 
+    const MARGIN_LEVERAGE = '/api/margin/v3/accounts/';
+//    const MARGIN_SET_LEVERAGE = '/api/margin/v3/accounts/';
+    const MARGIN_MARK_PRICE = '/api/margin/v3/instruments/';
+
+
+
     // 币币账户信息
     public function getAccountInfo()
     {
@@ -175,4 +181,32 @@ class MarginApi extends Utils {
 
         return $this->request(self::MARGIN_FILLS, $params, 'GET', true);
     }
+
+    //
+    public function getLeverage($instrument_id)
+    {
+        return  $this->request(self::MARGIN_LEVERAGE.$instrument_id.'/leverage', '', 'GET');
+    }
+
+    //
+    public function setLeverage($instrument_id,$leverage)
+    {
+        $params = [
+            'leverage' => $leverage,
+        ];
+
+        return $this->request(self::MARGIN_LEVERAGE.$instrument_id.'/leverage', $params, 'POST');
+    }
+
+    //
+    public function getMarkPrice($instrument_id)
+    {
+        $params = [
+            'instrument_id' => $instrument_id,
+        ];
+
+        return $this->request(self::MARGIN_MARK_PRICE.$instrument_id.'/mark_price', $params, 'GET', true);
+    }
+
+
 }

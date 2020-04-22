@@ -53,7 +53,7 @@ public class FuturesPrivateChannelTest {
     @Test
     public void positionChannel() {
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/position:XRP-USDT-200327");
+        channel.add("futures/position:BTC-USD-200925");
         //channel.add("futures/position:BTC-USD-200327");
         try {
             Thread.sleep(100);
@@ -77,7 +77,7 @@ public class FuturesPrivateChannelTest {
     @Test
     public void accountChannel() {
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/account:XRP-USDT");
+        channel.add("futures/account:BTC-USDT");
         try {
             Thread.sleep(100);
         } catch (Exception e) {
@@ -100,7 +100,9 @@ public class FuturesPrivateChannelTest {
     @Test
     public void orderChannel() {
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/order:XRP-USDT-200327");
+        channel.add("futures/order:XRP-USDT-200925");
+        //channel.add("futures/order:BTC-USD-200320");
+
         try {
             Thread.sleep(100);
         } catch (Exception e) {
@@ -120,7 +122,7 @@ public class FuturesPrivateChannelTest {
     @Test
     public void algoOrderChannel() {
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/order_algo:XRP-USDT-200327");
+        channel.add("futures/order_algo:BTC-USD-200925");
         try {
             Thread.sleep(100);
         } catch (Exception e) {
@@ -140,7 +142,7 @@ public class FuturesPrivateChannelTest {
     @Test
     public void unsubscribeChannel() {
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/order:BTC-USDT-190927");
+        channel.add("futures/order:BTC-USDT-200925");
         try {
             Thread.sleep(100);
         } catch (Exception e) {

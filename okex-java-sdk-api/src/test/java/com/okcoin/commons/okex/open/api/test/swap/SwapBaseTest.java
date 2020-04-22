@@ -9,6 +9,7 @@ public class SwapBaseTest extends BaseTests {
         final APIConfiguration config = new APIConfiguration();
 
         config.setEndpoint("https://www.okex.com/");
+
         config.setApiKey("");
         config.setSecretKey("");
         config.setPassphrase("");

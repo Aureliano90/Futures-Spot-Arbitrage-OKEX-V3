@@ -53,12 +53,12 @@ public class MarginAccountAPITest extends SpotAPIBaseTests {
      * 列出杠杆帐户资产流水。帐户资产流水是指导致帐户余额增加或减少的行为。流水会分页，并且按时间倒序排序和存储，最新的排在最前面。
      * 请参阅分页部分以获取第一页之后的其他纪录。 本接口能查询最近3个月的数据。
      * GET /api/margin/v3/accounts/<instrument_id>/ledger
-     * 限速规则：20次/2s
+     * 限速规则：10次/2s
      */
     @Test
     public void getLedger() {
         final List<UserMarginBillDto> result = this.marginAccountAPIService.getLedger(
-                "eth-usdt", "",
+                "BTC-USDT", "",
                 "", "", "1");
         this.toResultString(MarginAccountAPITest.LOG, "result", result);
     }
@@ -96,7 +96,7 @@ public class MarginAccountAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getBorrowedAccounts() {
-        final List<MarginBorrowOrderDto> result = this.marginAccountAPIService.getBorrowedAccounts("1", "", "", "2");
+        final List<MarginBorrowOrderDto> result = this.marginAccountAPIService.getBorrowedAccounts("1", "", "", "");
         this.toResultString(MarginAccountAPITest.LOG, "result", result);
     }
 
@@ -121,10 +121,10 @@ public class MarginAccountAPITest extends SpotAPIBaseTests {
     @Test
     public void borrow_1() {
         final BorrowRequestDto dto = new BorrowRequestDto();
-        dto.setAmount("1");
-        dto.setCurrency("XRP");
-        dto.setInstrument_id("XRP-USDT");
-        dto.setClient_oid("ttc1226testborrow1");
+        dto.setAmount("5");
+        dto.setCurrency("ETH");
+        dto.setInstrument_id("ETH-USDT");
+        dto.setClient_oid("");
         final BorrowResult result = this.marginAccountAPIService.borrow_1(dto);
         this.toResultString(MarginAccountAPITest.LOG, "result", result);
     }
@@ -139,23 +139,35 @@ public class MarginAccountAPITest extends SpotAPIBaseTests {
     public void repayment_1() {
         final RepaymentRequestDto dto = new RepaymentRequestDto();
         dto.setAmount("1");
-        //dto.setBorrow_id("185778");
+        dto.setBorrow_id("185778");
         dto.setCurrency("XRP");
         dto.setInstrument_id("XRP-USDT");
-        dto.setClient_oid("ttc1226testrepayment2");
+        dto.setClient_oid("");
         final RepaymentResult result = this.marginAccountAPIService.repayment_1(dto);
         this.toResultString(MarginAccountAPITest.LOG, "result", result);
     }
 
-    //设置杠杆倍数
+
+    /**
+     * 设置杠杆倍数
+     * 设置币币杠杆账户币对杠杆倍数。
+     * POST /api/margin/v3/accounts/<instrument_id>/leverage
+     * 限速规则：5次/2s
+     */
     @Test
     public void testSetLeverage(){
         MarginLeverage leverage = new MarginLeverage();
-        leverage.setLeverage("5");
+        leverage.setLeverage("4");
         JSONObject result = marginAccountAPIService.setLeverage("XRP-USDT",leverage);
         this.toResultString(MarginAccountAPITest.LOG, "result", result);
     }
-    //获取杠杆倍数
+
+    /**
+     * 获取杠杆倍数
+     * 获取币币杠杆账户币种杠杆倍数
+     * GET/api/margin/v3/accounts/<instrument_id>/leverage
+     * 限速规则：5次/2s
+     */
     @Test
     public void testGetLeverage(){
         JSONObject result = marginAccountAPIService.getLeverage("XRP-USDT");

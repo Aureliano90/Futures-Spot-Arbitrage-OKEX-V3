@@ -1,7 +1,6 @@
 import requests
 import json
 from . import consts as c, utils, exceptions
-import logging
 
 
 class Client(object):
@@ -22,31 +21,23 @@ class Client(object):
 
         # 获取本地时间
         timestamp = utils.get_timestamp()
-        # print(timestamp)
 
         # sign & header
         if self.use_server_time:
             # 获取服务器时间接口
             timestamp = self._get_timestamp()
-        # print(timestamp)
 
         body = json.dumps(params) if method == c.POST else ""
         sign = utils.sign(utils.pre_hash(timestamp, method, request_path, str(body)), self.API_SECRET_KEY)
-        # print(utils.pre_hash(timestamp, method, request_path, str(body)))
         header = utils.get_header(self.API_KEY, sign, timestamp, self.PASSPHRASE)
-        # print(timestamp)
 
         if self.first:
             print("url:", url)
-            logging.info("url:" + url)
             self.first = False
 
         print("url:", url)
-        logging.info("url:" + '"' + url + '"')
         # print("headers:", header)
-        # logging.info("headers:" + str(header))
         print("body:", body)
-        logging.info("body:" + body)
 
         # send request
         response = None
