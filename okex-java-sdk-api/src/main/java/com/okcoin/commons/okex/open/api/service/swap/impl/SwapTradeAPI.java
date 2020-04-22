@@ -1,9 +1,7 @@
 package com.okcoin.commons.okex.open.api.service.swap.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.okcoin.commons.okex.open.api.bean.swap.param.CancelOrderAlgo;
-import com.okcoin.commons.okex.open.api.bean.swap.param.PpOrder;
-import com.okcoin.commons.okex.open.api.bean.swap.param.SwapOrderParam;
+import com.okcoin.commons.okex.open.api.bean.swap.param.*;
 import com.okcoin.commons.okex.open.api.bean.swap.result.ApiOrderVO;
 import retrofit2.Call;
 import retrofit2.http.*;
@@ -52,6 +50,8 @@ public interface SwapTradeAPI {
      * @param limit
      * @return
      */
+
+
     @GET("/api/swap/v3/order_algo/{instrument_id}")
     Call<String> getSwapOrders(@Path("instrument_id") String instrument_id,
                                @Query("order_type") String order_type,
@@ -60,4 +60,13 @@ public interface SwapTradeAPI {
                                @Query("before") String before,
                                @Query("after") String after,
                                @Query("limit") String limit);
+
+    /*市价全平*/
+    @POST("/api/swap/v3/close_position")
+    Call<String> closePosition(@Body ClosePosition closePosition);
+
+    /*撤销所有平仓挂单*/
+    @POST("/api/swap/v3/cancel_all")
+    Call<String> CancelAll(@Body CancelAllParam cancelAllParam);
+
 }

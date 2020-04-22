@@ -34,7 +34,7 @@ public class SwapPublicChannelTest {
     public void tickerChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("swap/ticker:BTC-USDT-SWAP");
+        channel.add("swap/ticker:ETH-USD-SWAP");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -100,7 +100,7 @@ public class SwapPublicChannelTest {
     public void fundChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("swap/funding_rate:BTC-USD-SWAP");
+        channel.add("swap/funding_rate:EOS-USDT-SWAP");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -150,9 +150,9 @@ public class SwapPublicChannelTest {
     }
 
     /**
-     * 公共-200档深度
+     * 公共-400档深度频道
      * Depth Channel
-     * 首次返回200档，后续为增量
+     * 首次返回400档，然后每隔100毫秒，快照这个时间段内有更改的订单簿数据，并推送
      */
     @Test
     public void depthChannel() {
@@ -170,6 +170,11 @@ public class SwapPublicChannelTest {
         }
     }
 
+    /**
+     * 公共-400档增量数据频道
+     * Depth Channel
+     * 首次返回400档，后续只要订单簿深度有变化就推送有更改的数据
+     */
     @Test
     public void allDepthChannel() {
         //添加订阅频道
@@ -204,38 +209,6 @@ public class SwapPublicChannelTest {
         }
     }
 
-    //行情指数频道
-    @Test
-    public void indexTickerChannel() {
-        //添加订阅频道
-        ArrayList<String> channel = Lists.newArrayList();
-        channel.add("index/ticker:BTC-USD");
-        //调用订阅方法
-        webSocketClient.subscribe(channel);
-        //为保证测试方法不停，需要让线程延迟
-        try {
-            Thread.sleep(10000000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    //指数K线
-    @Test
-    public void indexCandleChannel() {
-        //添加订阅频道
-        ArrayList<String> channel = Lists.newArrayList();
-        channel.add("index/candle60s:BTC-USD");
-        //调用订阅方法
-        webSocketClient.subscribe(channel);
-        //为保证测试方法不停，需要让线程延迟
-        try {
-            Thread.sleep(10000000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 
 

@@ -1,6 +1,7 @@
 package com.okcoin.commons.okex.open.api.test.swap;
 
 import com.alibaba.fastjson.JSONObject;
+import com.okcoin.commons.okex.open.api.bean.futures.param.CancelAll;
 import com.okcoin.commons.okex.open.api.bean.swap.param.*;
 import com.okcoin.commons.okex.open.api.bean.swap.result.ApiCancelOrderVO;
 import com.okcoin.commons.okex.open.api.bean.swap.result.ApiOrderResultVO;
@@ -39,12 +40,13 @@ public class SwapTradeTest extends SwapBaseTest {
      */
     @Test
     public void order() {
-        PpOrder ppOrder = new PpOrder("0212test1", "1", "1", "0", "0.27", "XRP-USDT-SWAP","0");
+        PpOrder ppOrder = new PpOrder("testswap1", "1", "1", "0","0.17", "XRP-USDT-SWAP","0");
         final  Object apiOrderVO = tradeAPIService.order(ppOrder);
         this.toResultString(SwapTradeTest.LOG, "orders", apiOrderVO);
         System.out.println("jsonObject:"+apiOrderVO);
 
     }
+
 
     /**
      * 批量下单
@@ -56,9 +58,9 @@ public class SwapTradeTest extends SwapBaseTest {
     public void batchOrder() {
 
         List<PpBatchOrder> list = new LinkedList<>();
-        //list.add(new PpBatchOrder("ctt1127swap02", "1", "1", "0", "6500","0"));
-        list.add(new PpBatchOrder("0212test4", "1", "1", "0", "0.2600","0"));
-        list.add(new PpBatchOrder("0212test5", "1", "1", "0", "0.2511","0"));
+        list.add(new PpBatchOrder("0422testswap3", "1", "1", "0", "0.17","0"));
+        list.add(new PpBatchOrder("0422testswap4", "1", "1", "0", "0.165","0"));
+
         PpOrders ppOrders = new PpOrders();
         ppOrders.setInstrument_id("XRP-USDT-SWAP");
         ppOrders.setOrder_data(list);
@@ -78,7 +80,7 @@ public class SwapTradeTest extends SwapBaseTest {
      */
     @Test
     public void cancelOrderByOrderId() {
-        String jsonObject = tradeAPIService.cancelOrderByOrderId("XRP-USDT-SWAP", "432263257584222208");
+        String jsonObject = tradeAPIService.cancelOrderByOrderId("XRP-USDT-SWAP", "483146185764421632");
         ApiCancelOrderVO apiCancelOrderVO = JSONObject.parseObject(jsonObject, ApiCancelOrderVO.class);
         System.out.println("success");
         System.out.println(apiCancelOrderVO.getOrder_id());
@@ -86,7 +88,7 @@ public class SwapTradeTest extends SwapBaseTest {
 
     @Test
     public void cancelOrderByClientOid() {
-        String jsonObject = tradeAPIService.cancelOrderByClientOid("XRP-USDT-SWAP", "0212test4");
+        String jsonObject = tradeAPIService.cancelOrderByClientOid("XRP-USDT-SWAP", "testswap2");
         ApiCancelOrderVO apiCancelOrderVO = JSONObject.parseObject(jsonObject, ApiCancelOrderVO.class);
         System.out.println("success");
         System.out.println(apiCancelOrderVO.getOrder_id());
@@ -103,8 +105,8 @@ public class SwapTradeTest extends SwapBaseTest {
         //生成一个PpCancelOrderVO对象
         PpCancelOrderVO ppCancelOrderVO = new PpCancelOrderVO();
 
-        ppCancelOrderVO.getIds().add("432263999756091393");
-        ppCancelOrderVO.getIds().add("432263999764480001");
+        ppCancelOrderVO.getIds().add("483148167046414336");
+        ppCancelOrderVO.getIds().add("483148167054802944");
 
         System.out.println(JSONObject.toJSONString(ppCancelOrderVO));
         String jsonObject = tradeAPIService.cancelOrders("XRP-USDT-SWAP", ppCancelOrderVO);
@@ -117,8 +119,8 @@ public class SwapTradeTest extends SwapBaseTest {
         PpCancelOrderVO ppCancelOrderVO = new PpCancelOrderVO();
         List<String> oidlist = new ArrayList<String>();
 
-        oidlist.add("0212test5");
-        oidlist.add("");
+        oidlist.add("0422testswap3");
+        oidlist.add("0422testswap4");
         ppCancelOrderVO.setClientOids(oidlist);
 
         System.out.println(JSONObject.toJSONString(ppCancelOrderVO));
@@ -143,8 +145,9 @@ public class SwapTradeTest extends SwapBaseTest {
         swapOrderParam.setOrder_type("1");
         swapOrderParam.setSize("1");
         //止盈止损
-        swapOrderParam.setTrigger_price("0.27");
-        swapOrderParam.setAlgo_price("0.265");
+        swapOrderParam.setTrigger_price("0.17");
+        swapOrderParam.setAlgo_price("0.165");
+        swapOrderParam.setAlgo_type("");
         //跟踪委托
        /* swapOrderParam.setCallback_rate("");
         swapOrderParam.setTrigger_price("");*/
@@ -176,7 +179,7 @@ public class SwapTradeTest extends SwapBaseTest {
     public void testCancelOrderAlgo(){
         CancelOrderAlgo cancelOrderAlgo=new CancelOrderAlgo();
         List<String>  list = new ArrayList<>();
-        list.add("432267245241942016");
+        list.add("482967665054498816");
        // list.add("");
 
         cancelOrderAlgo.setAlgo_ids(list);
@@ -199,13 +202,42 @@ public class SwapTradeTest extends SwapBaseTest {
         System.out.println("begin to show the swapAlgpOrders");
         String jsonObject = tradeAPIService.getSwapOrders("XRP-USDT-SWAP",
                                                             "1",
-                                                            "",
-                                                            "432267245241942016",
-                                                            "",
-                                                            "",
-                                                            "20");
+                                                            "","482967665054498816","","","");
         System.out.println(jsonObject);
     }
+
+    /**
+     * 市价全平
+     * 市价全平接口，其中BTC合约持仓小于或等于999张时才能调用，否则报错；类似的，其他币种合约的持仓应该小于或等于9999张
+     * POST/api/swap/v3/close_position
+     * 限速规则：2次/2s
+     */
+    @Test
+    public void testClosePosition(){
+        ClosePosition closePosition = new ClosePosition();
+        closePosition.setInstrument_id("XRP-USDT-SWAP");
+        closePosition.setDirection("short");
+        String result = tradeAPIService.closePosition(closePosition);
+        System.out.println(result);
+
+    }
+
+    /**
+     * 撤销所有平仓挂单
+     * 此接口，仅支持撤销平仓的所有挂单。不包括开仓的挂单。
+     * POST /api/swap/v3/cancel_all
+     * 限速规则：5次/2s （根据underlying，分别限速）
+     */
+    @Test
+    public void testCancelAll(){
+        CancelAllParam cancelAllParam = new CancelAllParam();
+        cancelAllParam.setInstrument_id("XRP-USDT-SWAP");
+        cancelAllParam.setDirection("short");
+        String result = tradeAPIService.CancelAll(cancelAllParam);
+        System.out.println(result);
+
+    }
+
 
 
 }

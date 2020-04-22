@@ -40,18 +40,19 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
         final PlaceOrderParam order = new PlaceOrderParam();
 
         //公共参数
-        order.setClient_oid("20200121sell4");
-        order.setInstrument_id("BTC-USDT");
+        order.setClient_oid("testmargin1");
+        order.setInstrument_id("XRP-USDT");
         order.setType("limit");
         order.setSide("sell");
         order.setOrder_type("0");
         order.setMargin_trading("2");
         //限价委托
-        order.setPrice("10000");
-        order.setSize("0.001");
+        order.setPrice("0.19");
+        order.setSize("1");
 
-        //市价(买入必填<买入金额> 卖出必填size，卖出数量)
-        order.setNotional("");
+        //市价(买入必填notional<买入金额> 卖出必填size<卖出数量>)
+        //order.setNotional("1");
+        //order.setSize("0.001");
 
         final OrderResult orderResult = this.marginOrderAPIService.addOrder(order);
         this.toResultString(MarginOrderAPITest.LOG, "orders", orderResult);
@@ -67,32 +68,34 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
     public void batchAddOrder() {
         final PlaceOrderParam order = new PlaceOrderParam();
         //公共参数
-        order.setClient_oid("");
-        order.setInstrument_id("LTC-USDT");
+        order.setClient_oid("test1");
+        order.setInstrument_id("XRP-USDT");
         order.setType("limit");
-        order.setSide("buy");
-        order.setOrder_type("");
+        order.setSide("sell");
+        order.setOrder_type("0");
         order.setMargin_trading("2");
         //普通限价单
-        order.setPrice("40");
+        order.setPrice("0.19");
         order.setSize("1");
         //市价单(买入必填notional<买入金额> 卖出必填size<卖出数量>)
-        order.setNotional("");
+        //order.setNotional("");
 
 
         final PlaceOrderParam order1 = new PlaceOrderParam();
         //公共参数
-        order1.setClient_oid("201807s2802");
-        order1.setInstrument_id("LTC-USDT");
+        order1.setClient_oid("test2");
+        order1.setInstrument_id("BTC-USDT");
         order1.setType("limit");
-        order1.setSide("buy");
-        order.setOrder_type("");
+        order1.setSide("sell");
+        order.setOrder_type("0");
         order1.setMargin_trading("2");
+
         //普通限价单参数
-        order1.setPrice("35");
-        order1.setSize("1");
+        order1.setPrice("8000");
+        order1.setSize("0.001");
+
         //市价单(买入必填notional<买入金额> 卖出必填size<卖出数量>)
-        order.setNotional("");
+        //order.setNotional("");
 
         final List<PlaceOrderParam> list = new ArrayList<>();
         list.add(order);
@@ -112,7 +115,7 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
     public void cancleOrdersByOrderId() {
         PlaceOrderParam orderParam = new PlaceOrderParam();
         orderParam.setInstrument_id("BTC-USDT");
-        orderParam.setOrder_id("4250464400384000");
+        orderParam.setOrder_id("4766014724073472");
         final OrderResult orderResult = this.marginOrderAPIService.cancleOrdersByOrderId(orderParam,"4250464400384000" );
         this.toResultString(MarginOrderAPITest.LOG, "cancleOrder", orderResult);
     }
@@ -120,9 +123,8 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
     @Test
     public void cancleOrdersByClientOid() {
         PlaceOrderParam orderParam = new PlaceOrderParam();
-        orderParam.setInstrument_id("BTC-USDT");
-        orderParam.setClient_oid("20200121sell4");
-        final OrderResult orderResult = this.marginOrderAPIService.cancleOrdersByClientOid(orderParam, "20200121sell4");
+        orderParam.setInstrument_id("XRP-USDT");
+        final OrderResult orderResult = this.marginOrderAPIService.cancleOrdersByClientOid(orderParam, "test1");
         this.toResultString(MarginOrderAPITest.LOG, "cancleOrder", orderResult);
     }
 
@@ -190,13 +192,13 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getOrderByProductIdAndOrderId() {
-        final OrderInfo orderInfo = this.marginOrderAPIService.getOrderByProductIdAndOrderId("BTC-USDT", "");
+        final OrderInfo orderInfo = this.marginOrderAPIService.getOrderByProductIdAndOrderId("XRP-USDT", "4766014724073472");
         this.toResultString(MarginOrderAPITest.LOG, "orderInfo", orderInfo);
     }
 
     @Test
     public void getOrderByClientOid() {
-        final OrderInfo orderInfo = this.marginOrderAPIService.getOrderByClientOid("XRP-USDT","");
+        final OrderInfo orderInfo = this.marginOrderAPIService.getOrderByClientOid("testmargin1","XRP-USDT");
         this.toResultString(MarginOrderAPITest.LOG, "orderInfo", orderInfo);
     }
 
@@ -204,11 +206,11 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
      * 获取订单列表
      * 列出您当前所有的订单信息（本接口能查询最近100条订单信息）。这个请求支持分页，并且按委托时间倒序排序和存储，最新的排在最前面。
      * GET /api/margin/v3/orders
-     * 限速规则：20次/2s
+     * 限速规则：10次/2s
      */
     @Test
     public void getOrders() {
-        final List<OrderInfo> orderInfoList = this.marginOrderAPIService.getOrders("BTC-USDT", "2", null, null, "");
+        final List<OrderInfo> orderInfoList = this.marginOrderAPIService.getOrders("XRP-USDT", "-1", null, null, "");
         this.toResultString(MarginOrderAPITest.LOG, "orderInfoList", orderInfoList);
     }
 
@@ -217,10 +219,11 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
      * 列出您当前所有的订单信息。
      * 这个请求支持分页，并且按时间倒序排序和存储，最新的排在最前面。请参阅分页部分以获取第一页之后的其他纪录。
      * GET /api/margin/v3/orders_pending
+     * 限速规则：20次/2s
      */
     @Test
     public void getPendingOrders() {
-        final List<OrderInfo> orderInfoList = this.marginOrderAPIService.getPendingOrders("", "", "", "BTC-USDT");
+        final List<OrderInfo> orderInfoList = this.marginOrderAPIService.getPendingOrders("", "", "", "XRP-USDT");
         this.toResultString(MarginOrderAPITest.LOG, "orderInfoList", orderInfoList);
     }
 
@@ -229,7 +232,7 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
      * 获取最近的成交明细列表。这个请求支持分页，并且按时间倒序排序和存储，最新的排在最前面。
      * 请参阅分页部分以获取第一页之后的其他纪录。 本接口能查询最近3月的数据。
      * GET /api/margin/v3/fills
-     * 限速规则：20次/2s
+     * 限速规则：10次/2s
      */
     @Test
     public void getFills() {

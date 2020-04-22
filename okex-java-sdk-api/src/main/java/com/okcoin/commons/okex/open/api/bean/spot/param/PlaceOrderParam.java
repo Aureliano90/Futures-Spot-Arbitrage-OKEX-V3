@@ -61,7 +61,7 @@ public class PlaceOrderParam {
     /**
      * 来源（web app ios android）
      */
-    private Byte source = 0;
+    //private Byte source = 0;
     public String getOrder_id() {
         return order_id;
     }
@@ -131,13 +131,13 @@ public class PlaceOrderParam {
         this.notional = notional;
     }
 
-    public Byte getSource() {
+  /*  public Byte getSource() {
         return this.source;
     }
 
     public void setSource(final Byte source) {
         this.source = source;
-    }
+    }*/
 
 
 

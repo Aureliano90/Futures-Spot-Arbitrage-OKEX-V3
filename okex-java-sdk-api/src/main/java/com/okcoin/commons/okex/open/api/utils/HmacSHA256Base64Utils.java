@@ -45,6 +45,7 @@ public class HmacSHA256Base64Utils {
         if (StringUtils.isEmpty(secretKey) || StringUtils.isEmpty(method)) {
             return APIConstants.EMPTY;
         }
+
         String preHash = preHash(timestamp, method, requestPath, queryString, body);
         byte[] secretKeyBytes = secretKey.getBytes(CharsetEnum.UTF_8.charset());
         SecretKeySpec secretKeySpec = new SecretKeySpec(secretKeyBytes, AlgorithmEnum.HMAC_SHA256.algorithm());
@@ -71,9 +72,14 @@ public class HmacSHA256Base64Utils {
         preHash.append(timestamp);
         preHash.append(method.toUpperCase());
         preHash.append(requestPath);
+        //get方法
         if (StringUtils.isNotEmpty(queryString)) {
+            //在queryString前面拼接上？
             preHash.append(APIConstants.QUESTION).append(queryString);
+            //改动了
+            //preHash.append(queryString);
         }
+        //post方法
         if (StringUtils.isNotEmpty(body)) {
             preHash.append(body);
         }

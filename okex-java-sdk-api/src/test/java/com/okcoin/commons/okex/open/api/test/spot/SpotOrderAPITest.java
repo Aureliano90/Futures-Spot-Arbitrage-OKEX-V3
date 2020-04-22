@@ -36,23 +36,23 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void addOrder() {
+        final PlaceOrderParam order = new PlaceOrderParam();
+        order.setClient_oid("0422test1");
+        order.setInstrument_id("XRP-USDT");
+        order.setType("limit");
+        order.setSide("sell");
+        order.setOrder_type("0");
 
-            final PlaceOrderParam order = new PlaceOrderParam();
-            order.setClient_oid("20200212test1");
-            order.setInstrument_id("OKB-USDT");
-            order.setType("limit");
-            order.setSide("sell");
-            order.setOrder_type("0");
+        //限价单
+        order.setPrice("0.2");
+        order.setSize("1");
 
-            //限价单
-            order.setPrice("7");
-            order.setSize("1");
+        //市价单 买入金额必填notional，卖出必填size（卖出数量）
+        //order.setNotional("1");
+        //order.setSize("20");
 
-            //市价单 买入金额必填notional，卖出必填size（卖出数量）
-            order.setNotional("");
-
-            final OrderResult orderResult = this.spotOrderAPIServive.addOrder(order);
-            this.toResultString(SpotOrderAPITest.LOG, "orders", orderResult);
+        final OrderResult orderResult = this.spotOrderAPIServive.addOrder(order);
+        this.toResultString(SpotOrderAPITest.LOG, "orders", orderResult);
     }
 
     /**
@@ -66,25 +66,25 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
         final List<PlaceOrderParam> list = new ArrayList<>();
         final PlaceOrderParam order = new PlaceOrderParam();
         order.setClient_oid("CTTBTC1226TEST01");
-        order.setInstrument_id("BTC-USDT");
-        order.setPrice("7800");
+        order.setInstrument_id("XRP-USDT");
+        order.setPrice("0.19");
         order.setType("limit");
         order.setSide("sell");
-        order.setSize("0.001");
+        order.setSize("1");
         order.setOrder_type("0");
         list.add(order);
 
         final PlaceOrderParam order1 = new PlaceOrderParam();
         order1.setClient_oid("CTTBTC1226TEST02");
-        order1.setInstrument_id("BTC-USDT");
-        order1.setPrice("8000");
+        order1.setInstrument_id("XRP-USDT");
+        order1.setPrice("0.19");
         order1.setType("limit");
         order1.setSide("sell");
-        order1.setSize("0.001");
+        order1.setSize("1");
         order1.setOrder_type("0");
         list.add(order1);
 
-        final PlaceOrderParam order2 = new PlaceOrderParam();
+       /* final PlaceOrderParam order2 = new PlaceOrderParam();
         order2.setClient_oid("CTTXRP1226TEST01");
         order2.setInstrument_id("XRP-USDT");
         order2.setPrice("0.21");
@@ -102,7 +102,7 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
         order3.setSide("sell");
         order3.setSize("1");
         order3.setOrder_type("0");
-        list.add(order3);
+        list.add(order3);*/
 
 
 
@@ -119,16 +119,16 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
     @Test
     public void cancleOrderByOrderId_post() {
         final PlaceOrderParam order = new PlaceOrderParam();
-        order.setInstrument_id("OKB-USDT");
-        final OrderResult orderResult = this.spotOrderAPIServive.cancleOrderByOrderId_post(order, "4373507305379840");
+        order.setInstrument_id("XRP-USDT");
+        final OrderResult orderResult = this.spotOrderAPIServive.cancleOrderByOrderId_post(order, "4772154574397440");
         this.toResultString(SpotOrderAPITest.LOG, "cancleOrder", orderResult);
     }
 
     @Test
     public void cancleOrderByClientOid_post() {
         final PlaceOrderParam order = new PlaceOrderParam();
-        order.setInstrument_id("OKB-USDT");
-        final OrderResult orderResult = this.spotOrderAPIServive.cancleOrderByClientOid(order, "20200211test1");
+        order.setInstrument_id("XRP-USDT");
+        final OrderResult orderResult = this.spotOrderAPIServive.cancleOrderByClientOid(order, "testspot1");
         this.toResultString(SpotOrderAPITest.LOG, "cancleOrder", orderResult);
     }
 
@@ -146,20 +146,20 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
         final OrderParamDto dto = new OrderParamDto();
         dto.setInstrument_id("BTC-USDT");
         final List<String> order_ids = new ArrayList<>();
-        order_ids.add("4096139176250368");
-        order_ids.add("4096139176250369");
+        order_ids.add("4585322868184070");
+        //order_ids.add("");
 
         dto.setOrder_ids(order_ids);
         cancleOrders.add(dto);
 
-        final OrderParamDto dto1 = new OrderParamDto();
+        /*final OrderParamDto dto1 = new OrderParamDto();
         dto1.setInstrument_id("XRP-USDT");
         final List<String> order_ids1 = new ArrayList<>();
         order_ids1.add("4096139176250370");
         order_ids1.add("4096139176250371");
 
         dto1.setOrder_ids(order_ids1);
-        cancleOrders.add(dto1);
+        cancleOrders.add(dto1);*/
 
         final Map<String, Object> orderResult = this.spotOrderAPIServive.cancleOrders_post(cancleOrders);
         this.toResultString(SpotOrderAPITest.LOG, "cancleOrders", orderResult);
@@ -171,14 +171,14 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
         List<OrderParamDto> list = new ArrayList<>();
 
         OrderParamDto param1 = new OrderParamDto();
-        param1.setInstrument_id("BTC-USDT");
+        param1.setInstrument_id("XRP-USDT");
         List<String> client_oid = new ArrayList<>();
         client_oid.add("CTTBTC1226TEST01");
         client_oid.add("CTTBTC1226TEST02");
         param1.setClient_oids(client_oid);
         list.add(param1);
 
-        OrderParamDto param2 = new OrderParamDto();
+        /*OrderParamDto param2 = new OrderParamDto();
         param2.setInstrument_id("XRP-USDT");
         List<String> client_oid1 = new ArrayList<>();
         client_oid1.add("CTTXRP1226TEST01");
@@ -186,7 +186,7 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
 
         param2.setClient_oids(client_oid1);
 
-        list.add(param2);
+        list.add(param2);*/
 
         final Map<String, Object> orderResult = this.spotOrderAPIServive.batch_orderCle(list);
         this.toResultString(SpotOrderAPITest.LOG, "cancleOrders", orderResult);
@@ -201,13 +201,13 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getOrderByOrderId() {
-        final OrderInfo orderInfo = this.spotOrderAPIServive.getOrderByOrderId("OKB-USDT", "4373507305379840");
+        final OrderInfo orderInfo = this.spotOrderAPIServive.getOrderByOrderId("XRP-USDT", "4765535439447040");
         this.toResultString(SpotOrderAPITest.LOG, "orderInfo", orderInfo);
     }
 
     @Test
     public void getOrderByClientOid() {
-        final OrderInfo orderInfo = this.spotOrderAPIServive.getOrderByClientOid("OKB-USDT","20200211test1");
+        final OrderInfo orderInfo = this.spotOrderAPIServive.getOrderByClientOid("XRP-USDT","testspot1");
         this.toResultString(SpotOrderAPITest.LOG, "orderInfo", orderInfo);
     }
 
@@ -216,11 +216,11 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
      * 列出您当前的订单信息（本接口能查询最近3个月订单信息）。
      * 这个请求支持分页，并且按委托时间倒序排序和存储，最新的排在最前面。
      * GET /api/spot/v3/orders
-     * 限速规则：20次/2s
+     * 限速规则：10次/2s
      */
     @Test
     public void getOrders() {
-        final List<OrderInfo> orderInfoList = this.spotOrderAPIServive.getOrders("OKB-USDT", "2", "", "", "10");
+        final List<OrderInfo> orderInfoList = this.spotOrderAPIServive.getOrders("XRP-USDT", "0", "", "", "");
             this.toResultString(SpotOrderAPITest.LOG, "orderInfoList", orderInfoList);
     }
 
@@ -233,7 +233,7 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getPendingOrders() {
-        final List<PendingOrdersInfo> orderInfoList = this.spotOrderAPIServive.getPendingOrders("", "", "", "OKB-USDT");
+        final List<PendingOrdersInfo> orderInfoList = this.spotOrderAPIServive.getPendingOrders("", "", "", "XRP-USDT");
         this.toResultString(SpotOrderAPITest.LOG, "orderInfoList", orderInfoList);
     }
 
@@ -241,11 +241,11 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
      * 获取成交明细
      * 获取最近的成交明细表。这个请求支持分页，并且按成交时间倒序排序和存储，最新的排在最前面。
      * 请参阅分页部分以获取第一页之后的其他记录。 本接口能查询最近3月的数据。
-     * 限速规则：20次/2s
+     * 限速规则：10次/2s
      */
     @Test
     public void getFills() {
-        final List<Fills> fillsList = this.spotOrderAPIServive.getFills("", "OKB-USDT", "", "", "");
+        final List<Fills> fillsList = this.spotOrderAPIServive.getFills("", "XRP-USDT", "", "", "");
         this.toResultString(SpotOrderAPITest.LOG, "fillsList", fillsList);
     }
 
@@ -259,15 +259,16 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
     public void addorder_algo(){
             final OrderAlgoParam order = new OrderAlgoParam();
            //公共参数
-            order.setInstrument_id("OKB-USDT");
-            order.setMode("1");
+            order.setInstrument_id("XRP-USDT");
+            order.setMode("2");
             order.setOrder_type("1");
             order.setSize("1");
-            order.setSide("sell");
+            order.setSide("buy");
 
             //止盈止损参数
-            order.setTrigger_price("7.2");
-            order.setAlgo_price("7.5");
+            order.setTrigger_price("0.1800");
+            order.setAlgo_price("0.17");
+            order.setAlgo_type("2");
 
            //跟踪委托
             /*order.setCallback_rate("0.01");
@@ -300,9 +301,6 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
     @Test
     public void cancelOrder_algo(){
         final OrderAlgoParam orderAlgoParam = new OrderAlgoParam();
-        /*List<String> list = new ArrayList<String>();
-        list.add("478165");
-        list.add("478166");*/
         String ids[]={"606431","606438"};
         orderAlgoParam.setInstrument_id("OKB-USDT");
         orderAlgoParam.setOrder_type("1");
@@ -322,11 +320,11 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getAlgOrder(){
-        final String findAlgOrderResults=this.spotOrderAPIServive.getAlgoOrder("OKB-USDT",
+        final String findAlgOrderResults=this.spotOrderAPIServive.getAlgoOrder("XRP-USDT",
                         "1",
                         "1",
                         "",
-                        "","","20");
+                        "","","");
                 this.toResultString(SpotOrderAPITest.LOG, "findAlgOrderResults", findAlgOrderResults);
 
     }

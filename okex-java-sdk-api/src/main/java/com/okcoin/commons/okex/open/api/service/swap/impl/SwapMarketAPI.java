@@ -49,4 +49,6 @@ public interface SwapMarketAPI {
     @GET("/api/swap/v3/instruments/{instrument_id}/mark_price")
     Call<String> getMarkPriceApi(@Path("instrument_id") String instrument_id);
 
+
+
 }

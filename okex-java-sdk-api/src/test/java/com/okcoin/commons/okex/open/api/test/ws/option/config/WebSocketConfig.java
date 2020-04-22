@@ -9,7 +9,7 @@ package com.okcoin.commons.okex.open.api.test.ws.option.config;
  */
 public class WebSocketConfig {
     // okex webSocket url
-    private static final String SERVICE_URL = "wss://real.okex.com:8443/ws/v3?_compress=false";
+    private static final String SERVICE_URL = "wss://real.okex.com:8443/ws/v3";
     // api key
     private static final String API_KEY = "";
     private static final String SECRET_KEY = "";

@@ -34,7 +34,7 @@ public class PpOrder {
     public PpOrder() {
     }
 
-    public PpOrder(String client_oid, String size, String type, String match_price, String price, String instrument_id, String order_type) {
+    public PpOrder(String client_oid, String size, String type, String match_price, String price,String instrument_id, String order_type) {
         this.client_oid = client_oid;
         this.size = size;
         this.type = type;

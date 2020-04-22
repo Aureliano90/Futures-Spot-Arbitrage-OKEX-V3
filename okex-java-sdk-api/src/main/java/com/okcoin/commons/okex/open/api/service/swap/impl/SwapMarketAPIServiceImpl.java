@@ -178,4 +178,6 @@ public class SwapMarketAPIServiceImpl implements SwapMarketAPIService {
     public String getMarkPriceApi(String instrument_id) {
         return client.executeSync(api.getMarkPriceApi(instrument_id));
     }
+
+
 }

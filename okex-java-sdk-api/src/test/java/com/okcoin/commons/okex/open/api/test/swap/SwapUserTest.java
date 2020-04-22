@@ -26,7 +26,7 @@ public class SwapUserTest extends SwapBaseTest {
     /**
      *所有合约持仓信息
      * GET /api/swap/v3/position
-     * 限速规则：20次/2s
+     * 限速规则：1次/10s
      */
     @Test
     public void testGetPositions(){
@@ -42,7 +42,7 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void getPosition() {
-        String jsonObject = swapUserAPIServive.getPosition("BTC-USD-SWAP");
+        String jsonObject = swapUserAPIServive.getPosition("XRP-USDT-SWAP");
         ApiPositionsVO apiPositionsVO = JSONObject.parseObject(jsonObject, ApiPositionsVO.class);
         System.out.println("success");
         apiPositionsVO.getHolding().forEach(vp -> System.out.println(apiPositionsVO.getMargin_mode()));
@@ -85,7 +85,7 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void selectContractSettings() {
-        String jsonObject = swapUserAPIServive.selectContractSettings("BTC-USD-SWAP");
+        String jsonObject = swapUserAPIServive.selectContractSettings("XRP-USDT-SWAP");
         ApiUserRiskVO apiUserRiskVO = JSONObject.parseObject(jsonObject, ApiUserRiskVO.class);
         System.out.println("success");
         System.out.println(apiUserRiskVO.getInstrument_id());
@@ -100,8 +100,8 @@ public class SwapUserTest extends SwapBaseTest {
     public void updateLevelRate() {
         LevelRateParam levelRateParam = new LevelRateParam();
         levelRateParam.setLeverage("25");
-        levelRateParam.setSide("1");
-        String jsonObject = swapUserAPIServive.updateLevelRate("BTC-USD-SWAP", levelRateParam);
+        levelRateParam.setSide("3");
+        String jsonObject = swapUserAPIServive.updateLevelRate("BTC-USDT-SWAP", levelRateParam);
         ApiUserRiskVO apiUserRiskVO = JSONObject.parseObject(jsonObject, ApiUserRiskVO.class);
         System.out.println("success");
         System.out.println(apiUserRiskVO.getInstrument_id());
@@ -116,28 +116,28 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void selectOrders() {
-        String jsonObject = swapUserAPIServive.selectOrders("BTC-USD-SWAP", "2", "", "", "20");
+        String jsonObject = swapUserAPIServive.selectOrders("XRP-USDT-SWAP", "2", "", "", "");
         System.out.println("success");
         System.out.println(jsonObject);
     }
 
     /**
      * 获取订单信息
-     * 通过订单id获取单个订单信息。本接口只能查询最近3个月的已成交和已撤销订单信息。
+     * 通过订单id获取单个订单信息。
      * 已撤销的未成交单只保留2个小时。
      * GET /api/swap/v3/orders/<instrument_id>/<order_id>
-     * 限速规则：40次/2s
+     * 限速规则：10次/2s
      */
     @Test
     public void selectOrderByOrderId() {
-        String jsonObject = swapUserAPIServive.selectOrderByOrderId("XRP-USDT-SWAP", "411935092828454912");
+        String jsonObject = swapUserAPIServive.selectOrderByOrderId("XRP-USDT-SWAP", "482933952447430656");
         System.out.println("success");
         System.out.println(jsonObject);
     }
 
     @Test
     public void selectOrderByClientOid() {
-        String jsonObject = swapUserAPIServive.selectOrderByClientOid("BTC-USDT-SWAP", "ctt1216testswap04");
+        String jsonObject = swapUserAPIServive.selectOrderByClientOid("XRP-USDT-SWAP", "testswap1");
         System.out.println("success");
         System.out.println(jsonObject);
     }
@@ -146,11 +146,11 @@ public class SwapUserTest extends SwapBaseTest {
      * 获取成交明细
      * 获取最近的成交明细列表，本接口能查询最近7天的数据。
      * GET /api/swap/v3/fills
-     * 限速规则：20次/2s
+     * 限速规则：10次/2s
      */
     @Test
     public void selectDealDetail(){
-        String jsonArray = swapUserAPIServive.selectDealDetail("XRP-USDT-SWAP","411935092828454912","","","");
+        String jsonArray = swapUserAPIServive.selectDealDetail("XRP-USDT-SWAP","","","","");
         if(jsonArray.startsWith("{")){
             System.out.println(jsonArray);
         }
@@ -169,7 +169,7 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void getLedger() {
-        String jsonArray = swapUserAPIServive.getLedger("XRP-USDT-SWAP", "", "", "30","");
+        String jsonArray = swapUserAPIServive.getLedger("XRP-USDT-SWAP", "", "", "","");
         System.out.println("success");
         System.out.println(jsonArray);
     }
@@ -181,11 +181,16 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void getHolds() {
-        String jsonObject = swapUserAPIServive.getHolds("BTC-USD-SWAP");
+        String jsonObject = swapUserAPIServive.getHolds("XRP-USDT-SWAP");
         System.out.println("success");
         System.out.println(jsonObject);
     }
-    //获取手续费等级费率
+
+    /**
+     * 获取手续费等级费率
+     * GET/api/swap/v3/trade_fee
+     * 限速规则：5次/2s
+     */
     @Test
     public void TestGetTradeFee(){
         String result = swapUserAPIServive.getTradeFee();

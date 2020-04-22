@@ -122,5 +122,7 @@ public interface FuturesMarketAPIService {
      */
     JSONObject getMarkPrice(String instrument_id);
 
+    JSONArray getSettlementHistory (String instrument_id,String start,String limit,String end);
+
 
 }

@@ -64,8 +64,8 @@ public class MarginOrderAPIServiceImpl implements MarginOrderAPIService {
     }
 
     @Override
-    public OrderInfo getOrderByClientOid(String instrument_id, String client_oid) {
-        return client.executeSync(this.marginOrderAPI.getOrderByClientOid(instrument_id,client_oid));
+    public OrderInfo getOrderByClientOid(String client_oid,String instrument_id) {
+        return client.executeSync(this.marginOrderAPI.getOrderByClientOid(client_oid,instrument_id));
     }
 
     @Override

@@ -34,6 +34,16 @@ public class OrderAlgoParam {
      * 委托价格，填写值0\<X\<=1000000
      */
     private String algo_price;
+
+    public String getAlgo_type() {
+        return algo_type;
+    }
+
+    public void setAlgo_type(String algo_type) {
+        this.algo_type = algo_type;
+    }
+
+    private String algo_type;
     //跟踪委托参数
     /**
      * 	回调幅度，填写值0.001（0.1%）\<=X\<=0.05（5%）

@@ -8,7 +8,6 @@ import com.okcoin.commons.okex.open.api.service.swap.impl.SwapMarketAPIServiceIm
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 public class SwapMarketTest extends SwapBaseTest {
@@ -48,7 +47,7 @@ public class SwapMarketTest extends SwapBaseTest {
     @Test
     public void getDepthApi() {
         //size控制深度档位
-        String depthApi = swapMarketAPIService.getDepthApi("BTC-USD-SWAP", "5","");
+        String depthApi = swapMarketAPIService.getDepthApi("BTC-USDT-SWAP", "50","1");
         DepthVO depthVO = JSONObject.parseObject(depthApi, DepthVO.class);
         //System.out.println(depthVO.getAsks().toString());
     }
@@ -79,7 +78,7 @@ public class SwapMarketTest extends SwapBaseTest {
      */
     @Test
     public void getTickerApi() {
-        String tickerApi = swapMarketAPIService.getTickerApi("BTC-USDT-SWAP");
+        String tickerApi = swapMarketAPIService.getTickerApi("XRP-USDT-SWAP");
         ApiTickerVO apiTickerVO = JSONObject.parseObject(tickerApi, ApiTickerVO.class);
         System.out.println(tickerApi);
         System.out.println(apiTickerVO.getInstrument_id());
@@ -110,11 +109,11 @@ public class SwapMarketTest extends SwapBaseTest {
      */
     @Test
     public void getCandlesApi() {
-        //String start = "2019-03-24T02:31:00.000Z";
-        //String end = "2019-10-10T05:19:00.000Z";
-        String start = "";
-        String end = "";
-        String candlesApi = swapMarketAPIService.getCandlesApi("BSV-USD-SWAP", start, end, "60");
+        String start = "2020-04-20T14:00:00.000Z";
+        String end = "2020-04-21T04:00:00.000Z";
+        /*String start = "";
+        String end = "";*/
+        String candlesApi = swapMarketAPIService.getCandlesApi("BTC-USDT-SWAP", start, end, "300");
        String[] candleSize=candlesApi.split("],");
 
         System.out.println("------------------------"+candleSize.length);
@@ -185,7 +184,7 @@ public class SwapMarketTest extends SwapBaseTest {
      */
     @Test
     public void getLiquidationApi() {
-        String liquidationApi = swapMarketAPIService.getLiquidationApi("XRP-USDT-SWAP", "1", "1", "", "10");
+        String liquidationApi = swapMarketAPIService.getLiquidationApi("XRP-USDT-SWAP", "1", "", "", "");
         if (liquidationApi.startsWith("{")) {
             System.out.println(liquidationApi);
         } else {
@@ -213,9 +212,9 @@ public class SwapMarketTest extends SwapBaseTest {
      */
     @Test
     public void getMarkPriceApi() {
-        String markPriceApi = swapMarketAPIService.getMarkPriceApi("XRP-USDT-SWAP");
+        String markPriceApi = swapMarketAPIService.getMarkPriceApi("EOS-USD-SWAP");
         ApiMarkPriceVO apiMarkPriceVO = JSONObject.parseObject(markPriceApi, ApiMarkPriceVO.class);
-        System.out.println(apiMarkPriceVO.getInstrument_id());
+        //System.out.println(apiMarkPriceVO.getInstrument_id());
     }
 
     /**
@@ -233,7 +232,5 @@ public class SwapMarketTest extends SwapBaseTest {
            // apiFundingRateVOS.forEach(vo -> System.out.println(vo.getFunding_rate()));
         }
     }
-
-
 
 }

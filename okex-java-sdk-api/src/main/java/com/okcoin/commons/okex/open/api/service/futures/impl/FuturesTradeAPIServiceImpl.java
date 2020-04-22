@@ -162,13 +162,23 @@ public class FuturesTradeAPIServiceImpl implements FuturesTradeAPIService {
     }
 
     @Override
-    public String findFuturesOrder(String instrument_id, String order_type, String status, String algo_ids, String after, String before, String limit) {
+    public String findFuturesOrder(String instrument_id, String order_type,String status,String algo_ids, String after, String before, String limit) {
         return this.client.executeSync(this.api.findFuturesOrder(instrument_id,order_type,status,algo_ids,after,before,limit));
     }
 
     @Override
     public JSONObject getTradeFee() {
         return this.client.executeSync(this.api.getTradeFee());
+    }
+
+    @Override
+    public JSONObject modifyMargin(ModifyMarginParam modifyMarginParam) {
+        return this.client.executeSync(this.api.modifyMargin(modifyMarginParam));
+    }
+
+    @Override
+    public JSONObject modifyFixedMargin(ModifyFixedMargin modifyFixedMargin) {
+        return this.client.executeSync(this.api.modifyFixedMargin(modifyFixedMargin));
     }
 
     @Override

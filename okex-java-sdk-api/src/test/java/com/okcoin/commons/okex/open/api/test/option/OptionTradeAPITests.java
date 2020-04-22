@@ -38,7 +38,7 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
      * **/
     @Test
     public void testGetPosition(){
-        JSONObject result = tradeAPIService.getPosition("BTC-USD","BTC-USD-200327-7000-P");
+        JSONObject result = tradeAPIService.getPosition("BTC-USD","BTC-USD-200925-7000-C");
         toResultString(LOG,"result",result);
     }
 
@@ -66,8 +66,8 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
     @Test
     public void testGetOrder(){
         OrderParam param = new OrderParam();
-        param.setClient_oid("cttoption0212teset1");
-        param.setInstrument_id("BTC-USD-200327-7000-C");
+        param.setClient_oid("optionteset1");
+        param.setInstrument_id("BTC-USD-200925-7000-C");
         param.setPrice("0.0015");
         param.setSide("buy");
         param.setSize("1");
@@ -92,8 +92,8 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
         orderDataParam.setUnderlying("BTC-USD");
 
         OrderParam orderParam = new OrderParam();
-        orderParam.setClient_oid("cttoption1212testttc5");
-        orderParam.setInstrument_id("BTC-USD-200327-7500-C");
+        orderParam.setClient_oid("");
+        orderParam.setInstrument_id("BTC-USD-200925-7500-C");
         orderParam.setPrice("0.0005");
         orderParam.setSize("1");
         orderParam.setSide("buy");
@@ -101,8 +101,8 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
         orderParam.setOrder_type("0");
 
         OrderParam orderParam1 = new OrderParam();
-        orderParam1.setClient_oid("cttoption1212testttc6");
-        orderParam1.setInstrument_id("BTC-USD-200327-7500-C");
+        orderParam1.setClient_oid("");
+        orderParam1.setInstrument_id("BTC-USD-2000925-7500-C");
         orderParam1.setPrice("0.001");
         orderParam1.setSize("1");
         orderParam1.setSide("buy");
@@ -136,7 +136,7 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
     //根据client_oid撤单
     @Test
     public void testCancelOrdersByClientOid(){
-        JSONObject result = tradeAPIService.cancelOrderByClientOid("BTC-USD","cttoption0212teset1");
+        JSONObject result = tradeAPIService.cancelOrderByClientOid("BTC-USD","option0925teset1");
         toResultString(LOG,"result",result);
     }
     /***
@@ -184,7 +184,7 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
         amentDate.setNew_price("0.001");*/
 
         //根据client_oid进行修改
-        amentDate.setClient_oid("cttoption0212teset1");
+        amentDate.setClient_oid("");
         amentDate.setNew_size("2");
         amentDate.setNew_price("0.0005");
 
@@ -209,7 +209,7 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
         /*amentDate.setOrder_id("158444945847922688");
         amentDate.setNew_size("2");*/
         //根据client_oid撤单
-        amentDate.setClient_oid("cttoption1212testttc5");
+        amentDate.setClient_oid("");
         amentDate.setNew_size("1");
         amentDate.setNew_price("0.001");
 
@@ -218,7 +218,7 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
         /*amentDate1.setOrder_id("158444945847922689");
         amentDate1.setNew_size("2");*/
         //根据client_oid撤单
-        amentDate1.setClient_oid("cttoption1212testttc6");
+        amentDate1.setClient_oid("");
         amentDate1.setNew_size("2");
         amentDate1.setNew_price("0.001");
 
@@ -263,7 +263,6 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
      * GET /api/option/v3/orders/<underlying>
      *
      * */
-    //获取订单列表
     @Test
     public void testGetOrderList(){
         JSONObject result = tradeAPIService.getOrderList("BTC-USD","0","BTC-USD-200327-7000-P","","","");
@@ -278,7 +277,6 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
      * HTTP请求
      * GET /api/option/v3/fills/<underlying>
      * **/
-    //获取成交明细
     @Test
     public void testGetFills(){
         JSONArray result = tradeAPIService.getFills("BTC-USD","","","","","");
@@ -293,7 +291,6 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
      * HTTP请求
      * GET /api/option/v3/accounts/<underlying>/ledger
      * */
-    //账单流水查询
     @Test
     public void testGetLedger(){
         JSONArray result = tradeAPIService.getLedger("BTC-USD");
@@ -308,7 +305,6 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
      * HTTP请求
      * GET /api/option/v3/trade_fee
      * */
-    //获取当前账户交易等级对应的手续费费率
     @Test
     public void testGetTradeFee(){
         JSONObject result = tradeAPIService.getTradeFee();

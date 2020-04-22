@@ -63,14 +63,8 @@ public class SpotProductAPIServiceImpl implements SpotProductAPIService {
         return this.client.executeSync(this.spotProductAPI.getCandles_1(product, granularity, start, end));
     }
 
-    @Override
-    public String getIndex(String instrument_id) {
-        return this.client.executeSync(this.spotProductAPI.getIndex(instrument_id));
-    }
 
-    @Override
-    public String getMarginMarkPrice(String instrument_id) {
-        return this.client.executeSync(this.spotProductAPI.getMarginMarkPrice(instrument_id));
-    }
+
+
 
 }

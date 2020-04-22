@@ -97,5 +97,10 @@ public class FuturesMarketAPIServiceImpl implements FuturesMarketAPIService {
         return this.client.executeSync(this.api.getMarkPrice(instrumentId));
     }
 
+    @Override
+    public JSONArray getSettlementHistory(String instrument_id, String start, String limit, String end) {
+        return this.client.executeSync(this.api.getSettlementHistory(instrument_id,start,limit,end));
+    }
+
 
 }

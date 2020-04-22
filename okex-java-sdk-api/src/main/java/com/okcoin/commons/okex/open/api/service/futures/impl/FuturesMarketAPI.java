@@ -69,5 +69,11 @@ interface FuturesMarketAPI {
     @GET("/api/futures/v3/instruments/{instrument_id}/mark_price")
     Call<JSONObject> getMarkPrice(@Path("instrument_id") String instrument_id);
 
+    @GET("/api/futures/v3/settlement/history")
+    Call<JSONArray> getSettlementHistory(@Query("instrument_id") String instrument_id,
+                                          @Query("start") String start,
+                                          @Query("limit") String limit,
+                                          @Query("end") String end);
+
 
 }

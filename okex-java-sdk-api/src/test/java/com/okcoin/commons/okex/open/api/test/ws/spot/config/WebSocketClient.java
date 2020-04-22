@@ -154,6 +154,8 @@ public class WebSocketClient {
              */
             @Override
             public void onMessage(final WebSocket webSocket, final ByteString bytes) {
+                //打印解压前的数据
+               /* System.out.println("________"+bytes.toString());*/
                 //解压返回的数据
                 final String s = WebSocketClient.uncompress(bytes.toByteArray());
                 //判断是否是深度接口

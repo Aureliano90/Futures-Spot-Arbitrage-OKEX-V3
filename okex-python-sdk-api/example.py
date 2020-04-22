@@ -218,7 +218,7 @@ if __name__ == '__main__':
     # 委托策略下单 （40次/2s）
     # result = futureAPI.take_order_algo('', '', '', '', trigger_price='', algo_price='', algo_type='')
     # 委托策略撤单 （20次/2s）
-    # result = futureAPI.cancel_algos('', [''], '')
+    result = futureAPI.cancel_algos('BTC-USDT-200626', ['239946'], '1')
     # 获取委托单列表 （20次/2s）
     # result = futureAPI.get_order_algos('', '', status='')
     # 获取当前手续费费率 （1次/10s）
@@ -226,7 +226,7 @@ if __name__ == '__main__':
     # 增加/减少保证金 （5次/2s）
     # result = futureAPI.change_margin('', '', '', '')
     # 设置逐仓自动增加保证金（5次/2s）
-    # result = futureAPI.set_auto_margin('', '')
+    #result = futureAPI.set_auto_margin('', '')
     # 公共-获取合约信息 （20次/2s）
     # result = futureAPI.get_products()
     # 公共-获取深度数据 （20次/2s）

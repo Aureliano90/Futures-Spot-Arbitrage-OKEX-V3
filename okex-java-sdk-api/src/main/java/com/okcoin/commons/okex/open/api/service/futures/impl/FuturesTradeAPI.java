@@ -2,8 +2,9 @@ package com.okcoin.commons.okex.open.api.service.futures.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.okcoin.commons.okex.open.api.bean.futures.param.CancelFuturesOrder;
-import com.okcoin.commons.okex.open.api.bean.futures.param.FindOrderParam;
+import com.okcoin.commons.okex.open.api.bean.futures.param.ModifyFixedMargin;
+import com.okcoin.commons.okex.open.api.bean.futures.param.ModifyMarginParam;
+import com.okcoin.commons.okex.open.api.bean.futures.result.CancelFuturesOrder;
 import com.okcoin.commons.okex.open.api.bean.futures.param.FuturesOrderParam;
 import com.okcoin.commons.okex.open.api.bean.futures.result.*;
 import retrofit2.Call;
@@ -27,7 +28,7 @@ interface FuturesTradeAPI {
     @GET("/api/futures/v3/accounts")
     Call<JSONObject> getAccounts();
 
-    //@GET("/api/futures/v3/accounts/{currency}")
+
     @GET("/api/futures/v3/accounts/{underlying}")
     Call<JSONObject> getAccountsByCurrency(@Path("underlying") String underlying);
     //账单流水查询
@@ -101,7 +102,7 @@ interface FuturesTradeAPI {
     Call<FuturesOrderResult> futuresOrder(@Body FuturesOrderParam futuresOrderParam);
     @POST("api/futures/v3/cancel_algos")
     Call<CancelFuturesOrdeResult> cancelFuturesOrder(@Body CancelFuturesOrder cancelFuturesOrder);
-    //获取委托单列表
+    //获取委托单列表@Query("status") String status,
     @GET("api/futures/v3/order_algo/{instrument_id}")
     Call<String> findFuturesOrder(@Path("instrument_id") String instrument_id,
                                       @Query("order_type") String order_type,
@@ -117,4 +118,13 @@ interface FuturesTradeAPI {
 
     @GET("/api/futures/v3/accounts/{instrument_id}/holds")
     Call<Holds> getHolds(@Path("instrument_id") String instrument_id);
+
+    //增加/减少保证金
+    @POST("/api/futures/v3/position/margin")
+    Call<JSONObject> modifyMargin(@Body ModifyMarginParam modifyMarginParam);
+
+    //设置逐仓自动追加保证金
+    @POST("/api/futures/v3/accounts/auto_margin")
+    Call<JSONObject> modifyFixedMargin(@Body ModifyFixedMargin modifyFixedMargin);
+
 }

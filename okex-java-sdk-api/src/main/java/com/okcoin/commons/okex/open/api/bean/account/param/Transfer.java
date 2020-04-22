@@ -12,6 +12,16 @@ public class Transfer {
     private String instrument_id;
     private String to_instrument_id;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    private String type;
+
     public String getTo_instrument_id() {
         return to_instrument_id;
     }

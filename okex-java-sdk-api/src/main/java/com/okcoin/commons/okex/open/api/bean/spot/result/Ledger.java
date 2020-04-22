@@ -10,6 +10,26 @@ public class Ledger {
     private Details details;
     private String timestamp;
 
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    private String from;
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+
+    private String to;
+
     public Long getLedger_id() {
         return this.ledger_id;
     }
