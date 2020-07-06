@@ -71,18 +71,19 @@ public class SpotOrderBook {
     public SpotOrderBookDiff diff(SpotOrderBook that) {
         System.out.println("全量数据："+this.toString());
         System.out.println("增量数据："+that.toString());
+        //深度合并 添加参数 order: 1正向排序  2反向排序   20200507
         //深度合并ask
-        final List<SpotOrderBookItem> askDiff = this.diff(this.getAsks(), that.getAsks(), Comparator.naturalOrder());
+        final List<SpotOrderBookItem> askDiff = this.diff(this.getAsks(), that.getAsks(), Comparator.naturalOrder(),1);
         //深度合并bid
-        final List<SpotOrderBookItem> bidDiff = this.diff(this.getBids(), that.getBids(), Comparator.reverseOrder());
+        final List<SpotOrderBookItem> bidDiff = this.diff(this.getBids(), that.getBids(), Comparator.reverseOrder(),2);
         //根据ask和bid创建合并后的对象
         return new SpotOrderBookDiff(this.contract, askDiff, bidDiff, that.timestamp, that.checksum);
     }
 
-    //深度合并，返回深度合并后的内容current为现有的数据，snapshot为快照增量的数据
+    //深度合并，返回深度合并后的内容current为现有的数据，snapshot为快照增量的数据  test20200507
     private List<SpotOrderBookItem> diff(final List<SpotOrderBookItem> current, final List<SpotOrderBookItem> snapshot,
-        final Comparator<String> comparator) {
-        return differ.diff(current, snapshot, comparator);
+        final Comparator<String> comparator,int order) {
+        return differ.diff(current, snapshot, comparator,order);
     }
 
     @Override

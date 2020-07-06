@@ -56,8 +56,10 @@ public class OrderBookDiffer {
 
     }*/
 
+    //20200507 添加参数 order:  1正向排序  2反向排序
     public <T extends OrderBookItem> List<T> diff(List<T> current, List<T> snapshot,
-                                                  final Comparator<String> comparator) {
+                                                      final Comparator<String> comparator,int order) {
+
         //增量的数组
         final Iterator<T> snapshotIter = snapshot.iterator();
         //现有全量的数据
@@ -74,8 +76,15 @@ public class OrderBookDiffer {
 
 
             for (;;) {
-                final int compare = comparator.compare(snapshotBookItem.getPrice(), currentBookItem.getPrice());
-                //final int compare = comparator.compare(spotOrderBookItems[0], currentBookItems[0]);
+//                final int compare = comparator.compare(snapshotBookItem.getPrice(), currentBookItem.getPrice());
+                    double currentPrc = Double.parseDouble(currentBookItem.getPrice());
+                    double snapPrc = Double.parseDouble(snapshotBookItem.getPrice());
+                    int compare = 0;
+                    if((order==1&&snapPrc > currentPrc)||(order==2&&snapPrc<currentPrc)) //增>全
+                        compare = 1;
+                    else if((order==1&&snapPrc < currentPrc)||(order==2&&snapPrc>currentPrc))//增<全
+                        compare = -1;
+
                 //价格相等时候
                 if (compare == 0) {
                     if (!snapshotBookItem.equals(currentBookItem)) {
