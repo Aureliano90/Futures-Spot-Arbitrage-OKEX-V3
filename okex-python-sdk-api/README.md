@@ -1,10 +1,10 @@
-###如何使用？
+### 如何使用？
 
 `python版本：3.6+`
 
 `WebSocketAPI：建议websockets库版本为6.0`
 
-####第一步：下载SDK，安装相关所需库
+#### 第一步：下载SDK，安装相关所需库
 
 1.1 下载`python SDK`
 * 将SDK目录`Clone`或者`Download`到本地，选择使用`okex-python-sdk-api`即可
@@ -15,7 +15,7 @@ pip install requests
 pip install websockets==6.0
 ```
 
-####第二步：配置个人信息
+#### 第二步：配置个人信息
 
 2.1 如果还未有API，可[点击](https://www.okex.com/account/users/myApi)前往官网进行申请
 
@@ -25,7 +25,7 @@ api_key = ""
 secret_key = ""
 passphrase = ""
 ```
-####第三步：调用接口
+#### 第三步：调用接口
 
 * RestAPI
     
