@@ -81,20 +81,22 @@ public class OrderAlgoParam {
      */
     private String time_interval;
 
+    public List<String> getAlgo_ids() {
+        return algo_ids;
+    }
+
+    public void setAlgo_ids(List<String> algo_ids) {
+        this.algo_ids = algo_ids;
+    }
+
     /**
      * 撤销指定的委托单ID
      */
-    private String algo_ids[];
+//    private String algo_ids[];
 
-    public List<String> getAlgo_id() {
-        return algo_id;
-    }
 
-    public void setAlgo_id(List<String> algo_id) {
-        this.algo_id = algo_id;
-    }
 
-    private List<String> algo_id;
+    private List<String> algo_ids;
 
 
     public String getInstrument_id() {
@@ -217,11 +219,5 @@ public class OrderAlgoParam {
         this.time_interval = time_interval;
     }
 
-    public String[] getAlgo_ids() {
-        return algo_ids;
-    }
 
-    public void setAlgo_ids(String[] algo_ids) {
-        this.algo_ids = algo_ids;
-    }
 }

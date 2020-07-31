@@ -70,3 +70,4 @@ D:\ProgramData\Project\newSDK\V3-Open-API-SDK\okex-cs-sdk-api\OKExSDKLibrary\obj
 D:\ProgramData\Project\newSDK\V3-Open-API-SDK\okex-cs-sdk-api\OKExSDKLibrary\obj\Debug\OKExSDKLibrary.csproj.CopyComplete
 D:\ProgramData\Project\newSDK\V3-Open-API-SDK\okex-cs-sdk-api\OKExSDKLibrary\obj\Debug\OKExSDKLibrary.dll
 D:\ProgramData\Project\newSDK\V3-Open-API-SDK\okex-cs-sdk-api\OKExSDKLibrary\obj\Debug\OKExSDKLibrary.pdb
+D:\ProgramData\Project\newSDK\V3-Open-API-SDK\okex-cs-sdk-api\OKExSDKLibrary\obj\Debug\OKExSDKLibrary.csproj.CoreCompileInputs.cache

@@ -25,7 +25,7 @@ public interface OptionTradeAPIService {
 
     JSONArray getFills(String underlying, String order_id, String instrument_id, String before, String after, String limit);
 
-    JSONArray getLedger(String underlying);
+    JSONArray getLedger(String underlying,String before, String after, String limit);
 
     JSONObject getOrder(OrderParam orderParam);
 

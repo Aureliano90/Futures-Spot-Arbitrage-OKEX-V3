@@ -116,10 +116,10 @@ public interface SpotOrderAPIServive {
 
     /**
      * 委托策略撤单
-     * @param order
+     * @param cancelAlgoParam
      * @return
      */
-    OrderAlgoResult cancelOrder_algo(@Body OrderAlgoParam order);
+    CancelAlgoResult cancelOrder_algo(@Body CancelAlgoParam cancelAlgoParam);
 
     /**
      * 查询委托订单

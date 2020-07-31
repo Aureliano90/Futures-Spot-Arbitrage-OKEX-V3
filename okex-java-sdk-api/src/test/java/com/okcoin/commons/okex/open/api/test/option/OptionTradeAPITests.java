@@ -66,10 +66,10 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
     @Test
     public void testGetOrder(){
         OrderParam param = new OrderParam();
-        param.setClient_oid("optionteset1");
-        param.setInstrument_id("BTC-USD-200925-7000-C");
-        param.setPrice("0.0015");
-        param.setSide("buy");
+        param.setClient_oid("testoption01");
+        param.setInstrument_id("BTC-USD-201225-11500-C");
+        param.setPrice("0.001497");
+        param.setSide("sell");
         param.setSize("1");
         param.setOrder_type("0");
         param.setMatch_price("0");
@@ -179,14 +179,18 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
     public void testAmendOrder(){
         AmentDate amentDate = new AmentDate();
         //根据order_id进行修改
-        /*amentDate.setOrder_id("158444945847922688");
+        amentDate.setCancel_on_fail("");
+        amentDate.setRequest_id("");
+        amentDate.setOrder_id("158444945847922688");
         amentDate.setNew_size("2");
-        amentDate.setNew_price("0.001");*/
+        amentDate.setNew_price("0.001");
 
         //根据client_oid进行修改
+        /*amentDate.setCancel_on_fail("");
+        amentDate.setRequest_id("");
         amentDate.setClient_oid("");
         amentDate.setNew_size("2");
-        amentDate.setNew_price("0.0005");
+        amentDate.setNew_price("0.0005");*/
 
 
         JSONObject result = tradeAPIService.amendOrder("BTC-USD",amentDate);
@@ -205,20 +209,27 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
     public void testAmendBatchOrders(){
         AmendDateParam param = new AmendDateParam();
         AmentDate amentDate = new AmentDate();
-        //根据order_id撤单
-        /*amentDate.setOrder_id("158444945847922688");
-        amentDate.setNew_size("2");*/
-        //根据client_oid撤单
+        amentDate.setCancel_on_fail("");
+
+        //根据order_id修改
+        /*amentDate.setOrder_id("158444945847922688");*/
+
+        //根据client_oid修改
         amentDate.setClient_oid("");
+
+        amentDate.setRequest_id("");
         amentDate.setNew_size("1");
         amentDate.setNew_price("0.001");
 
         AmentDate amentDate1 = new AmentDate();
-        //根据order_id撤单
-        /*amentDate1.setOrder_id("158444945847922689");
-        amentDate1.setNew_size("2");*/
-        //根据client_oid撤单
+        amentDate1.setCancel_on_fail("");
+        //根据order_id修改
+        /*amentDate1.setOrder_id("158444945847922689");*/
+
+        //根据client_oid修改
         amentDate1.setClient_oid("");
+
+        amentDate1.setRequest_id("");
         amentDate1.setNew_size("2");
         amentDate1.setNew_price("0.001");
 
@@ -251,7 +262,7 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
     //根据 client_oid 获取
     @Test
     public void testGetOrderInfoByClientOid(){
-        JSONObject result = tradeAPIService.getOrderInfoByClientOid("BTC-USD","cttoption0212teset1");
+        JSONObject result = tradeAPIService.getOrderInfoByClientOid("BTC-USD","option0212teset1");
         toResultString(LOG,"result",result);
     }
     /***
@@ -265,7 +276,7 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
      * */
     @Test
     public void testGetOrderList(){
-        JSONObject result = tradeAPIService.getOrderList("BTC-USD","0","BTC-USD-200327-7000-P","","","");
+        JSONObject result = tradeAPIService.getOrderList("BTC-USD","0","BTC-USD-201225-7000-P","","","");
         toResultString(LOG,"result",result);
     }
 
@@ -293,7 +304,7 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
      * */
     @Test
     public void testGetLedger(){
-        JSONArray result = tradeAPIService.getLedger("BTC-USD");
+        JSONArray result = tradeAPIService.getLedger("BTC-USD","","","");
         toResultString(LOG,"result",result);
 
     }

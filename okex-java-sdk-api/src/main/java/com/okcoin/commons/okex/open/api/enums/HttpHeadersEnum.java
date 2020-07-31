@@ -20,6 +20,8 @@ public enum HttpHeadersEnum {
     OK_ACCESS_SIGN("OK-ACCESS-SIGN"),
     OK_ACCESS_TIMESTAMP("OK-ACCESS-TIMESTAMP"),
     OK_ACCESS_PASSPHRASE("OK-ACCESS-PASSPHRASE"),
+    x_simulated_trading("x-simulated-trading"),
+
 
     OK_BEFORE("OK-BEFORE"),
     OK_AFTER("OK-AFTER"),

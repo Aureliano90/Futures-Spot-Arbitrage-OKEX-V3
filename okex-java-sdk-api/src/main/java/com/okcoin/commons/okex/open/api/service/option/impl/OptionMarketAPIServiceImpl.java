@@ -41,8 +41,8 @@ public class OptionMarketAPIServiceImpl implements OptionMarketAPIService {
     }
 
     @Override
-    public JSONArray getCandles(String instrument_id) {
-        return this.client.executeSync(this.api.getCandles(instrument_id));
+    public JSONArray getCandles(String instrument_id,String start,String end,String granularity) {
+        return this.client.executeSync(this.api.getCandles(instrument_id,start,end,granularity));
     }
 
     @Override
@@ -53,6 +53,11 @@ public class OptionMarketAPIServiceImpl implements OptionMarketAPIService {
     @Override
     public JSONArray getUnderlying() {
         return this.client.executeSync(this.api.getUnderlying());
+    }
+
+    @Override
+    public JSONArray getHistorySettlement(String underlying) {
+        return this.client.executeSync(this.api.getHistorySettlement(underlying));
     }
 
 

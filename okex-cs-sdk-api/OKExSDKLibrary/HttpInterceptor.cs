@@ -33,18 +33,22 @@ namespace OKExSDK
             var timeStamp = TimeZoneInfo.ConvertTimeToUtc(now).ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
             var requestUrl = request.RequestUri.PathAndQuery;
             string sign = "";
+            string preHash = "";
             if (!String.IsNullOrEmpty(this._bodyStr))
             {
+                preHash = $"{timeStamp}{method}{requestUrl}{this._bodyStr}";
                 sign = Encryptor.HmacSHA256($"{timeStamp}{method}{requestUrl}{this._bodyStr}", this._secret);
             }
             else
             {
+                preHash = $"{timeStamp}{method}{requestUrl}{this._bodyStr}";
                 sign = Encryptor.HmacSHA256($"{timeStamp}{method}{requestUrl}", this._secret);
             }
 
             request.Headers.Add("OK-ACCESS-SIGN", sign);
             request.Headers.Add("OK-ACCESS-TIMESTAMP", timeStamp.ToString());
             request.Headers.Add("OK-ACCESS-PASSPHRASE", this._passPhrase);
+            //request.Headers.Add("x-simulated-trading", "1");
 
             return base.SendAsync(request, cancellationToken);
         }

@@ -55,11 +55,9 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentPosition() {
-        Long time1 = new Date().getTime();
-        JSONObject positions1 = tradeAPIService.getInstrumentPosition("BSV-USD-200424");
+        JSONObject positions1 = tradeAPIService.getInstrumentPosition("BTC-USD-200925");
         toResultString(LOG, "instrument-Position", positions1);
-        Long time2 = new Date().getTime();
-        System.out.println(time2-time1);
+
         }
     /**
      * 所有币种合约账户信息
@@ -82,7 +80,7 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetAccountsByCurrency() {
-        JSONObject accountsByCurrency = tradeAPIService.getAccountsByCurrency("BSV-USD");
+        JSONObject accountsByCurrency = tradeAPIService.getAccountsByCurrency("BTC-USD");
         toResultString(LOG, "Accounts-Currency", accountsByCurrency);
     }
 
@@ -103,8 +101,7 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testChangeLeverageOnFixed() {
-        //JSONObject jsonObject = tradeAPIService.changeLeverageOnFixed(currency, instrument_id, direction, leverage);
-        JSONObject jsonObject = tradeAPIService.changeLeverageOnFixed("XRP-USDT", "XRP-USDT-200925", "long", "15.5");
+        JSONObject jsonObject = tradeAPIService.changeLeverageOnFixed("BTC-USDT", "BTC-USDT-200925", "long", "15.5");
         toResultString(LOG, "Change-fixed-Leverage", jsonObject);
     }
 
@@ -115,7 +112,7 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testChangeLeverageOnCross() {
-        JSONObject jsonObject = tradeAPIService.changeLeverageOnCross("BTC-USD", "15");
+        JSONObject jsonObject = tradeAPIService.changeLeverageOnCross("BTC-USD", "10");
         toResultString(LOG, "Change-cross-Leverage", jsonObject);
     }
 
@@ -127,7 +124,7 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetAccountsLedgerByCurrency() {
-        JSONArray ledger = tradeAPIService.getAccountsLedgerByCurrency("BSV-USD","","","","");
+        JSONArray ledger = tradeAPIService.getAccountsLedgerByCurrency("BTC-USDT",null,null,null,null);
         toResultString(LOG, "Ledger", ledger);
     }
 
@@ -153,9 +150,9 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     public void testOrder() {
         Order order = new Order();
         order.setinstrument_id("XRP-USDT-200925");
-        order.setClient_oid("testfutures1");
-        order.setType("1");
-        order.setPrice("0.17");
+        order.setClient_oid("testfutures12");
+        order.setType("2");
+        order.setPrice("0.268");
         order.setSize("1");
         order.setMatch_price("0");
         order.setOrder_type("0");
@@ -171,23 +168,26 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testOrders() {
+
         Orders orders = new Orders();
         //设置instrument_id
-        orders.setInstrument_id("XRP-USDT-200925");
+        orders.setInstrument_id("BTC-USDT-200925");
         List<OrdersItem> orders_data = new ArrayList<OrdersItem>();
         OrdersItem item1 = new OrdersItem();
-        item1.setClient_oid("ctt0422orders01");
-        item1.setOrder_type("0");
-        item1.setType("1");
-        item1.setPrice("0.1700");
+        item1.setType("2");
+        item1.setPrice("11500");
         item1.setSize("1");
         item1.setMatch_price("0");
+        item1.setOrder_type("0");
+        item1.setClient_oid("");
+
+
 
         OrdersItem item2 = new OrdersItem();
-        item2.setClient_oid("ctt0422orders02");
+        item2.setClient_oid("ctt0730orders02");
         item2.setOrder_type("0");
-        item2.setType("1");
-        item2.setPrice("0.1699");
+        item2.setType("2");
+        item2.setPrice("11600");
         item2.setSize("1");
         item2.setMatch_price("0");
 
@@ -208,7 +208,7 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetOrders() {
-        JSONObject result = tradeAPIService.getOrders("XRP-USDT-200925", "0", "", "", "");
+        JSONObject result = tradeAPIService.getOrders("BTC-USD-200925", "2", null, null, "100");
         toResultString(LOG, "Get-Orders", result);
     }
 
@@ -222,14 +222,14 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     @Test
     public void testGetOrderByOrderId() {
     //3932093177765889
-        JSONObject result = tradeAPIService.getOrderByOrderId("XRP-USDT-200925", "4769928841379843 ");
+        JSONObject result = tradeAPIService.getOrderByOrderId("XRP-USDT-200626", "4328863495168");
         toResultString(LOG, "Get-Order", result);
     }
 
     @Test
     public void testGetOrderByClientOid() {
         //3932093177765889
-        JSONObject result = tradeAPIService.getOrderByClientOid("XRP-USDT-200925", "ctt0422orders02");
+        JSONObject result = tradeAPIService.getOrderByClientOid("XRP-USDT-200925", "4998276385233920");
         toResultString(LOG, "Get-Order", result);
     }
 
@@ -244,12 +244,12 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     @Test
     public void testCancelOrderByOrderId() {
 
-        JSONObject result = tradeAPIService.cancelOrderByOrderId("XRP-USDT-200626", "4574797169474561");
+        JSONObject result = tradeAPIService.cancelOrderByOrderId("XRP-USDT-200925", "5337487254547456");
         toResultString(LOG, "Cancel-Instrument-Order", result);
     }
     @Test
     public void testCancelOrderByClientOid() {
-        JSONObject result = tradeAPIService.cancelOrderByClientOid("XRP-USDT-200327","ctt0206test02");
+        JSONObject result = tradeAPIService.cancelOrderByClientOid("BTC-USD-200925","testfutures02");
         toResultString(LOG, "Cancel-Instrument-Order", result);
     }
 
@@ -264,13 +264,16 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
         CancelOrders cancelOrders = new CancelOrders();
         List<String> list = new ArrayList<String>();
         //通过订单号撤销订单
-        list.add("4769913883697153");
-        list.add("4766231082376193");
+        list.add("5331514579604482");
+//        list.add("4766231082376193");
 
         cancelOrders.setOrder_ids(list);
-        JSONObject result = tradeAPIService.cancelOrders("XRP-USDT-200925", cancelOrders);
+        JSONObject result = tradeAPIService.cancelOrders("BTC-USDT-200925", cancelOrders);
         toResultString(LOG, "Cancel-Instrument-Orders", result);
     }
+    /***
+     * 根据client_oid批量撤销订单
+     * */
     @Test
     public void testCancelOrdersByClientOid() {
         CancelOrders cancelOrders = new CancelOrders();
@@ -283,6 +286,94 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
         toResultString(LOG, "Cancel-Instrument-Orders", result);
     }
 
+    //修改订单(根据order_id)
+    @Test
+    public void testAmendOrderByOrderId(){
+        AmendOrder amendOrder = new AmendOrder();
+        amendOrder.setCancel_on_fail("0");
+        amendOrder.setOrder_id("5292673869730816");
+        amendOrder.setRequest_id(null);
+        amendOrder.setNew_size("1");
+        amendOrder.setNew_price("9620");
+
+        JSONObject result = tradeAPIService.amendOrderByOrderId("BTC-USD-200925",amendOrder);
+        toResultString(LOG, "amend-Instrument-Orders", result);
+    }
+    //修改订单(根据client_oid)
+    @Test
+    public void testAmendOrderByClientOid(){
+        AmendOrder amendOrder = new AmendOrder();
+        amendOrder.setCancel_on_fail("0");
+        amendOrder.setClient_oid("testfutures072301");
+        amendOrder.setRequest_id(null);
+        amendOrder.setNew_size("1");
+        amendOrder.setNew_price("9600");
+
+        JSONObject result = tradeAPIService.amendOrderByClientOId("BTC-USD-200925",amendOrder);
+        toResultString(LOG, "amend-Instrument-Orders", result);
+    }
+    //批量修改订单(根据order_id)
+    @Test
+    public void testAmendBatchOrderByOrderId(){
+        List<AmendOrder> list = new ArrayList<>();
+
+        AmendOrder amendOrder = new AmendOrder();
+        amendOrder.setCancel_on_fail("0");
+        amendOrder.setOrder_id("");
+        amendOrder.setRequest_id("");
+        amendOrder.setNew_size("");
+        amendOrder.setNew_price("");
+
+        AmendOrder amendOrder1 = new AmendOrder();
+        amendOrder1.setCancel_on_fail("0");
+        amendOrder1.setOrder_id("");
+        amendOrder1.setRequest_id("");
+        amendOrder1.setNew_size("");
+        amendOrder1.setNew_price("");
+
+
+        AmendDateParam amendDateParam = new AmendDateParam();
+        list.add(amendOrder);
+        list.add(amendOrder1);
+        amendDateParam.setAmend_data(list);
+
+
+        JSONObject result = tradeAPIService.amendBatchOrdersByOrderId("BTC-USD-200925",amendDateParam);
+        toResultString(LOG, "amend-Instrument-Orders", result);
+    }
+
+
+    //批量修改订单(根据client_oid)
+    @Test
+    public void testAmendBatchOrderByClientOid(){
+        List<AmendOrder> list = new ArrayList<>();
+
+        AmendOrder amendOrder = new AmendOrder();
+        amendOrder.setCancel_on_fail("0");
+        amendOrder.setClient_oid("testfutures072301");
+        amendOrder.setRequest_id("");
+        amendOrder.setNew_size("");
+        amendOrder.setNew_price("9610");
+
+        AmendOrder amendOrder1 = new AmendOrder();
+        amendOrder1.setCancel_on_fail("0");
+        amendOrder1.setClient_oid("testfutures072301");
+        amendOrder1.setRequest_id("");
+        amendOrder1.setNew_size("");
+        amendOrder1.setNew_price("9610");
+
+
+        list.add(amendOrder);
+        list.add(amendOrder1);
+        AmendDateParam amendDateParam = new AmendDateParam();
+        amendDateParam.setAmend_data(list);
+
+        JSONObject result = tradeAPIService.amendBatchOrdersByClientOid("BTC-USD-200925",amendDateParam);
+        toResultString(LOG, "amend-Instrument-Orders", result);
+    }
+
+
+
     /**
      * 获取成交明细
      * GET /api/futures/v3/fills
@@ -292,7 +383,7 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     @Test
     public void testGetFills() {
 
-        JSONArray result = tradeAPIService.getFills("BSV-USD-200424", "", "", "", "");
+        JSONArray result = tradeAPIService.getFills("BTC-USDT-200925", null, null, null, "100");
         toResultString(LOG, "Get-Fills", result);
     }
 
@@ -306,8 +397,8 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     @Test
     public void testChangeMarginMode() {
         ChangeMarginMode changeMarginMode = new ChangeMarginMode();
-        changeMarginMode.setUnderlying("BTC-USD");
-        changeMarginMode.setMargin_mode("fixed");
+        changeMarginMode.setUnderlying("BTC-USDT");
+        changeMarginMode.setMargin_mode("crossed");
         JSONObject jsonObject = tradeAPIService.changeMarginMode(changeMarginMode);
         toResultString(LOG, "MarginMode", jsonObject);
     }
@@ -322,7 +413,7 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     @Test
     public void testClosePositions() {
         ClosePositions closePositions = new ClosePositions();
-        closePositions.setInstrument_id("XRP-USDT-200925");
+        closePositions.setInstrument_id("XRP-USD-200925");
         closePositions.setDirection("long");
         JSONObject jsonObject = tradeAPIService.closePositions(closePositions);
         toResultString(LOG, "closePositions", jsonObject);
@@ -350,7 +441,7 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetHolds() {
-        Holds holds = tradeAPIService.getHolds("XRP-USDT-200925");
+        Holds holds = tradeAPIService.getHolds("BTC-USDT-200925");
         toResultString(LOG, "Instrument-Holds", holds);
     }
 
@@ -364,15 +455,15 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     public void testFuturesOrder(){
         FuturesOrderParam futuresOrderParam=new FuturesOrderParam();
         //公共参数
-        futuresOrderParam.setInstrument_id("XRP-USDT-200925");
+        futuresOrderParam.setInstrument_id("BTC-USDT-200925");
         futuresOrderParam.setType("1");
         futuresOrderParam.setOrder_type("1");
         futuresOrderParam.setSize("1");
 
         //止盈止损
-        futuresOrderParam.setTrigger_price("0.17");
-        futuresOrderParam.setAlgo_price("0.165");
-        //futuresOrderParam.setAlgo_type("2");
+        futuresOrderParam.setTrigger_price("11050");
+        futuresOrderParam.setAlgo_price("11000");
+        futuresOrderParam.setAlgo_type("1");
 
         //跟踪委托
        /* futuresOrderParam.setCallback_rate("");
@@ -403,10 +494,10 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     @Test
     public void testCancelFuturesOrder(){
         CancelFuturesOrder cancelFuturesOrder=new CancelFuturesOrder();
-        cancelFuturesOrder.setInstrument_id("XRP-USDT-200925");
+        cancelFuturesOrder.setInstrument_id("BTC-USDT-200925");
         cancelFuturesOrder.setOrder_type("1");
         List<String> algo_ids=new ArrayList<String>();
-        algo_ids.add("14678");
+        algo_ids.add("548942");
         cancelFuturesOrder.setAlgo_ids(algo_ids);
 
         CancelFuturesOrdeResult cancelFuturesOrdeResult=tradeAPIService.cancelFuturesOrder(cancelFuturesOrder);
@@ -422,13 +513,13 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     @Test
     public void testFindFuturesOrder(){
 
-        String result = tradeAPIService.findFuturesOrder("XRP-USDT-200925", "1", "3","", "", "","");
+        String result = tradeAPIService.findFuturesOrder("BTC-USDT-200925", "1", null,"548939", null, null,null);
         toResultString(LOG, "Get-FuturesOrders", result);
 
     }
 
     /**
-     * 当前账户交易手续等级的费率
+     * 当前账户交易手续的费率
      * 获取您当前账户交易等级对应的手续费费率，母账户下的子账户的费率和母账户一致。每天凌晨0点更新一次
      * GET/api/futures/v3/trade_fee
      * 限速规则：1次/10s
@@ -449,9 +540,9 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     public void testModifyMargin(){
         ModifyMarginParam modifyMarginParam = new ModifyMarginParam();
         modifyMarginParam.setInstrument_id("XRP-USDT-200925");
-        modifyMarginParam.setDirection("short");
+        modifyMarginParam.setDirection("long");
         modifyMarginParam.setAmount("0.5");
-        modifyMarginParam.setType("2");
+        modifyMarginParam.setType("1");
 
         JSONObject result = tradeAPIService.modifyMargin(modifyMarginParam);
         toResultString(LOG, "result", result);
@@ -466,8 +557,8 @@ public class FuturesTradeAPITests extends FuturesAPIBaseTests {
     @Test
     public void testModifyFixedMargin(){
         ModifyFixedMargin modifyFixedMargin = new ModifyFixedMargin();
-        modifyFixedMargin.setUnderlying("XRP-US");
-        modifyFixedMargin.setType("2");
+        modifyFixedMargin.setUnderlying("BTC-USD");
+        modifyFixedMargin.setType("1");
 
         JSONObject result = tradeAPIService.modifyFixedMargin(modifyFixedMargin);
         toResultString(LOG, "result", result);

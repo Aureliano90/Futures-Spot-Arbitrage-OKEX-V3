@@ -65,7 +65,7 @@ public class SwapPublicChannelTest {
     public void klineChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("swap/candle60s:EOS-USD-SWAP");
+        channel.add("swap/candle60s:BTC-USD-SWAP");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -85,6 +85,7 @@ public class SwapPublicChannelTest {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
         channel.add("swap/trade:BTC-USD-SWAP");
+        channel.add("swap/ticker:BTC-USD-SWAP");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -138,7 +139,7 @@ public class SwapPublicChannelTest {
     public void depth5Channel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("swap/depth5:BTC-USDT-SWAP");
+        channel.add("swap/depth5:BTC-USD-SWAP");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -179,7 +180,7 @@ public class SwapPublicChannelTest {
     public void allDepthChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("swap/depth_l2_tbt:BTC-USD-SWAP");
+        channel.add("swap/depth_l2_tbt:BTC-USDT-SWAP");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟

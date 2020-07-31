@@ -76,6 +76,7 @@
     <Compile Include="GeneralApi.cs" />
     <Compile Include="HttpInterceptor.cs" />
     <Compile Include="IndexApi.cs" />
+    <Compile Include="InformationAPI.cs" />
     <Compile Include="MarginApi.cs" />
     <Compile Include="Models\Account\AccountLedger.cs" />
     <Compile Include="Models\Account\Currency.cs" />

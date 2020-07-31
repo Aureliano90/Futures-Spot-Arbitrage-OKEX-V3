@@ -6,6 +6,8 @@ import com.okcoin.commons.okex.open.api.bean.swap.result.ApiOrderVO;
 import retrofit2.Call;
 import retrofit2.http.*;
 
+import java.util.List;
+
 public interface SwapTradeAPI {
     //下单
     @POST("/api/swap/v3/order")
@@ -15,13 +17,30 @@ public interface SwapTradeAPI {
     Call<String> orders(@Body JSONObject ppOrders);
     //撤单
     @POST("/api/swap/v3/cancel_order/{instrument_id}/{order_id}")
-    Call<String> cancelOrderByOrderId(@Path("instrument_id") String instrumentId, @Path("order_id") String order_id);
+    Call<String> cancelOrderByOrderId(@Path("instrument_id") String instrument_id, @Path("order_id") String order_id);
     @POST("/api/swap/v3/cancel_order/{instrument_id}/{client_oid}")
-    Call<String> cancelOrderByClientOid(@Path("instrument_id") String instrumentId, @Path("client_oid") String client_oid);
+    Call<String> cancelOrderByClientOid(@Path("instrument_id") String instrument_id, @Path("client_oid") String client_oid);
 
     //批量撤单
     @POST("/api/swap/v3/cancel_batch_orders/{instrument_id}")
-    Call<String> cancelOrders(@Path("instrument_id") String instrumentId, @Body JSONObject ppOrders);
+    Call<String> cancelOrders(@Path("instrument_id") String instrument_id, @Body JSONObject ppOrders);
+
+    //修改订单
+    @POST("/api/swap/v3/amend_order/{instrument_id}")
+    Call<String> amendOrder(@Path("instrument_id") String instrument_id, @Body AmendOrder amendOrder);
+
+    //修改订单
+    @POST("/api/swap/v3/amend_order/{instrument_id}")
+    Call<String> amendOrderByClientOid(@Path("instrument_id") String instrument_id, @Body AmendOrder amendOrder);
+
+    //批量修改订单
+    @POST("/api/swap/v3/amend_batch_orders/{instrument_id}")
+    Call<String> amendBatchOrderByOrderId(@Path("instrument_id") String instrument_id, @Body AmendOrderParam amendOrder);
+
+    @POST("/api/swap/v3/amend_batch_orders/{instrument_id}")
+    Call<String> amendBatchOrderByClientOid(@Path("instrument_id") String instrument_id, @Body AmendOrderParam amendOrder);
+
+
 
     /**
      * 策略下单

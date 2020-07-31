@@ -54,14 +54,15 @@ public class SpotProductAPIServiceImpl implements SpotProductAPIService {
     }
 
     @Override
+    public JSONArray getHistoryCandles(String instrument_id, String granularity, String start, String end) {
+        return this.client.executeSync(this.spotProductAPI.getHistoryCandles(instrument_id, granularity, start, end));
+    }
+
+    @Override
     public JSONArray getCandles(final String instrument_id, final String granularity, final String start, final String end) {
         return this.client.executeSync(this.spotProductAPI.getCandles(instrument_id, granularity, start, end));
     }
 
-    @Override
-    public List<String[]> getCandles_1(final String product, final String granularity, final String start, final String end) {
-        return this.client.executeSync(this.spotProductAPI.getCandles_1(product, granularity, start, end));
-    }
 
 
 

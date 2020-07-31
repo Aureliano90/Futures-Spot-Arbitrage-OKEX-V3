@@ -32,6 +32,8 @@ public class SpotOrderApiServiceImpl implements SpotOrderAPIServive {
         return this.client.executeSync(this.spotOrderAPI.addOrders(order));
     }
 
+
+
     @Override
     public OrderResult cancleOrderByOrderId(final PlaceOrderParam order, final String order_id) {
         return this.client.executeSync(this.spotOrderAPI.cancleOrderByOrderId(order_id, order));
@@ -100,8 +102,8 @@ public class SpotOrderApiServiceImpl implements SpotOrderAPIServive {
     }
 
     @Override
-    public OrderAlgoResult cancelOrder_algo(OrderAlgoParam order) {
-        return this.client.executeSync(this.spotOrderAPI.cancelOrder_algo(order));
+    public CancelAlgoResult cancelOrder_algo(CancelAlgoParam cancelAlgoParam) {
+        return this.client.executeSync(this.spotOrderAPI.cancelOrder_algo(cancelAlgoParam));
     }
 
     @Override

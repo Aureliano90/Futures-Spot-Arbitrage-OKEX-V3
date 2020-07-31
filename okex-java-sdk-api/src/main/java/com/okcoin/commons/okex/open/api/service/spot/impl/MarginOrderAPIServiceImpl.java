@@ -3,9 +3,7 @@ package com.okcoin.commons.okex.open.api.service.spot.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.okcoin.commons.okex.open.api.bean.spot.param.OrderParamDto;
 import com.okcoin.commons.okex.open.api.bean.spot.param.PlaceOrderParam;
-import com.okcoin.commons.okex.open.api.bean.spot.result.Fills;
-import com.okcoin.commons.okex.open.api.bean.spot.result.OrderInfo;
-import com.okcoin.commons.okex.open.api.bean.spot.result.OrderResult;
+import com.okcoin.commons.okex.open.api.bean.spot.result.*;
 import com.okcoin.commons.okex.open.api.client.APIClient;
 import com.okcoin.commons.okex.open.api.config.APIConfiguration;
 import com.okcoin.commons.okex.open.api.service.spot.MarginOrderAPIService;
@@ -74,12 +72,12 @@ public class MarginOrderAPIServiceImpl implements MarginOrderAPIService {
     }
 
     @Override
-    public List<OrderInfo> getPendingOrders(final String before, final String after, final String limit, final String instrument_id) {
+    public List<PendingOrdersInfo> getPendingOrders(final String before, final String after, final String limit, final String instrument_id) {
         return this.client.executeSync(this.marginOrderAPI.getPendingOrders(before, after, limit, instrument_id));
     }
 
     @Override
-    public List<Fills> getFills(final String order_id, final String instrument_id, final String after, final String before, final String limit) {
+    public List<MarginFills> getFills(final String order_id, final String instrument_id, final String after, final String before, final String limit) {
         return this.client.executeSync(this.marginOrderAPI.getFills(order_id, instrument_id, after, before, limit));
     }
 }

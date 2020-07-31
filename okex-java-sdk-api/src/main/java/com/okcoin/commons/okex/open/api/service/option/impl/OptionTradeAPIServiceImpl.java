@@ -59,8 +59,8 @@ public class OptionTradeAPIServiceImpl implements OptionTradeAPIService {
 
 
     @Override
-    public JSONArray getLedger(String underlying) {
-        return this.client.executeSync(this.api.getLedger(underlying));
+    public JSONArray getLedger(String underlying,String before, String after, String limit) {
+        return this.client.executeSync(this.api.getLedger(underlying,before,after,limit));
     }
 
     @Override

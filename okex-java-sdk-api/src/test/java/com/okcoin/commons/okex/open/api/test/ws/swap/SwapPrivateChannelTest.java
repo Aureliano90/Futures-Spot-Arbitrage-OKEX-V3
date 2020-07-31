@@ -1,7 +1,8 @@
 package com.okcoin.commons.okex.open.api.test.ws.swap;
 
-import com.okcoin.commons.okex.open.api.test.ws.futures.config.WebSocketClient;
-import com.okcoin.commons.okex.open.api.test.ws.futures.config.WebSocketConfig;
+
+import com.okcoin.commons.okex.open.api.test.ws.swap.config.WebSocketClient;
+import com.okcoin.commons.okex.open.api.test.ws.swap.config.WebSocketConfig;
 import org.apache.commons.compress.utils.Lists;
 import org.junit.After;
 import org.junit.Before;
@@ -47,7 +48,7 @@ public class SwapPrivateChannelTest {
     @Test
     public void positionChannel() {
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("swap/position:XRP-USD-SWAP");
+        channel.add("swap/position:MNBTC-USDT-SWAP");
         try {
             Thread.sleep(100);
         } catch (Exception e) {
@@ -70,7 +71,7 @@ public class SwapPrivateChannelTest {
     @Test
     public void accountChannel() {
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("swap/account:XRP-USDT-SWAP");
+        channel.add("swap/account:BCH-USD-SWAP");
         try {
             Thread.sleep(100);
         } catch (Exception e) {
@@ -93,7 +94,7 @@ public class SwapPrivateChannelTest {
     @Test
     public void orderChannel() {
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("swap/order:XRP-USD-SWAP");
+        channel.add("swap/order:MNBTC-USDT-SWAP");
         try {
             Thread.sleep(100);
         } catch (Exception e) {

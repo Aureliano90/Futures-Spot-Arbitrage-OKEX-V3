@@ -116,8 +116,21 @@ public class OptionMarketAPITests extends OptionAPIBaseTests{
      * */
     @Test
     public void testGetCandles(){
-        JSONArray result = marketAPIService.getCandles("BTC-USD-200925-7000-C");
+        JSONArray result = marketAPIService.getCandles("BTC-USD-200925-7000-C",null,null,"60");
         toResultString(LOG,"result",result);
     }
 
+
+    /***
+     *公共-获取历史结算/行权记录
+     * 获取历史结算/行权记录。
+     * 限速规则：1次/10s
+     * HTTP请求
+     * GET /api/option/v3/settlement/history/<underlying>
+     * */
+    @Test
+    public void testGetHistorySettlement(){
+        JSONArray result = marketAPIService.getHistorySettlement("BTC-USD");
+        toResultString(LOG,"result",result);
+    }
 }

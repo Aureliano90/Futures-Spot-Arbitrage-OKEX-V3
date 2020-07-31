@@ -2,9 +2,12 @@ package com.okcoin.commons.okex.open.api.service.futures;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import com.okcoin.commons.okex.open.api.bean.futures.param.*;
 import com.okcoin.commons.okex.open.api.bean.futures.result.*;
 import retrofit2.http.Body;
+
+import java.util.List;
 
 /**
  * Futures Trade API Service
@@ -78,9 +81,21 @@ public interface FuturesTradeAPIService {
     /**
      * Batch Cancel the orders of this product id
      *
-     * @param instrumentId The id of the futures contract eg: BTC-USD-0331"
+     * @param instrument_id The id of the futures contract eg: BTC-USD-0331"
      */
-    JSONObject cancelOrders(String instrumentId, CancelOrders cancelOrders);
+    JSONObject cancelOrders(String instrument_id, CancelOrders cancelOrders);
+
+    JSONObject amendOrderByOrderId(String instrument_id,AmendOrder amendOrder);
+
+    JSONObject amendOrderByClientOId(String instrument_id,AmendOrder amendOrder);
+
+    JSONObject amendBatchOrdersByOrderId(String instrument_id, AmendDateParam amendOrder);
+
+
+    JSONObject amendBatchOrdersByClientOid(String instrument_id, AmendDateParam amendOrder);
+
+
+
 
     /**
      * Get all of futures contract order list
@@ -171,7 +186,7 @@ public interface FuturesTradeAPIService {
      * @param instrument_id
      * @param order_type
      * @param status
-     * @param algo_ids
+     * @param algo_id
      * @param after
      * @param before
      * @param limit
@@ -180,7 +195,7 @@ public interface FuturesTradeAPIService {
     String findFuturesOrder( String instrument_id,
                                  String order_type,
                                  String status,
-                                 String algo_ids,
+                                 String algo_id,
                                  String after,
                                  String before,
                                  String limit);

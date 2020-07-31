@@ -29,6 +29,10 @@ public class APIConfiguration {
      */
     private String endpoint;
 
+
+
+
+
     /**
      * Host connection timeout.
      */

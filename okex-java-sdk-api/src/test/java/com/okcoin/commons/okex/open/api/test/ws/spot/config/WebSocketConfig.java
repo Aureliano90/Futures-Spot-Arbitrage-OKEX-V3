@@ -10,6 +10,9 @@ public class WebSocketConfig {
 
     // okex webSocket url
     private static final String SERVICE_URL = "wss://real.okex.com:8443/ws/v3";
+
+
+
     private static final String API_KEY = "";
     private static final String SECRET_KEY = "";
     private static final String PASSPHRASE = "";

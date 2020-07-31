@@ -41,9 +41,11 @@ public interface SpotProductAPI {
                                @Query("start") String start,
                                @Query("end") String end);
 
-    @GET("/api/spot/v3/instruments/{instrument_id}/candles")
-    Call<List<String[]>> getCandles_1(@Path("instrument_id") String product,
-                                      @Query("granularity") String type,
+
+
+    @GET("/api/spot/v3/instruments/{instrument_id}/history/candles")
+    Call<JSONArray> getHistoryCandles(@Path("instrument_id") String instrument_id,
+                                      @Query("granularity") String granularity,
                                       @Query("start") String start,
                                       @Query("end") String end);
 

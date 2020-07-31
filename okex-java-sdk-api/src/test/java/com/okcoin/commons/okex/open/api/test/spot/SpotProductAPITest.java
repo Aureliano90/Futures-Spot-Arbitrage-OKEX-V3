@@ -89,7 +89,7 @@ public class SpotProductAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getTrades() {
-        final List<Trade> trades = this.spotProductAPIService.getTrades("BTC-USDT", "20");
+        final List<Trade> trades = this.spotProductAPIService.getTrades("XRP-USDT", "20");
         this.toResultString(SpotProductAPITest.LOG, "trades", trades);
     }
 
@@ -102,9 +102,22 @@ public class SpotProductAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getCandles() {
-        String start = "2020-04-20T00:00:00.000Z";
-        String end = "2020-04-21T00:00:00.000Z";
+//        String start = "2020-07-20T00:00:00.000Z";
+//        String end = "2020-07-20T08:00:00.000Z";
+        String start = null;
+        String end = null;
         final JSONArray klines = this.spotProductAPIService.getCandles("BTC-USDT", "60",start,end);
+        this.toResultString(SpotProductAPITest.LOG, "klines", klines);
+    }
+
+
+    @Test
+    public void getHistoryCandles() {
+        String start = "2020-06-30T12:01:00.000Z";
+        String end = "2019-09-01T00:00:00.000Z";
+        /*String start = null;
+        String end = null;*/
+        final JSONArray klines = this.spotProductAPIService.getHistoryCandles("XEM-USDT", "60",start,end);
         this.toResultString(SpotProductAPITest.LOG, "klines", klines);
     }
 

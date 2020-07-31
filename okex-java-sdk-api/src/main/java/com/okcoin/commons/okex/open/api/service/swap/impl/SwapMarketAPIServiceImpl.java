@@ -87,6 +87,11 @@ public class SwapMarketAPIServiceImpl implements SwapMarketAPIService {
         return client.executeSync(api.getCandlesApi(instrument_id, start, end, granularity));
     }
 
+    @Override
+    public String getHistoryCandlesApi(String instrument_id, String start, String end, String granularity) {
+        return client.executeSync(api.getHistoryCandlesApi(instrument_id, start, end, granularity));
+    }
+
     /**
      * 获取币种指数。
      *

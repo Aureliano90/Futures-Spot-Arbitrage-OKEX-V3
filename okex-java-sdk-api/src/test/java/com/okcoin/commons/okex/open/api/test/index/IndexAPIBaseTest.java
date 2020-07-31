@@ -9,12 +9,15 @@ public class IndexAPIBaseTest extends BaseTests {
         APIConfiguration config = new APIConfiguration();
 
         config.setEndpoint("https://www.okex.com/");
+
+
         config.setApiKey("");
         config.setSecretKey("");
         config.setPassphrase("");
 
         config.setPrint(true);
-        config.setI18n(I18nEnum.SIMPLIFIED_CHINESE);
+       /* config.setI18n(I18nEnum.SIMPLIFIED_CHINESE);*/
+        config.setI18n(I18nEnum.ENGLISH);
         return config;
     }
 

@@ -2,30 +2,6 @@ package com.okcoin.commons.okex.open.api.bean.spot.result;
 
 public class OrderInfo {
 
-    public String getOrder_id() {
-        return order_id;
-    }
-
-    public void setOrder_id(String order_id) {
-        this.order_id = order_id;
-    }
-
-    public String getClient_oid() {
-        return client_oid;
-    }
-
-    public void setClient_oid(String client_oid) {
-        this.client_oid = client_oid;
-    }
-
-    public String getOrder_type() {
-        return order_type;
-    }
-
-    public void setOrder_type(String order_type) {
-        this.order_type = order_type;
-    }
-
     /**
      * 订单id
      */
@@ -59,7 +35,6 @@ public class OrderInfo {
     /**
      * 订单状态 -1 已撤销 0 未成交
      */
-    //private String status;
 
     private String state;
     /**
@@ -79,6 +54,72 @@ public class OrderInfo {
      * 计价成交量
      */
     private String filled_notional;
+    private String fee_currency;
+    private String fee;
+    private String rebate_currency;
+
+    public String getFee_currency() {
+        return fee_currency;
+    }
+
+    public void setFee_currency(String fee_currency) {
+        this.fee_currency = fee_currency;
+    }
+
+    public String getFee() {
+        return fee;
+    }
+
+    public void setFee(String fee) {
+        this.fee = fee;
+    }
+
+    public String getRebate_currency() {
+        return rebate_currency;
+    }
+
+    public void setRebate_currency(String rebate_currency) {
+        this.rebate_currency = rebate_currency;
+    }
+
+    public String getRebate() {
+        return rebate;
+    }
+
+    public void setRebate(String rebate) {
+        this.rebate = rebate;
+    }
+
+    private String rebate;
+
+
+
+
+    public String getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
+    }
+
+    public String getClient_oid() {
+        return client_oid;
+    }
+
+    public void setClient_oid(String client_oid) {
+        this.client_oid = client_oid;
+    }
+
+    public String getOrder_type() {
+        return order_type;
+    }
+
+    public void setOrder_type(String order_type) {
+        this.order_type = order_type;
+    }
+
+
 
 
 

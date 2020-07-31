@@ -11,6 +11,7 @@ import com.okcoin.commons.okex.open.api.bean.other.SpotOrderBookDiff;
 import com.okcoin.commons.okex.open.api.bean.other.SpotOrderBookItem;
 import com.okcoin.commons.okex.open.api.enums.CharsetEnum;
 import com.okcoin.commons.okex.open.api.utils.DateUtils;
+import com.okcoin.commons.okex.open.api.bean.other.OrderBookDiffer;
 import lombok.Data;
 import net.sf.json.JSONObject;
 import okhttp3.*;

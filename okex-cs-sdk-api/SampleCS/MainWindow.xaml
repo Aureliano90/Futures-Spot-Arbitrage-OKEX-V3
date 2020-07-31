@@ -577,6 +577,10 @@
                             <Button Content="获取当前手续费费率" HorizontalAlignment="Left" Margin="375,125,0,0" VerticalAlignment="Top" Width="130" Click="btnFutures_GetTrade_fee" Grid.Column="3"/>
                             <Button Content="增加/减少保证金" HorizontalAlignment="Left" Margin="15,149,0,0" VerticalAlignment="Top" Width="130" Click="btn_margin" Grid.Column="1"/>
                             <Button Content="设置逐仓自动增加保证金" HorizontalAlignment="Left" Margin="153,149,0,0" VerticalAlignment="Top" Width="130" Click="btn_auto_margin" Grid.Column="1" Grid.ColumnSpan="2"/>
+                            <Button Content="修改订单" HorizontalAlignment="Left" Margin="63,149,0,0" VerticalAlignment="Top" Width="130" Click="btcAmend_orderFutures" Grid.Column="2" Grid.ColumnSpan="2"/>
+                            <Button Content="批量修改订单" HorizontalAlignment="Left" Margin="135,149,0,0" VerticalAlignment="Top" Width="92" Click="btcAmend_batch_orders" Grid.Column="3"/>
+                            <Button Content="历史结算/交割记录" HorizontalAlignment="Left" Margin="238,149,0,0" VerticalAlignment="Top" Width="92" Click="btcSettleHistoryFutures" Grid.Column="3"/>
+                            <Button Content="历史K线数据" HorizontalAlignment="Left" Margin="345,149,0,0" VerticalAlignment="Top" Width="116" Click="btcCandleHistoryFutures" Grid.Column="3"/>
 
                         </Grid>
                         <GroupBox Header="设置逐仓合约杠杆倍数">
@@ -748,12 +752,15 @@
                             <Button Content="获取合约标记价格" HorizontalAlignment="Left" Margin="456,101,0,0" VerticalAlignment="Top" Width="111" Click="btnGetMarkPriceSwap" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
                             <Button Content="获取合约资金费率" HorizontalAlignment="Left" Margin="447,77,0,0" VerticalAlignment="Top" Width="187" Click="btnGetGenaralSwap" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
                             <!-- <Button Content="获取合约历史资金费率" HorizontalAlignment="Left" Margin="17,125,0,0" VerticalAlignment="Top" Width="187" Click="btnGetHistoricalSwap" RenderTransformOrigin="4.486,-0.737" Grid.ColumnSpan="2"/>-->
-                            <Button Content="获取委托单列表" HorizontalAlignment="Left" Margin="17,125,0,0" VerticalAlignment="Top" Width="111" Click="btnGetOrder_algoSwap" RenderTransformOrigin="4.486,-0.737" Grid.ColumnSpan="2"/>
+                            <Button Content="获取委托单列表" HorizontalAlignment="Left" Margin="17,125,0,0" VerticalAlignment="Top" Width="90" Click="btnGetOrder_algoSwap" RenderTransformOrigin="4.486,-0.737" Grid.ColumnSpan="2"/>
                             <Button Content="获取账户手续费费率" HorizontalAlignment="Left" Margin="572,101,-25,0" VerticalAlignment="Top" Width="111" Click="btnTrade_fee" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
-                            <Button Content="委托策略下单" HorizontalAlignment="Left" Margin="85,125,0,0" VerticalAlignment="Top" Width="111" Click="btnorder_algo_swap" RenderTransformOrigin="4.486,-0.737" Grid.ColumnSpan="2" Grid.Column="1"/>
-                            <Button Content="委托策略撤单" HorizontalAlignment="Left" Margin="99,125,0,0" VerticalAlignment="Top" Width="111" Click="btncancel_algos_swap" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
-                            <Button Content="市价全平" HorizontalAlignment="Left" Margin="215,125,0,0" VerticalAlignment="Top" Width="111" Click="btn_close_position" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
-                            <Button Content="撤销所有平仓挂单" HorizontalAlignment="Left" Margin="331,125,0,0" VerticalAlignment="Top" Width="111" Click="btn_cancel_all" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
+                            <Button Content="委托策略下单" HorizontalAlignment="Left" Margin="64,125,0,0" VerticalAlignment="Top" Width="87" Click="btnorder_algo_swap" RenderTransformOrigin="4.486,-0.737" Grid.ColumnSpan="2" Grid.Column="1"/>
+                            <Button Content="委托策略撤单" HorizontalAlignment="Left" Margin="52,125,0,0" VerticalAlignment="Top" Width="79" Click="btncancel_algos_swap" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
+                            <Button Content="市价全平" HorizontalAlignment="Left" Margin="140,125,0,0" VerticalAlignment="Top" Width="60" Click="btn_close_position" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
+                            <Button Content="撤销所有平仓挂单" HorizontalAlignment="Left" Margin="205,125,0,0" VerticalAlignment="Top" Width="101" Click="btn_cancel_all" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
+                            <Button Content="历史K线数据" HorizontalAlignment="Left" Margin="311,125,0,0" VerticalAlignment="Top" Width="81" Click="btcCandleHistorySwap" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
+                            <Button Content="修改订单" HorizontalAlignment="Left" Margin="397,125,0,0" VerticalAlignment="Top" Width="97" Click="btcAmend_orderSwap" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
+                            <Button Content="批量修改订单" HorizontalAlignment="Left" Margin="499,125,0,0" VerticalAlignment="Top" Width="97" Click="btcAmend_batch_ordersSwap" RenderTransformOrigin="4.486,-0.737" Grid.Column="2"/>
 
                         </Grid>
                         <GroupBox Header="搜索参数" Width="811">
@@ -1526,6 +1533,24 @@
                                 <ColumnDefinition Width="531*"/>
                             </Grid.ColumnDefinitions>
                             <Button Content="获取指数成分" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" Width="99" Click="btnGetConstituents"/>
+                        </Grid>
+                    </StackPanel>
+                </GroupBox>
+            </TabItem>
+            <TabItem Header="合约交易数据">
+                <GroupBox RenderTransformOrigin="0.515,0.516">
+                    <StackPanel Orientation="Vertical">
+                        <Grid Height="396">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="284*"/>
+                                <ColumnDefinition Width="531*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="多空持仓人数比" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" Width="99" Click="btcGetLong_short_radio"/>
+                            <Button Content="持仓总量及交易量" HorizontalAlignment="Left" Margin="120,8,0,0" VerticalAlignment="Top" Width="99" Click="btcGetVolume"/>
+                            <Button Content="主动买入卖出情况" HorizontalAlignment="Left" Margin="224,8,0,0" VerticalAlignment="Top" Width="99" Click="btcGetTaker" Grid.ColumnSpan="2"/>
+                            <Button Content="多空精英趋向指标" HorizontalAlignment="Left" Margin="44,8,0,0" VerticalAlignment="Top" Width="99" Click="btcGetSentiment" Grid.Column="1"/>
+                            <Button Content="多空精英平均持仓比例" HorizontalAlignment="Left" Margin="148,8,0,0" VerticalAlignment="Top" Width="99" Click="btcGetMargin" Grid.Column="1"/>
+
                         </Grid>
                     </StackPanel>
                 </GroupBox>

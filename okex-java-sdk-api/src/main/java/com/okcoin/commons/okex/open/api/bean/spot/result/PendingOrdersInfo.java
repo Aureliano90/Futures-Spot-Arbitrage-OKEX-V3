@@ -14,6 +14,53 @@ public class PendingOrdersInfo {
     private String filled_size;
     private String filled_notional;
     private String state;
+    private String fee_currency;
+    private String fee;
+    private String rebate_currency;
+    private String rebate;
+    private String price_avg;
+
+    public String getPrice_avg() {
+        return price_avg;
+    }
+
+    public void setPrice_avg(String price_avg) {
+        this.price_avg = price_avg;
+    }
+
+    public String getFee_currency() {
+        return fee_currency;
+    }
+
+    public void setFee_currency(String fee_currency) {
+        this.fee_currency = fee_currency;
+    }
+
+    public String getFee() {
+        return fee;
+    }
+
+    public void setFee(String fee) {
+        this.fee = fee;
+    }
+
+    public String getRebate_currency() {
+        return rebate_currency;
+    }
+
+    public void setRebate_currency(String rebate_currency) {
+        this.rebate_currency = rebate_currency;
+    }
+
+    public String getRebate() {
+        return rebate;
+    }
+
+    public void setRebate(String rebate) {
+        this.rebate = rebate;
+    }
+
+
 
     public String getClient_oid() {
         return client_oid;

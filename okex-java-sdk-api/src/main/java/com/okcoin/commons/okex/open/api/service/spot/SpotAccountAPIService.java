@@ -15,13 +15,6 @@ import java.util.Map;
 public interface SpotAccountAPIService {
 
     /**
-     * 系统时间
-     *
-     * @return
-     */
-    ServerTimeDto time();
-
-    /**
      * 挖矿相关数据
      *
      * @return

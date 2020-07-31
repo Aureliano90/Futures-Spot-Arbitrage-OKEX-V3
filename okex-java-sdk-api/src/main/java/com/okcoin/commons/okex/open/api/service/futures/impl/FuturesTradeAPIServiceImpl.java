@@ -10,6 +10,8 @@ import com.okcoin.commons.okex.open.api.config.APIConfiguration;
 import com.okcoin.commons.okex.open.api.service.futures.FuturesTradeAPIService;
 import com.okcoin.commons.okex.open.api.utils.JsonUtils;
 
+import java.util.List;
+
 /**
  * Futures trade api
  *
@@ -60,7 +62,7 @@ public class FuturesTradeAPIServiceImpl implements FuturesTradeAPIService {
 
     @Override
     public OrderResult order(Order order) {
-        System.out.println(JsonUtils.convertObject(order, Order.class));
+        //System.out.println(JsonUtils.convertObject(order, Order.class));
         return this.client.executeSync(this.api.order(JsonUtils.convertObject(order, Order.class)));
     }
 
@@ -86,6 +88,26 @@ public class FuturesTradeAPIServiceImpl implements FuturesTradeAPIService {
     @Override
     public JSONObject cancelOrders(String instrumentId, CancelOrders cancelOrders) {
         return this.client.executeSync(this.api.cancelOrders(instrumentId, JsonUtils.convertObject(cancelOrders, CancelOrders.class)));
+    }
+
+    @Override
+    public JSONObject amendOrderByOrderId(String instrument_id, AmendOrder amendOrder) {
+        return this.client.executeSync(this.api.amendOrderByOrderId(instrument_id, amendOrder));
+    }
+
+    @Override
+    public JSONObject amendOrderByClientOId(String instrument_id, AmendOrder amendOrder) {
+        return this.client.executeSync(this.api.amendOrderByClientOid(instrument_id, amendOrder));
+    }
+
+    @Override
+    public JSONObject amendBatchOrdersByOrderId(String instrument_id, AmendDateParam amendOrder) {
+        return this.client.executeSync(this.api.amendBatchOrdersByOrderId(instrument_id, amendOrder));
+    }
+
+    @Override
+    public JSONObject amendBatchOrdersByClientOid(String instrument_id, AmendDateParam amendOrder) {
+        return this.client.executeSync(this.api.amendBatchOrdersByClientOid(instrument_id, amendOrder));
     }
 
     @Override
@@ -162,8 +184,8 @@ public class FuturesTradeAPIServiceImpl implements FuturesTradeAPIService {
     }
 
     @Override
-    public String findFuturesOrder(String instrument_id, String order_type,String status,String algo_ids, String after, String before, String limit) {
-        return this.client.executeSync(this.api.findFuturesOrder(instrument_id,order_type,status,algo_ids,after,before,limit));
+    public String findFuturesOrder(String instrument_id, String order_type,String status,String algo_id, String after, String before, String limit) {
+        return this.client.executeSync(this.api.findFuturesOrder(instrument_id,order_type,status,algo_id,after,before,limit));
     }
 
     @Override

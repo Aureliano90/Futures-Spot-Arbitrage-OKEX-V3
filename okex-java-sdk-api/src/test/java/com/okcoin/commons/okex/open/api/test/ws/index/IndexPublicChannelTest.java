@@ -1,8 +1,8 @@
 package com.okcoin.commons.okex.open.api.test.ws.index;
 
 
-import com.okcoin.commons.okex.open.api.test.ws.option.config.WebSocketClient;
-import com.okcoin.commons.okex.open.api.test.ws.option.config.WebSocketConfig;
+import com.okcoin.commons.okex.open.api.test.ws.index.config.WebSocketClient;
+import com.okcoin.commons.okex.open.api.test.ws.index.config.WebSocketConfig;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -50,7 +50,7 @@ public class IndexPublicChannelTest {
     public void indexCandleChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("index/candle60s:BTC-USD");
+        channel.add("index/candle60s:XRP-USD");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟

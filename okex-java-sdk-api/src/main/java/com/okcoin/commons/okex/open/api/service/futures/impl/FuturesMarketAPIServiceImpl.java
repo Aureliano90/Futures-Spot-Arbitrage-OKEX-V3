@@ -62,6 +62,11 @@ public class FuturesMarketAPIServiceImpl implements FuturesMarketAPIService {
     }
 
     @Override
+    public JSONArray getHistoryCandels(String instrument_id, String start, String end, String granularity,String limit) {
+        return this.client.executeSync(this.api.getHistoryCandels(instrument_id, start, end, granularity,limit));
+    }
+
+    @Override
     public Index getInstrumentIndex(String instrument_id) {
         return this.client.executeSync(this.api.getInstrumentIndex(instrument_id));
     }
@@ -98,8 +103,8 @@ public class FuturesMarketAPIServiceImpl implements FuturesMarketAPIService {
     }
 
     @Override
-    public JSONArray getSettlementHistory(String instrument_id, String start, String limit, String end) {
-        return this.client.executeSync(this.api.getSettlementHistory(instrument_id,start,limit,end));
+    public JSONArray getSettlementHistory(String instrument_id,String underlying, String start, String limit, String end) {
+        return this.client.executeSync(this.api.getSettlementHistory(instrument_id, underlying,start,limit,end));
     }
 
 

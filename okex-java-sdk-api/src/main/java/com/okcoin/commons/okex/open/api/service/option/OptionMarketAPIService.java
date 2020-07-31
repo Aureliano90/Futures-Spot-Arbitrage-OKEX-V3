@@ -15,9 +15,11 @@ public interface OptionMarketAPIService {
 
     JSONObject getDetailPrice(String underlying,String instrument_id);
 
-    JSONArray getCandles(String instrument_id);
+    JSONArray getCandles(String instrument_id,String start,String end,String granularity);
 
     JSONObject getTicker(String instrument_id);
 
     JSONArray getUnderlying();
+
+    JSONArray getHistorySettlement(String underlying);
 }

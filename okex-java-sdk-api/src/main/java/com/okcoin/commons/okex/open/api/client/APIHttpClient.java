@@ -33,6 +33,7 @@ public class APIHttpClient {
     private final APIConfiguration config;
     private final APICredentials credentials;
 
+
     public APIHttpClient(final APIConfiguration config, final APICredentials credentials) {
         this.config = config;
         this.credentials = credentials;
@@ -68,6 +69,8 @@ public class APIHttpClient {
             final String timestamp = DateUtils.getUnixTime();
             //打印首行时间戳
             System.out.println("时间戳timestamp={" + timestamp + "}");
+
+            String simulated = "1";
             requestBuilder.headers(this.headers(chain.request(), timestamp));
             final Request request = requestBuilder.build();
             if (this.config.isPrint()) {
@@ -78,20 +81,24 @@ public class APIHttpClient {
         return clientBuilder.build();
     }
 
+//    ,String simulated
     private Headers headers(final Request request, final String timestamp) {
         final Headers.Builder builder = new Headers.Builder();
         builder.add(APIConstants.ACCEPT, ContentTypeEnum.APPLICATION_JSON.contentType());
         builder.add(APIConstants.CONTENT_TYPE, ContentTypeEnum.APPLICATION_JSON_UTF8.contentType());
         builder.add(APIConstants.COOKIE, this.getCookie());
+
         if (StringUtils.isNotEmpty(this.credentials.getSecretKey())) {
             //拼接上秘钥，密码，签名和时间戳
             builder.add(HttpHeadersEnum.OK_ACCESS_KEY.header(), this.credentials.getApiKey());
             builder.add(HttpHeadersEnum.OK_ACCESS_SIGN.header(), this.sign(request, timestamp));
             builder.add(HttpHeadersEnum.OK_ACCESS_TIMESTAMP.header(), timestamp);
             builder.add(HttpHeadersEnum.OK_ACCESS_PASSPHRASE.header(), this.credentials.getPassphrase());
-			 /*模拟盘*/
-          /*  builder.add("x-simulated-trading","1");*/
+//            builder.add("x-simulated-trading","1");
+//            System.out.println("__________simulated:"+simulated);
+//            builder.add(HttpHeadersEnum.x_simulated_trading.header(),simulated);
         }
+
         return builder.build();
     }
 

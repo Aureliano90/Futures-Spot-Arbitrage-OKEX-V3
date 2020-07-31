@@ -38,10 +38,10 @@ public class AccountAPITests extends  AccountAPIBaseTests {
     @Test
     public void getWallet() {
         //所有的资金账户信息
-        /*List<Wallet> result = this.accountAPIService.getWallet();
+       /* List<Wallet> result = this.accountAPIService.getWallet();
         this.toResultString(AccountAPITests.LOG, "result", result);*/
         //单一币种账户信息
-        List<Wallet> result2 = this.accountAPIService.getWallet("USDT");
+        List<Wallet> result2 = this.accountAPIService.getWallet("XRP");
         this.toResultString(AccountAPITests.LOG, "result", result2);
     }
 
@@ -56,12 +56,12 @@ public class AccountAPITests extends  AccountAPIBaseTests {
         Transfer transfer = new Transfer();
         transfer.setType("0");
         transfer.setFrom("6");
-        transfer.setTo("3");
-        transfer.setCurrency("USDT");
+        transfer.setTo("1");
+        transfer.setCurrency("XRP");
         transfer.setAmount("1");
         //transfer.setSub_account("");
-        //transfer.setInstrument_id("XRP-USDT");
-        //transfer.setTo_instrument_id("XRP-USDT");
+//        transfer.setInstrument_id("BTC-USDT");
+//        transfer.setTo_instrument_id("BTC-USDT");
 
         JSONObject result = this.accountAPIService.transfer(transfer);
         this.toResultString(AccountAPITests.LOG, "result", result);
@@ -77,8 +77,8 @@ public class AccountAPITests extends  AccountAPIBaseTests {
         withdraw.setTo_address("xxxxxxxxxxxxxxxxxxxxxxxxxxx");
         withdraw.setFee("0.0005");
         withdraw.setCurrency("btc");
-        withdraw.setAmount("");
-        withdraw.setDestination("");
+        withdraw.setAmount("1");
+        withdraw.setDestination("3");
         withdraw.setTrade_pwd("123456");
         JSONObject result = this.accountAPIService.withdraw(withdraw);
         this.toResultString(AccountAPITests.LOG, "result", result);
@@ -93,7 +93,7 @@ public class AccountAPITests extends  AccountAPIBaseTests {
      */
     @Test
     public void getLedger() {
-        JSONArray result = this.accountAPIService.getLedger("",null,"","","");
+        JSONArray result = this.accountAPIService.getLedger(null,"XRP",null,null,null);
         this.toResultString(AccountAPITests.LOG, "result", result);
     }
 
@@ -107,7 +107,7 @@ public class AccountAPITests extends  AccountAPIBaseTests {
      */
     @Test
     public void getDepositAddress() {
-        JSONArray result = this.accountAPIService.getDepositAddress("BTC");
+        JSONArray result = this.accountAPIService.getDepositAddress("EOS");
         this.toResultString(AccountAPITests.LOG, "result", result);
     }
 
@@ -119,7 +119,7 @@ public class AccountAPITests extends  AccountAPIBaseTests {
      */
     @Test
     public void testGetAllAcccount(){
-        JSONObject result = this.accountAPIService.getAllAccount("16","USDT");
+        JSONObject result = this.accountAPIService.getAllAccount("0","USDT");
         this.toResultString(AccountAPITests.LOG, "result", result);
     }
 
@@ -145,10 +145,10 @@ public class AccountAPITests extends  AccountAPIBaseTests {
      */
     @Test
     public void getDepositHistory() {
-        JSONArray result = this.accountAPIService.getDepositHistory();
-        this.toResultString(AccountAPITests.LOG, "result", result);
-        /*JSONArray result2 = this.accountAPIService.getDepositHistory("btc");
-        this.toResultString(AccountAPITests.LOG, "result", result2);*/
+        /*JSONArray result = this.accountAPIService.getDepositHistory();
+        this.toResultString(AccountAPITests.LOG, "result", result);*/
+        JSONArray result2 = this.accountAPIService.getDepositHistory("USDT");
+        this.toResultString(AccountAPITests.LOG, "result", result2);
     }
 
     /**
@@ -159,9 +159,9 @@ public class AccountAPITests extends  AccountAPIBaseTests {
      */
     @Test
     public void getWithdrawalHistory() {
-       /* JSONArray result = this.accountAPIService.getWithdrawalHistory();
+        /*JSONArray result = this.accountAPIService.getWithdrawalHistory();
         this.toResultString(AccountAPITests.LOG, "result", result);*/
-        JSONArray result2 = this.accountAPIService.getWithdrawalHistory("btc");
+        JSONArray result2 = this.accountAPIService.getWithdrawalHistory("USDT");
         this.toResultString(AccountAPITests.LOG, "result", result2);
     }
 
@@ -184,7 +184,7 @@ public class AccountAPITests extends  AccountAPIBaseTests {
      */
     @Test
     public void getWithdrawFee() {
-        List<WithdrawFee> result = this.accountAPIService.getWithdrawFee("BTC");
+        List<WithdrawFee> result = this.accountAPIService.getWithdrawFee(null);
         this.toResultString(AccountAPITests.LOG, "result", result);
     }
 

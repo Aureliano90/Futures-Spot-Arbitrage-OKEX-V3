@@ -74,6 +74,9 @@ public interface FuturesMarketAPIService {
      */
     JSONArray getInstrumentCandles(String instrument_id, String start, String end, String granularity);
 
+//    获取历史K线数据
+    JSONArray getHistoryCandels(String instrument_id, String start, String end, String granularity,String limit);
+
     /**
      * Get the futures contract product index
      *
@@ -122,7 +125,7 @@ public interface FuturesMarketAPIService {
      */
     JSONObject getMarkPrice(String instrument_id);
 
-    JSONArray getSettlementHistory (String instrument_id,String start,String limit,String end);
+    JSONArray getSettlementHistory (String instrument_id,String underlying,String start,String limit,String end);
 
 
 }

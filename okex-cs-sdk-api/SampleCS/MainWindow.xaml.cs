@@ -43,8 +43,9 @@ namespace SampleCS
         private EttApi ettApi;
         private SwapApi swapApi;
         private OptionApi optionApi;
-        private IndexApi indexApi ;
+        private IndexApi indexApi;
         private SystemApi systemApi;
+        private InformationAPI informationApi;
 
         private string apiKey = "";
         private string secret = "";
@@ -63,6 +64,7 @@ namespace SampleCS
             this.optionApi = new OptionApi(this.apiKey, this.secret, this.passPhrase);
             this.indexApi = new IndexApi(this.apiKey, this.secret, this.passPhrase);
             this.systemApi = new SystemApi(this.apiKey, this.secret, this.passPhrase);
+            this.informationApi = new InformationAPI(this.apiKey, this.secret, this.passPhrase);
             this.DataContext = new MainViewModel();
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls;
         }
@@ -2106,7 +2108,7 @@ namespace SampleCS
             try
             {
                 string instrumentId = "BTC-USD-SWAP";
-                int leverage = 12;
+                int leverage = 100;
                 string side = "1";
                 var resResult = await this.swapApi.setLeverageByInstrumentAsync(instrumentId, leverage, side);
                 JToken codeJToken;
@@ -3726,7 +3728,7 @@ namespace SampleCS
                 string direction = "";
                 string type = "";
                 string amount = "";
-                string content = await this.futureApi.margin(instrument_id,direction,type,amount);
+                string content = await this.futureApi.margin(instrument_id, direction, type, amount);
                 Console.WriteLine(content);
             }
             catch (Exception ex)
@@ -3745,7 +3747,7 @@ namespace SampleCS
             {
                 string underlying = "BTC-USDT";
                 string type = "1";
-                string content =await this.futureApi.auto_margin(underlying,type);
+                string content = await this.futureApi.auto_margin(underlying, type);
                 Console.WriteLine(content);
             }
             catch (Exception ex)
@@ -3759,7 +3761,7 @@ namespace SampleCS
             {
                 string instrument_id = "";
                 string direction = "";
-                string content = await this.swapApi.close_position(instrument_id,direction);
+                string content = await this.swapApi.close_position(instrument_id, direction);
                 Console.WriteLine(content);
             }
             catch (Exception ex)
@@ -3773,7 +3775,7 @@ namespace SampleCS
             {
                 string instrument_id = "";
                 string direction = "";
-                string content =await this.swapApi.cancel_all(instrument_id,direction);
+                string content = await this.swapApi.cancel_all(instrument_id, direction);
                 Console.WriteLine(content);
             }
             catch (Exception ex)
@@ -3800,6 +3802,150 @@ namespace SampleCS
             {
                 string instrument_id = "BTC-USDT";
                 string content = await this.indexApi.constituents(instrument_id);
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btcGetLong_short_radio(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string content = await this.informationApi.long_short_radio("BTC", "300");
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btcGetVolume(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string content = await this.informationApi.volume("BTC", "300");
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btcGetTaker(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string content = await this.informationApi.taker("BTC", "300");
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btcGetSentiment(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string content = await this.informationApi.sentiment("BTC");
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btcGetMargin(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string content = await this.informationApi.margin("BTC");
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btcAmend_orderFutures(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string content = await this.futureApi.amend_order( "MNBTC-USD-200731", "1",order_id: "5321141332075520", new_size:"2");
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btcAmend_batch_orders(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string content = await this.futureApi.amend_batch_orders("BTC-USDT-200925", "0", order_id: "1111111");
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btcAmend_orderSwap(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string content = await this.swapApi.amend_order("XRP-USDT-SWAP", "1", order_id: "555545904511893504", new_size: "1");
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btcAmend_batch_ordersSwap(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string content = await this.swapApi.amend_batch_orders("BTC-USDT-200925", "0", order_id: "1111111");
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btcSettleHistoryFutures(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string content = await this.futureApi.getSettlementHistory("BTC-USDT-200925");
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btcCandleHistoryFutures(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string content = await this.futureApi.getHistory_candles("BTC-USDT-200925");
+                Console.WriteLine(content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("错误信息" + ex.Message + "堆栈信息" + ex.StackTrace.ToString());
+            }
+        }
+        private async void btcCandleHistorySwap(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string content = await this.swapApi.getHistory_candles("BTC-USDT-SWAP");
                 Console.WriteLine(content);
             }
             catch (Exception ex)

@@ -12,6 +12,7 @@ import com.okcoin.commons.okex.open.api.bean.other.SpotOrderBookItem;
 import com.okcoin.commons.okex.open.api.enums.CharsetEnum;
 import com.okcoin.commons.okex.open.api.test.ws.futures.FuturesPublicChannelTest;
 import com.okcoin.commons.okex.open.api.utils.DateUtils;
+import com.okcoin.commons.okex.open.api.bean.other.OrderBookDiffer;
 import lombok.Data;
 import net.sf.json.JSONObject;
 import okhttp3.*;
@@ -261,7 +262,7 @@ public class WebSocketClient {
                     return;
                 }
             }
-            System.out.println("Send a message to the server:" + str);
+            System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4)+"Send a message to the server:" + str);
             webSocket.send(str);
         } else {
             System.out.println("Please establish the connection before you operate it！");

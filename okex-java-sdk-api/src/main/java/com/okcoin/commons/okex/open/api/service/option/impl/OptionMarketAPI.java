@@ -38,7 +38,10 @@ public interface OptionMarketAPI {
 
     //获取K线数据
     @GET("/api/option/v3/instruments/{instrument_id}/candles")
-    Call<JSONArray> getCandles(@Path("instrument_id") String instrument_id);
+    Call<JSONArray> getCandles(@Path("instrument_id") String instrument_id,
+                               @Query("start") String start,
+                               @Query("end") String end,
+                               @Query("granularity") String granularity);
 
     //获取某个期权合约的ticker信息
     @GET("/api/option/v3/instruments/{instrument_id}/ticker")
@@ -47,6 +50,10 @@ public interface OptionMarketAPI {
     //获取期权合约已支持的标的的指数列表
     @GET("/api/option/v3/underlying")
     Call<JSONArray> getUnderlying();
+
+    //公共-获取历史结算/行权记录
+    @GET("/api/option/v3/settlement/history/{underlying}")
+    Call<JSONArray> getHistorySettlement(@Path("underlying") String underlying);
 
 
 }

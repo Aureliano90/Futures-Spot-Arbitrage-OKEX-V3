@@ -220,7 +220,8 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\oker\\.nuget\\packages\\": {}
+    "C:\\Users\\oker\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.1",
@@ -231,6 +232,9 @@
       "packagesPath": "C:\\Users\\oker\\.nuget\\packages\\",
       "outputPath": "D:\\ProgramData\\Project\\newSDK\\V3-Open-API-SDK\\okex-cs-sdk-api\\OKExSDK\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
         "C:\\Users\\oker\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -268,16 +272,10 @@
           }
         },
         "imports": [
-          "net461",
-          "net462",
-          "net47",
-          "net471",
-          "net472",
-          "net48"
+          "net461"
         ],
         "assetTargetFallback": true,
-        "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        "warn": true
       }
     }
   }

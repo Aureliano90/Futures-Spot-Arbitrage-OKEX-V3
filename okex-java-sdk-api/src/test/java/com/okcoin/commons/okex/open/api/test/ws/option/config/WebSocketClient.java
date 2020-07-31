@@ -13,6 +13,7 @@ import com.okcoin.commons.okex.open.api.enums.CharsetEnum;
 import com.okcoin.commons.okex.open.api.test.ws.futures.FuturesPublicChannelTest;
 import com.okcoin.commons.okex.open.api.test.ws.option.OptionPublicChannelTest;
 import com.okcoin.commons.okex.open.api.utils.DateUtils;
+import com.okcoin.commons.okex.open.api.bean.other.OrderBookDiffer;
 import lombok.Data;
 import net.sf.json.JSONObject;
 import okhttp3.*;

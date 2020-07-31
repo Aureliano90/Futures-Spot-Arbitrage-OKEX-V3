@@ -53,6 +53,9 @@ public interface SwapMarketAPIService {
      */
     String getCandlesApi(String instrument_id, String start, String end, String granularity);
 
+
+    String getHistoryCandlesApi(String instrument_id, String start, String end, String granularity);
+
     /**
      * 获取币种指数。
      * @param instrument_id

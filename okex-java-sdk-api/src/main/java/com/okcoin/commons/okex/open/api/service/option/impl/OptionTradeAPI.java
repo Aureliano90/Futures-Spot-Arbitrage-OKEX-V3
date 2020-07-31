@@ -51,7 +51,10 @@ public interface OptionTradeAPI {
 
     //账单流水查询
     @GET("/api/option/v3/accounts/{underlying}/ledger")
-    Call<JSONArray> getLedger(@Path("underlying") String underlying);
+    Call<JSONArray> getLedger(@Path("underlying") String underlying,
+                              @Query("before") String before,
+                              @Query("after") String after,
+                              @Query("limit") String limit);
 
     //下单
     @POST("/api/option/v3/order")

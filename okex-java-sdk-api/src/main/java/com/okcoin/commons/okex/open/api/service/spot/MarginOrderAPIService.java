@@ -3,9 +3,7 @@ package com.okcoin.commons.okex.open.api.service.spot;
 import com.alibaba.fastjson.JSONObject;
 import com.okcoin.commons.okex.open.api.bean.spot.param.OrderParamDto;
 import com.okcoin.commons.okex.open.api.bean.spot.param.PlaceOrderParam;
-import com.okcoin.commons.okex.open.api.bean.spot.result.Fills;
-import com.okcoin.commons.okex.open.api.bean.spot.result.OrderInfo;
-import com.okcoin.commons.okex.open.api.bean.spot.result.OrderResult;
+import com.okcoin.commons.okex.open.api.bean.spot.result.*;
 
 import java.util.List;
 import java.util.Map;
@@ -91,7 +89,7 @@ public interface MarginOrderAPIService {
      * @param limit
      * @return
      */
-    List<OrderInfo> getPendingOrders(String before, String after, String limit, String instrument_id);
+    List<PendingOrdersInfo> getPendingOrders(String before, String after, String limit, String instrument_id);
 
     /**
      * 账单列表
@@ -103,5 +101,5 @@ public interface MarginOrderAPIService {
      * @param limit
      * @return
      */
-    List<Fills> getFills(String order_id, String instrument_id, String after, String before, String limit);
+    List<MarginFills> getFills(String order_id, String instrument_id, String after, String before, String limit);
 }

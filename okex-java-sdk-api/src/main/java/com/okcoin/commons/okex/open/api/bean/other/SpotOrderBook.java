@@ -70,7 +70,7 @@ public class SpotOrderBook {
     //调用这个方法，that为增量的数据，this为老的数据
     public SpotOrderBookDiff diff(SpotOrderBook that) {
         System.out.println("全量数据："+this.toString());
-        System.out.println("增量数据："+that.toString());
+        System.out.println(that.timestamp+"  增量数据："+that.toString());
         //深度合并 添加参数 order: 1正向排序  2反向排序   20200507
         //深度合并ask
         final List<SpotOrderBookItem> askDiff = this.diff(this.getAsks(), that.getAsks(), Comparator.naturalOrder(),1);

@@ -5,6 +5,22 @@ public class AmentDate {
     private String new_size;
     private String client_oid;
     private String request_id;
+    private String new_price;
+
+
+
+    public String getCancel_on_fail() {
+        return cancel_on_fail;
+    }
+
+    public void setCancel_on_fail(String cancel_on_fail) {
+        this.cancel_on_fail = cancel_on_fail;
+    }
+
+    private String cancel_on_fail;
+
+
+
 
     public String getNew_price() {
         return new_price;
@@ -14,7 +30,7 @@ public class AmentDate {
         this.new_price = new_price;
     }
 
-    private String new_price;
+
 
     public String getNew_size() {
         return new_size;

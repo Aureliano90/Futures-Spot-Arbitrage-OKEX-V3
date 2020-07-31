@@ -53,8 +53,9 @@ public class FuturesPrivateChannelTest {
     @Test
     public void positionChannel() {
         ArrayList<String> channel = Lists.newArrayList();
+//        channel.add("futures/position:MNBTC-USD-200925");
         channel.add("futures/position:BTC-USD-200925");
-        //channel.add("futures/position:BTC-USD-200327");
+//        channel.add("futures/ticker:BTC-USDT-200626");
         try {
             Thread.sleep(100);
         } catch (Exception e) {
@@ -100,7 +101,7 @@ public class FuturesPrivateChannelTest {
     @Test
     public void orderChannel() {
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/order:XRP-USDT-200925");
+        channel.add("futures/order:BTC-USD-200925");
         //channel.add("futures/order:BTC-USD-200320");
 
         try {
@@ -119,6 +120,10 @@ public class FuturesPrivateChannelTest {
     }
 
 
+    /**
+     * 用户委托策略频道
+     * futures/order_algo
+     */
     @Test
     public void algoOrderChannel() {
         ArrayList<String> channel = Lists.newArrayList();

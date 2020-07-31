@@ -24,10 +24,11 @@ public class IndexMarketAPITest extends IndexAPIBaseTest {
      * 限速规则：20次/2s
      * GET /api/index/v3/<instrument_id>/constituents
      * **/
+
     @Test
     public void testGetIndex() {
         final String index = this.marketAPIService.getIndex("BTC-USD");
-        this.toResultString(IndexMarketAPITest.LOG, "klines", index);
+        this.toResultString(IndexMarketAPITest.LOG, "index", index);
     }
 
 }

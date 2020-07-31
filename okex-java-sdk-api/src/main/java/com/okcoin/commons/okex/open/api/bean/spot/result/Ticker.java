@@ -2,10 +2,10 @@ package com.okcoin.commons.okex.open.api.bean.spot.result;
 
 public class Ticker {
 
-    //private String product_id;
+
+    private String instrument_id;
     private String last;
-   // private String bid;
-    //private String ask;
+    private String last_qty;
     private String open_24h;
     private String high_24h;
     private String low_24h;
@@ -14,7 +14,6 @@ public class Ticker {
     private String quote_volume_24h;
     private String best_ask;
     private String best_bid;
-    private String instrument_id;
     private String best_ask_size;
     private String best_bid_size;
 
@@ -42,7 +41,7 @@ public class Ticker {
         this.last_qty = last_qty;
     }
 
-    private String last_qty;
+
 
 
     public String getInstrument_id() {

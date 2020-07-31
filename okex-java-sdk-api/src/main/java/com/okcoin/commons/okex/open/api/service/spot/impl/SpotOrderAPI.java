@@ -21,12 +21,13 @@ public interface SpotOrderAPI {
 
     /**
      * 批量下单
-     *
+     *POST /api/v3/spot/amend_order/instrument_id
      * @param param
      * @return
      */
     @POST("api/spot/v3/batch_orders")
     Call<Map<String, List<OrderResult>>> addOrders(@Body List<PlaceOrderParam> param);
+
 
     /**
      * 指定订单撤单 delete协议
@@ -165,11 +166,11 @@ public interface SpotOrderAPI {
 
     /**
      * 策略委托撤单
-     * @param order
+     * @param cancelAlgoParam
      * @return
      */
     @POST("api/spot/v3/cancel_batch_algos")
-    Call<OrderAlgoResult> cancelOrder_algo(@Body OrderAlgoParam order);
+    Call<CancelAlgoResult> cancelOrder_algo(@Body CancelAlgoParam cancelAlgoParam);
 
     /**
      * 查看策略委托订单

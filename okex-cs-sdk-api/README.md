@@ -1,10 +1,24 @@
-## OKCoin OKEX V3 Open Api使用说明
+## OKEX V3 Open Api使用说明
 
-### 1.基于.NET Standard，支持上传至NuGet
+### 1.下载SDK，配置个人信息
 
-###  2.依赖Json.NET序列化/反序列化
+#### 1.1 下载SDK并进行环境配置  
 
-### 3.Api简单使用
+        * 将SDK目录`Clone`或者`Download`到本地，选择使用`okex-cs-sdk-api`即可
+
+        * 本地打开解决方案，进行编译，编译成功后，可直接运行项目。
+
+#### 1.2 配置个人信息
+
+     * 如果还未有API，可[点击](https://www.okex.com/account/users/myApi)前往官网进行申请
+
+     * 运行项目后，将各项信息在apikey信息栏进行设置，输入完成后点击确定，控制台输出"完成"，表示个人信息配置成功。
+
+### 2.基于.NET Standard，支持上传至NuGet
+
+### 3.依赖Json.NET序列化/反序列化
+
+### 4.Api简单使用
 
 ```c#
 private async void btnGetPositions(object sender, RoutedEventArgs e)
@@ -53,7 +67,7 @@ private async void btnGetPositions(object sender, RoutedEventArgs e)
 }
 ```
 
-### 4.WebSocket简单使用
+### 5.WebSocket简单使用
 
 ```C#
 // 创建Websocketor对象
@@ -99,7 +113,7 @@ private async void btnProgress(object sender, RoutedEventArgs e)
 }
 ```
 
-### 5.接口列表
+### 6.接口列表
 
 #### a)钱包API对应AccountApi
 
@@ -710,78 +724,6 @@ public async Task<JContainer> getLiquidationAsync(string instrument_id, string s
 ```C#
 /// <param name="instrument_id">合约ID，如BTC-USD-180213</param>
 public async Task<JObject> getHoldsAsync(string instrument_id)
-```
-
-#### e) ETT API对应EttApi
-
-##### 组合账户信息
-
-```C#
-public async Task<JContainer> getAccountsAsync()
-```
-
-##### 单一币种账户信息
-
-```C#
-/// <param name="currency">币种或ett名称</param>
-public async Task<JObject> getAccountByCurrencyAsync(string currency)
-```
-
-##### 账单流水查询
-
-```C#
-/// <param name="currency">币种或ett名称</param>
-/// <param name="from">请求此页码之后的分页内容</param>
-/// <param name="to">请求此页码之前的分页内容</param>
-/// <param name="limit">分页返回的结果集数量，默认为100，最大为100</param>
-public async Task<JContainer> getLedgerAsync(string currency, int? from, int? to, int? limit)
-```
-
-##### 下单
-
-```C#
-/// <param name="order">订单信息</param>
-public async Task<JObject> makeOrderAsync(EttOrder order)
-```
-
-##### 撤销指定订单
-
-```C#
-/// <param name="order_id">服务器分配的订单ID</param>
-public async Task<JObject> cancelOrderAsync(string order_id)
-```
-
-##### 获取订单列表
-
-```C#
-/// <param name="ett">[必填]列出指定ett的订单</param>
-/// <param name="type">[必填]（1:申购 2:赎回）</param>
-/// <param name="status">仅列出相应状态的订单列表。(0:所有状态 1:等待成交 2:已成交 3:已撤销)
-/// <param name="from">请求此id之后(更新的数据)的分页内容</param>
-/// <param name="to">请求此id之前(更旧的数据)的分页内容</param>
-/// <param name="limit">分页返回的结果集数量，默认为100，最大为100</param>
-public async Task<JContainer> getOrdersAsync(string ett, string type, string status, int? from, int? to, int? limit)
-```
-
-##### 获取订单信息
-
-```C#
-/// <param name="order_id">订单ID</param>
-public async Task<JObject> getOrderByOrderIdAsync(string order_id)
-```
-
-##### 获取组合成分
-
-```C#
-/// <param name="ett"></param>
-public async Task<JObject> getConstituentsAsync(string ett)
-```
-
-##### 获取ETT清算历史定价
-
-```C#
-/// <param name="ett">基金名称</param>
-public async Task<JContainer> getDefinePriceAsync(string ett)
 ```
 
 #### f)  永续合约API

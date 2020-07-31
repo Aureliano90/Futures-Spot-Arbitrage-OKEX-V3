@@ -29,20 +29,6 @@ public class SpotAccountAPITest extends SpotAPIBaseTests {
     }
 
 
-    /**
-     * 获取服务器时间
-     * 获取API服务器的时间。此接口为公共接口，不需要身份验证
-     * 限速规则：20次/2s
-     * GET /api/general/v3/time
-     */
-    @Test
-    public void time() {
-        final ServerTimeDto serverTimeDto = this.spotAccountAPIService.time();
-        this.toResultString(SpotAccountAPITest.LOG, "time", serverTimeDto);
-        System.out.println(serverTimeDto.getEpoch());
-        System.out.println(serverTimeDto.getIso());
-    }
-
 
     /**
      * 币币账户信息
@@ -64,7 +50,7 @@ public class SpotAccountAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getAccountByCurrency() {
-        final Account account = this.spotAccountAPIService.getAccountByCurrency("XRP");
+        final Account account = this.spotAccountAPIService.getAccountByCurrency("OKB");
         this.toResultString(SpotAccountAPITest.LOG, "account", account);
     }
 
@@ -77,7 +63,7 @@ public class SpotAccountAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getLedgersByCurrency() {
-        final Object ledgers = this.spotAccountAPIService.getLedgersByCurrency("XRP", "", "", "100","");
+        final Object ledgers = this.spotAccountAPIService.getLedgersByCurrency("XRP", null, null, "100",null);
         this.toResultString(SpotAccountAPITest.LOG, "ledges", ledgers);
     }
 

@@ -52,7 +52,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentBook() {
-        Book book = marketAPIService.getInstrumentBook("BTC-USD-200925", "100","10");
+        Book book = marketAPIService.getInstrumentBook("BTC-USD-200925", "10","5");
         toResultString(LOG, "Instrument-Book", book);
     }
 
@@ -65,7 +65,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentTicker() {
-        Ticker ticker = marketAPIService.getInstrumentTicker("LTC-USD-200925");
+        Ticker ticker = marketAPIService.getInstrumentTicker("BTC-USD-201225");
         toResultString(LOG, "Instrument-Ticker", ticker);
     }
 
@@ -89,7 +89,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentTrades() {
-        List<Trades> trades = marketAPIService.getInstrumentTrades("XRP-USDT-200925", "", "", "");
+        List<Trades> trades = marketAPIService.getInstrumentTrades("TRX-USD-201225", "", "", "");
         toResultString(LOG, "Instrument-Trades", trades);
     }
 
@@ -101,14 +101,37 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentCandles() {
-        String start = "2020-04-20T00:00:00.000Z";
-        String end = "2020-04-21T00:00:00.000Z";
-        JSONArray array = marketAPIService.getInstrumentCandles("BTC-USD-200925",
+       /* String start = "2020-06-19T00:00:00.123Z";
+        String end = "2020-06-19T03:20:00.234Z";*/
+        String start = null;
+        String end = null;
+        JSONArray array = marketAPIService.getInstrumentCandles("BTC-USDT-200925",
                                                                 start,
                                                                 end,
-                                                                "300");
+                                                                "60");
         toResultString(LOG, "Instrument-Candles", array);
     }
+
+
+
+    /**
+     * 获取历史K线数据
+     * GET /api/spot/v3/instruments/<instrument_id>/history/candles
+     * start和end同时传，既包含start的K线，也包含end的K线
+     * 限速规则：20次/2s （根据underlying，分别限速）
+     */
+    @Test
+    public void testGetInstrumentHistoryCandles() {
+        String start = "2020-01-06T02:00:00.000Z";
+        String end = "2020-01-01T00:00:00.000Z";
+//        String start = null;
+//        String end = null;
+        JSONArray array = marketAPIService.getHistoryCandels("BTC-USD-200925",start,end, "1800","");
+        toResultString(LOG, "History-Candles", array);
+    }
+
+
+
 
     /**
      *  获取指数信息
@@ -118,7 +141,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentIndex() {
-        Index index = marketAPIService.getInstrumentIndex("XRP-USDT-200925");
+        Index index = marketAPIService.getInstrumentIndex("BTC-USD-201225");
         toResultString(LOG, "Instrument-Book", index);
     }
 
@@ -202,7 +225,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetSettlementHistory(){
-        JSONArray result = marketAPIService.getSettlementHistory("BTC-USDT-200925","","","");
+        JSONArray result = marketAPIService.getSettlementHistory("BTC-USDT-200626","",null,null,null);
         toResultString(LOG,"result",result);
     }
 

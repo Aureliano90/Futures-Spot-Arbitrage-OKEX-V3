@@ -46,7 +46,7 @@ public class SpotPublicChannelTest {
     public void tickerChannel() {
         //创建一个list集合，添加要订阅的频道名称
         final ArrayList<String> list = new ArrayList<>();
-        list.add("spot/ticker:EOS-USDT");
+        list.add("spot/ticker:BTC-USDT");
         webSocketClient.subscribe(list);
         //为保证测试方法不停，需要让线程延迟
         try {
@@ -84,8 +84,6 @@ public class SpotPublicChannelTest {
         //创建一个list集合，添加要订阅的频道名称
         final ArrayList<String> list = new ArrayList<>();
         list.add("spot/trade:BTC-USDT");
-        //list.add("spot/trade:ETH-USDT");
-
         webSocketClient.subscribe(list);
         //为保证测试方法不停，需要让线程延迟
         try {
@@ -123,7 +121,7 @@ public class SpotPublicChannelTest {
         //创建一个list集合，添加要订阅的频道名称
         final ArrayList<String> list = new ArrayList<>();
         //list.add("spot/depth:OKB-USDT");
-        list.add("spot/depth:XRP-USDT");
+        list.add("spot/depth:ETC-USDT");
         webSocketClient.subscribe(list);
         //为保证测试方法不停，需要让线程延迟
         try {
@@ -141,7 +139,7 @@ public class SpotPublicChannelTest {
     public void allDepthChannel() {
         //创建一个list集合，添加要订阅的频道名称
         final ArrayList<String> list = new ArrayList<>();
-        list.add("spot/depth_l2_tbt:BTC-USDT");
+        list.add("spot/depth_l2_tbt:BTM-ETH");
         webSocketClient.subscribe(list);
         //为保证测试方法不停，需要让线程延迟
         try {

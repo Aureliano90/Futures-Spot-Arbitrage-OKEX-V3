@@ -6,27 +6,6 @@ public class UserMarginBillDto {
     private String amount;
     private String balance;
     private String type;
-    private String from;
-    private String to;
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getTo() {
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
-
-
-
 
     public String getCurrency() {
         return currency;
@@ -91,6 +70,8 @@ public class UserMarginBillDto {
     public static class Details {
         private Long order_id;
         private String instrument_id;
+        private String from;
+        private String to;
 
         public Long getOrder_id() {
             return this.order_id;
@@ -106,6 +87,22 @@ public class UserMarginBillDto {
 
         public void setInstrument_id(final String instrument_id) {
             this.instrument_id = instrument_id;
+        }
+
+        public String getFrom() {
+            return from;
+        }
+
+        public void setFrom(String from) {
+            this.from = from;
+        }
+
+        public String getTo() {
+            return to;
+        }
+
+        public void setTo(String to) {
+            this.to = to;
         }
     }
 }

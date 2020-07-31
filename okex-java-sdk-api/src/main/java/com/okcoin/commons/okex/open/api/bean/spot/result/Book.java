@@ -7,6 +7,16 @@ public class Book {
 
     private List<String[]> bids;
 
+    private String timestamp;
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public List<String[]> getAsks() {
         return asks;
     }

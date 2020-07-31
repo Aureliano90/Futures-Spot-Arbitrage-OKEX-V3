@@ -21,12 +21,13 @@ import java.util.ArrayList;
 public class FuturesPublicChannelTest {
 
     private static final WebSocketClient webSocketClient = new WebSocketClient();
-    private static Logger logger = Logger.getLogger(FuturesPublicChannelTest.class);
 
+    private static Logger logger = Logger.getLogger(FuturesPublicChannelTest.class);
     @Before
     public void connect() {
         //与服务器建立连接
         WebSocketConfig.publicConnect(webSocketClient);
+
     }
 
     @After
@@ -65,7 +66,7 @@ public class FuturesPublicChannelTest {
     public void tickerChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/ticker:BTC-USD-200925");
+        channel.add("futures/ticker:MNBTC-USDT-200925");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -115,7 +116,8 @@ public class FuturesPublicChannelTest {
     public void tradeChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/trade:BTC-USD-200925");
+
+        channel.add("futures/trade:EOS-USDT-200515");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -193,7 +195,8 @@ public class FuturesPublicChannelTest {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
         //400档位深度校验
-        channel.add("futures/depth:TRX-USD-200925");
+//        channel.add("futures/depth:BCH-USD-200925");
+        channel.add("futures/depth:BTC-USD-200925");
 
         //调用订阅方法
         webSocketClient.subscribe(channel);
@@ -210,7 +213,7 @@ public class FuturesPublicChannelTest {
     public void depth12Channel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/depth_l2_tbt:BCH-USD-200925");
+        channel.add("futures/depth_l2_tbt:BTC-USD-200925");
         //调用订阅方法
         webSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟

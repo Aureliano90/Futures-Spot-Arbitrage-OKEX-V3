@@ -8,11 +8,11 @@ public class OrderAlgoResult {
     /**
      * 合约ID，如BTC-USD-SWAP
      */
-    private String instrument_id;
+//    private String instrument_id;
     /**
      * 	1：止盈止损 2：跟踪委托 3:冰山委托 4:时间加权
      */
-    private String order_type;
+//    private String order_type;
     /**
      * 	订单ID，下单失败时，此字段值为-1
      */
@@ -46,7 +46,7 @@ public class OrderAlgoResult {
         this.result = result;
     }
 
-    public String getInstrument_id() {
+    /*public String getInstrument_id() {
         return instrument_id;
     }
 
@@ -60,7 +60,7 @@ public class OrderAlgoResult {
 
     public void setOrder_type(String order_type) {
         this.order_type = order_type;
-    }
+    }*/
 
     public String getAlgo_id() {
         return algo_id;

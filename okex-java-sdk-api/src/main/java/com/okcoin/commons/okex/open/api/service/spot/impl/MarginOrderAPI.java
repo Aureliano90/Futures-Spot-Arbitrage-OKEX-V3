@@ -3,9 +3,7 @@ package com.okcoin.commons.okex.open.api.service.spot.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.okcoin.commons.okex.open.api.bean.spot.param.OrderParamDto;
 import com.okcoin.commons.okex.open.api.bean.spot.param.PlaceOrderParam;
-import com.okcoin.commons.okex.open.api.bean.spot.result.Fills;
-import com.okcoin.commons.okex.open.api.bean.spot.result.OrderInfo;
-import com.okcoin.commons.okex.open.api.bean.spot.result.OrderResult;
+import com.okcoin.commons.okex.open.api.bean.spot.result.*;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -117,16 +115,16 @@ public interface MarginOrderAPI {
      * @return
      */
     @GET("api/margin/v3/orders_pending")
-    Call<List<OrderInfo>> getPendingOrders(@Query("before") String before,
-                                           @Query("after") String after,
-                                           @Query("limit") String limit,
-                                           @Query("instrument_id") String instrument_id);
+    Call<List<PendingOrdersInfo>> getPendingOrders(@Query("before") String before,
+                                                  @Query("after") String after,
+                                                  @Query("limit") String limit,
+                                                  @Query("instrument_id") String instrument_id);
 
 
     @GET("api/margin/v3/fills")
-    Call<List<Fills>> getFills(@Query("order_id") String order_id,
-                               @Query("instrument_id") String instrument_id,
-                               @Query("after") String after,
-                               @Query("before") String before,
-                               @Query("limit") String limit);
+    Call<List<MarginFills>> getFills(@Query("order_id") String order_id,
+                                     @Query("instrument_id") String instrument_id,
+                                     @Query("after") String after,
+                                     @Query("before") String before,
+                                     @Query("limit") String limit);
 }

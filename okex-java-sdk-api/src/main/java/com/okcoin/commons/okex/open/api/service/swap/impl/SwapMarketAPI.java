@@ -25,6 +25,11 @@ public interface SwapMarketAPI {
     @GET("/api/swap/v3/instruments/{instrument_id}/candles")
     Call<String> getCandlesApi(@Path("instrument_id") String instrument_id, @Query("start") String start, @Query("end") String end, @Query("granularity") String granularity);
 
+    @GET("/api/swap/v3/instruments/{instrument_id}/history/candles")
+    Call<String> getHistoryCandlesApi(@Path("instrument_id") String instrument_id, @Query("start") String start, @Query("end") String end, @Query("granularity") String granularity);
+
+
+
     @GET("/api/swap/v3/instruments/{instrument_id}/index")
     Call<String> getIndexApi(@Path("instrument_id") String instrument_id);
 

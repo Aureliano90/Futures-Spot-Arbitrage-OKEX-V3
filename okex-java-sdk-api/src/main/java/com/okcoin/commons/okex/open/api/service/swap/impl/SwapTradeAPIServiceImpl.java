@@ -1,11 +1,14 @@
 package com.okcoin.commons.okex.open.api.service.swap.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.okcoin.commons.okex.open.api.bean.swap.param.*;
 import com.okcoin.commons.okex.open.api.bean.swap.result.ApiOrderVO;
 import com.okcoin.commons.okex.open.api.client.APIClient;
 import com.okcoin.commons.okex.open.api.config.APIConfiguration;
 import com.okcoin.commons.okex.open.api.service.swap.SwapTradeAPIService;
 import com.okcoin.commons.okex.open.api.utils.JsonUtils;
+
+import java.util.List;
 
 public class SwapTradeAPIServiceImpl implements SwapTradeAPIService {
     private APIClient client;
@@ -45,10 +48,7 @@ public class SwapTradeAPIServiceImpl implements SwapTradeAPIService {
         return this.client.executeSync(this.api.orders(JsonUtils.convertObject(ppOrders, PpOrders.class)));
     }
 
-    @Override
-    public String getOrders() {
-        return null;
-    }
+
 
     /**
      * 撤单
@@ -78,6 +78,28 @@ public class SwapTradeAPIServiceImpl implements SwapTradeAPIService {
     public String cancelOrders(String instrumentId, PpCancelOrderVO ppCancelOrderVO) {
         return this.client.executeSync(this.api.cancelOrders(instrumentId,JsonUtils.convertObject(ppCancelOrderVO, PpCancelOrderVO.class)));
     }
+
+    @Override
+    public String amendOrder(String instrumentId, AmendOrder amendOrder) {
+        return this.client.executeSync(this.api.amendOrder(instrumentId, amendOrder));
+    }
+
+    @Override
+    public String amendOrderByClientOid(String instrument_id, AmendOrder amendOrder) {
+        return this.client.executeSync(this.api.amendOrderByClientOid(instrument_id, amendOrder));
+    }
+
+    @Override
+    public String amendBatchOrderByOrderId(String instrument_id, AmendOrderParam amendOrder) {
+        return this.client.executeSync(this.api.amendBatchOrderByOrderId(instrument_id,amendOrder));
+    }
+
+    @Override
+    public String amendBatchOrderByClientOid(String instrument_id, AmendOrderParam amendOrder) {
+        return this.client.executeSync(this.api.amendBatchOrderByClientOid(instrument_id, amendOrder));
+    }
+
+
     //委托策略下单
     @Override
     public String swapOrderAlgo(SwapOrderParam swapOrderParam) {

@@ -72,7 +72,7 @@ public class APIClient {
         try {
 
             final Response<T> response = call.execute();
-            //System.out.println("response-------------------------"+call.toString());
+//            System.out.println("response-------------------------"+call.toString());
             //是否打印config配置信息
             if (this.config.isPrint()) {
                 //打印响应信息
@@ -90,12 +90,12 @@ public class APIClient {
                 final HttpResult result = JSON.parseObject(new String(response.errorBody().bytes()), HttpResult.class);
                 if(result.getCode() == 0 && result.getMessage() == null){
                    // System.out.println("错误码："+result.getErrorCode()+"\t错误信息"+result.getErrorMessage());
-                    System.out.println(result);
+                   // System.out.println(result);
                     throw new APIException(result.getErrorCode(),result.getErrorMessage());
                 }else{
                     //System.out.println("错误码："+result.getCode()+"\t错误信息"+result.getMessage());
                     //抛出异常
-                    System.out.println(result);
+                  //  System.out.println(result);
                     throw new APIException(result.getCode(), result.getMessage());
                 }
             } else {

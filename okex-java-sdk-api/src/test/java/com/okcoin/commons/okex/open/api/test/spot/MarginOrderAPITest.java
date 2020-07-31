@@ -3,9 +3,7 @@ package com.okcoin.commons.okex.open.api.test.spot;
 import com.alibaba.fastjson.JSONObject;
 import com.okcoin.commons.okex.open.api.bean.spot.param.OrderParamDto;
 import com.okcoin.commons.okex.open.api.bean.spot.param.PlaceOrderParam;
-import com.okcoin.commons.okex.open.api.bean.spot.result.Fills;
-import com.okcoin.commons.okex.open.api.bean.spot.result.OrderInfo;
-import com.okcoin.commons.okex.open.api.bean.spot.result.OrderResult;
+import com.okcoin.commons.okex.open.api.bean.spot.result.*;
 import com.okcoin.commons.okex.open.api.service.spot.MarginOrderAPIService;
 import com.okcoin.commons.okex.open.api.service.spot.impl.MarginOrderAPIServiceImpl;
 import org.junit.Before;
@@ -40,19 +38,19 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
         final PlaceOrderParam order = new PlaceOrderParam();
 
         //公共参数
-        order.setClient_oid("testmargin1");
+        order.setClient_oid("testmargin03");
         order.setInstrument_id("XRP-USDT");
         order.setType("limit");
         order.setSide("sell");
         order.setOrder_type("0");
         order.setMargin_trading("2");
-        //限价委托
-        order.setPrice("0.19");
+//        限价委托
+        order.setPrice("0.251");
         order.setSize("1");
 
         //市价(买入必填notional<买入金额> 卖出必填size<卖出数量>)
-        //order.setNotional("1");
-        //order.setSize("0.001");
+//        order.setNotional("1");
+//        order.setSize("1");
 
         final OrderResult orderResult = this.marginOrderAPIService.addOrder(order);
         this.toResultString(MarginOrderAPITest.LOG, "orders", orderResult);
@@ -79,6 +77,7 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
         order.setSize("1");
         //市价单(买入必填notional<买入金额> 卖出必填size<卖出数量>)
         //order.setNotional("");
+        //order.setSize("");
 
 
         final PlaceOrderParam order1 = new PlaceOrderParam();
@@ -96,6 +95,7 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
 
         //市价单(买入必填notional<买入金额> 卖出必填size<卖出数量>)
         //order.setNotional("");
+        //order.setSize("");
 
         final List<PlaceOrderParam> list = new ArrayList<>();
         list.add(order);
@@ -114,9 +114,8 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
     @Test
     public void cancleOrdersByOrderId() {
         PlaceOrderParam orderParam = new PlaceOrderParam();
-        orderParam.setInstrument_id("BTC-USDT");
-        orderParam.setOrder_id("4766014724073472");
-        final OrderResult orderResult = this.marginOrderAPIService.cancleOrdersByOrderId(orderParam,"4250464400384000" );
+        orderParam.setInstrument_id("XRP-USDT");
+        final OrderResult orderResult = this.marginOrderAPIService.cancleOrdersByOrderId(orderParam,"5326384420248576" );
         this.toResultString(MarginOrderAPITest.LOG, "cancleOrder", orderResult);
     }
 
@@ -124,7 +123,7 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
     public void cancleOrdersByClientOid() {
         PlaceOrderParam orderParam = new PlaceOrderParam();
         orderParam.setInstrument_id("XRP-USDT");
-        final OrderResult orderResult = this.marginOrderAPIService.cancleOrdersByClientOid(orderParam, "test1");
+        final OrderResult orderResult = this.marginOrderAPIService.cancleOrdersByClientOid(orderParam, "testmargin02");
         this.toResultString(MarginOrderAPITest.LOG, "cancleOrder", orderResult);
     }
 
@@ -142,16 +141,16 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
         final OrderParamDto dto = new OrderParamDto();
         dto.setInstrument_id("BTC-USDT");
         final List<String> order_ids = new ArrayList<>();
-        order_ids.add("3747071400218624");
-        order_ids.add("3747071400284160");
+        order_ids.add("5326387405613056");
+        order_ids.add("5326397842735104");
         dto.setOrder_ids(order_ids);
         cancleOrders.add(dto);
 
         final OrderParamDto dto1 = new OrderParamDto();
         dto1.setInstrument_id("XRP-USDT");
         final List<String> order_ids1 = new ArrayList<>();
-        order_ids1.add("3747071400218624");
-        order_ids1.add("3747071400284160");
+        order_ids1.add("5326387405613056");
+        order_ids1.add("5326404345413632");
         dto1.setOrder_ids(order_ids1);
         cancleOrders.add(dto1);
 
@@ -192,13 +191,13 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getOrderByProductIdAndOrderId() {
-        final OrderInfo orderInfo = this.marginOrderAPIService.getOrderByProductIdAndOrderId("XRP-USDT", "4766014724073472");
+        final OrderInfo orderInfo = this.marginOrderAPIService.getOrderByProductIdAndOrderId("XRP-USDT", "5326387405613056");
         this.toResultString(MarginOrderAPITest.LOG, "orderInfo", orderInfo);
     }
 
     @Test
     public void getOrderByClientOid() {
-        final OrderInfo orderInfo = this.marginOrderAPIService.getOrderByClientOid("testmargin1","XRP-USDT");
+        final OrderInfo orderInfo = this.marginOrderAPIService.getOrderByClientOid("testmargin01","XRP-USDT");
         this.toResultString(MarginOrderAPITest.LOG, "orderInfo", orderInfo);
     }
 
@@ -210,7 +209,7 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getOrders() {
-        final List<OrderInfo> orderInfoList = this.marginOrderAPIService.getOrders("XRP-USDT", "-1", null, null, "");
+        final List<OrderInfo> orderInfoList = this.marginOrderAPIService.getOrders("XRP-USDT", "-1", null, null, null);
         this.toResultString(MarginOrderAPITest.LOG, "orderInfoList", orderInfoList);
     }
 
@@ -223,7 +222,7 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getPendingOrders() {
-        final List<OrderInfo> orderInfoList = this.marginOrderAPIService.getPendingOrders("", "", "", "XRP-USDT");
+        final List<PendingOrdersInfo> orderInfoList = this.marginOrderAPIService.getPendingOrders(null, null, null, "XRP-USDT");
         this.toResultString(MarginOrderAPITest.LOG, "orderInfoList", orderInfoList);
     }
 
@@ -236,7 +235,7 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getFills() {
-        final List<Fills> fills = this.marginOrderAPIService.getFills("", "XRP-USDT", "", "", "");
+        final List<MarginFills> fills = this.marginOrderAPIService.getFills("", "XRP-USDT", "", "", "");
         this.toResultString(MarginOrderAPITest.LOG, "fills", fills);
     }
 }

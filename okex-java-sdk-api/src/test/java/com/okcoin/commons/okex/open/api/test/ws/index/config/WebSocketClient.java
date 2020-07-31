@@ -10,8 +10,10 @@ import com.okcoin.commons.okex.open.api.bean.other.SpotOrderBook;
 import com.okcoin.commons.okex.open.api.bean.other.SpotOrderBookDiff;
 import com.okcoin.commons.okex.open.api.bean.other.SpotOrderBookItem;
 import com.okcoin.commons.okex.open.api.enums.CharsetEnum;
+import com.okcoin.commons.okex.open.api.test.ws.index.IndexPublicChannelTest;
 import com.okcoin.commons.okex.open.api.test.ws.option.OptionPublicChannelTest;
 import com.okcoin.commons.okex.open.api.utils.DateUtils;
+import com.okcoin.commons.okex.open.api.bean.other.OrderBookDiffer;
 import lombok.Data;
 import net.sf.json.JSONObject;
 import okhttp3.*;
@@ -47,7 +49,7 @@ public class WebSocketClient {
     private final static HashFunction crc32 = Hashing.crc32();
     private final static ObjectReader objectReader = new ObjectMapper().readerFor(OrderBookData.class);
     private static Map<String,Optional<SpotOrderBook>> bookMap = new HashMap<>();
-    private static Logger logger = Logger.getLogger(OptionPublicChannelTest.class);
+    private static Logger logger = Logger.getLogger(IndexPublicChannelTest.class);
     public WebSocketClient() {
     }
 

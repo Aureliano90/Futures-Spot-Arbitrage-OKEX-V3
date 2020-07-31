@@ -2,13 +2,13 @@ package com.okcoin.commons.okex.open.api.service.futures.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.okcoin.commons.okex.open.api.bean.futures.param.ModifyFixedMargin;
-import com.okcoin.commons.okex.open.api.bean.futures.param.ModifyMarginParam;
+import com.okcoin.commons.okex.open.api.bean.futures.param.*;
 import com.okcoin.commons.okex.open.api.bean.futures.result.CancelFuturesOrder;
-import com.okcoin.commons.okex.open.api.bean.futures.param.FuturesOrderParam;
 import com.okcoin.commons.okex.open.api.bean.futures.result.*;
 import retrofit2.Call;
 import retrofit2.http.*;
+
+import java.util.List;
 
 /**
  * Futures trade api
@@ -54,10 +54,27 @@ interface FuturesTradeAPI {
     @POST("/api/futures/v3/cancel_order/{instrument_id}/{client_oid}")
     Call<JSONObject> cancelOrderByClientOid(@Path("instrument_id") String instrument_id, @Path("client_oid") String client_oid);
 
-
-
     @POST("/api/futures/v3/cancel_batch_orders/{instrument_id}")
     Call<JSONObject> cancelOrders(@Path("instrument_id") String instrumentId, @Body JSONObject order_ids);
+
+    //修改订单(通过order_id)
+    @POST("/api/futures/v3/amend_order/{instrument_id}")
+    Call<JSONObject> amendOrderByOrderId(@Path("instrument_id") String instrument_id, @Body AmendOrder amendorder);
+
+
+    //修改订单(通过client_oid)
+    @POST("/api/futures/v3/amend_order/{instrument_id}")
+    Call<JSONObject> amendOrderByClientOid(@Path("instrument_id") String instrument_id, @Body AmendOrder amendorder);
+
+    //批量修改订单(通过order_id)
+    @POST("/api/futures/v3/amend_batch_orders/{instrument_id}")
+    Call<JSONObject> amendBatchOrdersByOrderId(@Path("instrument_id") String instrument_id, @Body AmendDateParam amendOrder);
+
+
+    //批量修改订单(通过order_id)
+    @POST("/api/futures/v3/amend_batch_orders/{instrument_id}")
+    Call<JSONObject> amendBatchOrdersByClientOid(@Path("instrument_id") String instrument_id, @Body AmendDateParam amendOrder);
+
 
     @GET("/api/futures/v3/orders/{instrument_id}")
     Call<JSONObject> getOrders(@Path("instrument_id") String instrumentId, @Query("state") String state,
@@ -107,7 +124,7 @@ interface FuturesTradeAPI {
     Call<String> findFuturesOrder(@Path("instrument_id") String instrument_id,
                                       @Query("order_type") String order_type,
                                       @Query("status") String status,
-                                      @Query("algo_ids") String algo_ids,
+                                      @Query("algo_id") String algo_id,
                                       @Query("after") String after,
                                       @Query("before") String before,
                                       @Query("limit") String limit);

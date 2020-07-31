@@ -3,6 +3,9 @@ package com.okcoin.commons.okex.open.api.service.swap;
 import com.alibaba.fastjson.JSONObject;
 import com.okcoin.commons.okex.open.api.bean.swap.param.*;
 import com.okcoin.commons.okex.open.api.bean.swap.result.ApiOrderVO;
+import retrofit2.http.Body;
+
+import java.util.List;
 
 public interface SwapTradeAPIService {
     /**
@@ -23,7 +26,7 @@ public interface SwapTradeAPIService {
      * 获取订单信息
      * @return
      */
-    String getOrders();
+
 
     /**
      * 撤单
@@ -37,11 +40,24 @@ public interface SwapTradeAPIService {
 
     /**
      * 批量撤单
-     * @param instrumentId
+     * @param instrument_id
      * @param ppCancelOrderVO
      * @return
      */
-    String cancelOrders(String instrumentId, PpCancelOrderVO ppCancelOrderVO);
+    String cancelOrders(String instrument_id, PpCancelOrderVO ppCancelOrderVO);
+
+    //修改订单
+    String amendOrder(String instrument_id,AmendOrder amendOrder);
+
+
+    String amendOrderByClientOid(String instrument_id,AmendOrder amendOrder);
+
+    String amendBatchOrderByOrderId(String instrument_id, AmendOrderParam amendOrder);
+
+    String amendBatchOrderByClientOid(String instrument_id, AmendOrderParam amendOrder);
+
+
+
 
     /**
      * 策略委托下单

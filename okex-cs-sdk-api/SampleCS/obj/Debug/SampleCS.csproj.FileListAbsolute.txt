@@ -112,3 +112,4 @@ D:\ProgramData\Project\newSDK\V3-Open-API-SDK\okex-cs-sdk-api\SampleCS\obj\Debug
 D:\ProgramData\Project\newSDK\V3-Open-API-SDK\okex-cs-sdk-api\SampleCS\obj\Debug\SampleCS.csproj.CopyComplete
 D:\ProgramData\Project\newSDK\V3-Open-API-SDK\okex-cs-sdk-api\SampleCS\obj\Debug\SampleCS.exe
 D:\ProgramData\Project\newSDK\V3-Open-API-SDK\okex-cs-sdk-api\SampleCS\obj\Debug\SampleCS.pdb
+D:\ProgramData\Project\newSDK\V3-Open-API-SDK\okex-cs-sdk-api\SampleCS\obj\Debug\SampleCS.csproj.CoreCompileInputs.cache

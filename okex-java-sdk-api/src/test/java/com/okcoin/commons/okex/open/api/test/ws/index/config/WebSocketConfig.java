@@ -1,7 +1,7 @@
 package com.okcoin.commons.okex.open.api.test.ws.index.config;
 
 
-import com.okcoin.commons.okex.open.api.test.ws.option.config.WebSocketClient;
+import com.okcoin.commons.okex.open.api.test.ws.index.config.WebSocketClient;
 
 /**
  * webSocket config

@@ -58,9 +58,10 @@ public interface SpotProductAPIService {
      * @param end
      * @return
      */
+
     JSONArray getCandles(String instrument_id, String granularity, String start, String end);
 
-    List<String[]> getCandles_1(String product, String granularity, String start, String end);
+    JSONArray getHistoryCandles(String instrument_id, String granularity, String start, String end);
 
 
 

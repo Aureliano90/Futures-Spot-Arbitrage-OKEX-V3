@@ -22,10 +22,6 @@ public class SpotAccountAPIServiceImpl implements SpotAccountAPIService {
         this.api = this.client.createService(SpotAccountAPI.class);
     }
 
-    @Override
-    public ServerTimeDto time() {
-        return this.client.executeSync(this.api.time());
-    }
 
     @Override
     public Map<String, Object> getMiningData() {

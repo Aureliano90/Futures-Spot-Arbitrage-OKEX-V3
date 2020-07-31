@@ -788,5 +788,92 @@ namespace OKExSDK
                 return contentStr;
             }
         }
+        public async Task<string> amend_order(string instrument_id,string cancel_on_fail,string order_id="",string client_oid="",string request_id="",string new_size="",string new_price="")
+        {
+            string url = $"{this.BASEURL}{this.FUTURES_SEGMENT}/amend_order/{instrument_id}";
+            var body = new {  order_id = order_id,  client_oid = client_oid,  request_id = request_id,  new_size = new_size,  new_price = new_price };
+            string bodyStr = JsonConvert.SerializeObject(body).Replace("\"[", "[").Replace("]\"", "]").Replace("\\\"", "\"");
+            using (var client = new HttpClient(new HttpInterceptor(this._apiKey, this._secret, this._passPhrase, bodyStr)))
+            {
+                var res = await client.PostAsync(url, new StringContent(bodyStr, Encoding.UTF8, "application/json"));
+                var contentStr = await res.Content.ReadAsStringAsync();
+                return contentStr;
+            }
+        }
+        public async Task<string> amend_batch_orders(string instrument_id, string cancel_on_fail, string order_id = "")
+        {
+            string url = $"{this.BASEURL}{this.FUTURES_SEGMENT}/amend_batch_orders/{instrument_id}";
+            var body = new { amend_data="[{\"order_id\":\"305512815291895607\",\"new_size\":\"2\"},{\"order_id\":\"305512815291895606\",\"new_size\":\"1\"}]" };
+            string bodyStr = JsonConvert.SerializeObject(body).Replace("\"[", "[").Replace("]\"", "]").Replace("\\\"", "\"");
+            Console.WriteLine(bodyStr);
+            using (var client = new HttpClient(new HttpInterceptor(this._apiKey, this._secret, this._passPhrase, bodyStr)))
+            {
+                var res = await client.PostAsync(url, new StringContent(bodyStr, Encoding.UTF8, "application/json"));
+                var contentStr = await res.Content.ReadAsStringAsync();
+                return contentStr;
+            }
+        }
+        public async Task<string> getSettlementHistory(string instrument_id="", string start = "", string end = "", string underlying = "", string limit = "")
+        {
+            string url = $"{this.BASEURL}{this.FUTURES_SEGMENT}/settlement/history";
+            using (HttpClient client = new HttpClient(new HttpInterceptor(this._apiKey, this._secret, this._passPhrase, null)))
+            {
+                var queryParams = new Dictionary<string, string>();
+                if (!string.IsNullOrWhiteSpace(instrument_id))
+                {
+                    queryParams.Add("instrument_id", instrument_id);
+                }
+                if (!string.IsNullOrWhiteSpace(start))
+                {
+                    queryParams.Add("start", start);
+                }
+                if (!string.IsNullOrWhiteSpace(end))
+                {
+                    queryParams.Add("end", end);
+                }
+                if (!string.IsNullOrWhiteSpace(underlying))
+                {
+                    queryParams.Add("underlying", underlying);
+                }
+                if (!string.IsNullOrWhiteSpace(limit))
+                {
+                    queryParams.Add("limit", limit);
+                }
+                var encodedContent = new FormUrlEncodedContent(queryParams);
+                var paramsStr = await encodedContent.ReadAsStringAsync();
+                var res = await client.GetAsync($"{url}?{paramsStr}");
+                string content = await res.Content.ReadAsStringAsync();
+                return content;
+            }
+        }
+        public async Task<string> getHistory_candles(string instrument_id,string start="",string end="",string granularity ="",string limit="")
+        {
+            string url = $"{this.BASEURL}{this.FUTURES_SEGMENT}/instruments/{instrument_id}/history/candles";
+            using (HttpClient client = new HttpClient(new HttpInterceptor(this._apiKey, this._secret, this._passPhrase, null)))
+            {
+                var queryParams = new Dictionary<string, string>();
+                if (!string.IsNullOrWhiteSpace(start))
+                {
+                    queryParams.Add("start", start);
+                }
+                if (!string.IsNullOrWhiteSpace(end))
+                {
+                    queryParams.Add("end", end);
+                }
+                if (!string.IsNullOrWhiteSpace(granularity))
+                {
+                    queryParams.Add("granularity", granularity);
+                }
+                if (!string.IsNullOrWhiteSpace(limit))
+                {
+                    queryParams.Add("limit", limit);
+                }
+                var encodedContent = new FormUrlEncodedContent(queryParams);
+                var paramsStr = await encodedContent.ReadAsStringAsync();
+                var res = await client.GetAsync($"{url}?{paramsStr}");
+                string content = await res.Content.ReadAsStringAsync();
+                return content;
+            }
+        }
     }
 }

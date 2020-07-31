@@ -43,8 +43,13 @@ interface FuturesMarketAPI {
     @GET("/api/futures/v3/instruments/{instrument_id}/trades")
     Call<List<Trades>> getInstrumentTrades(@Path("instrument_id") String instrument_id, @Query("after") String after, @Query("before") String before, @Query("limit") String limit);
 
+//    获取K线
     @GET("/api/futures/v3/instruments/{instrument_id}/candles")
     Call<JSONArray> getInstrumentCandles(@Path("instrument_id") String instrument_id, @Query("start") String start, @Query("end") String end, @Query("granularity") String granularity);
+
+//    获取历史K线
+    @GET("/api/futures/v3/instruments/{instrument_id}/history/candles")
+    Call<JSONArray> getHistoryCandels(@Path("instrument_id") String instrument_id, @Query("start") String start, @Query("end") String end, @Query("granularity") String granularity,@Query("limit") String limit);
 
     @GET("/api/futures/v3/instruments/{instrument_id}/index")
     Call<Index> getInstrumentIndex(@Path("instrument_id") String instrument_id);
@@ -71,6 +76,7 @@ interface FuturesMarketAPI {
 
     @GET("/api/futures/v3/settlement/history")
     Call<JSONArray> getSettlementHistory(@Query("instrument_id") String instrument_id,
+                                         @Query("underlying") String underlying,
                                           @Query("start") String start,
                                           @Query("limit") String limit,
                                           @Query("end") String end);
