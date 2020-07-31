@@ -18,6 +18,7 @@ use okv3\OptionsApi;
 use okv3\OthersAPI;
 use okv3\SpotApi;
 use okv3\SwapApi;
+use okv3\TradingDataAPI;
 use Workerman\Connection\AsyncTcpConnection;
 use Workerman\Worker;
 
@@ -44,10 +45,8 @@ $coin = "XMR";
 //$res = $obj -> getCoinWithdrawalHistory($coin);
 // 获取账户资产估值
 //$res = $obj -> getAssetValuation();
-// 获取账户资产估值
-//$res = $obj -> getSubAccount("liuheng");
 // 获取子账户余额信息
-//$res = $obj -> get();
+//$res = $obj -> getSubAccount("liuheng");
 // 查询单个币种的充值记录
 //$res = $obj -> getCoinDepositHistory($coin);
 // 获取币种列表
@@ -58,6 +57,7 @@ $coin = "XMR";
 /**
  * 币币
  */
+$instrumentId = "EOS-USDT";
 $instrumentId = "EOS-USDT";
 $currency = "EOS";
 $obj = new SpotApi(Config::$config);
@@ -97,7 +97,8 @@ $res = $obj -> getSpecificTicker($instrumentId);
 //$res = $obj -> getDeal($instrumentId);
 // 获取K线
 //$res = $obj -> getKine($instrumentId,3600);
-
+//公共-获取历史K线数据
+//$res = $obj -> getHistoryKine($instrumentId,3600);
 
 // 币币杠杆账户信息
 $instrumentId = "EOS-USDT";
@@ -138,7 +139,7 @@ $obj = new MarginApi(Config::$config);
 //$res = $obj -> getMarkPrice($instrumentId);
 
 // 交割合约-Ticker
-$instrumentId = "EOS-USD-200626";
+$instrumentId = "ETH-USD-200925";
 $coin = "EOS";
 $obj = new FuturesApi(Config::$config);
 // 合约持仓信息
@@ -177,6 +178,8 @@ $obj = new FuturesApi(Config::$config);
 //$res = $obj->getTrades($instrumentId);
 // 公共-获取K线数据
 //$res = $obj->getKline($instrumentId,"60");
+// 公共-获取历史K线数据
+//$res = $obj->getHistoryKline($instrumentId,3600);
 // 公共-获取指数信息
 //$res = $obj->getIndex($instrumentId);
 // 公共-获取法币汇率
@@ -252,6 +255,8 @@ $obj = new SwapApi(Config::$config);
 //$res = $obj->getTrades($instrumentId);
 // 公共-获取K线数据
 //$res = $obj->getKline($instrumentId,"60");
+//公共-获取历史K线数据
+//$res = $obj->getHistoryKline($instrumentId,"60");
 // 公共-获取指数信息
 //$res = $obj->getIndex($instrumentId);
 // 公共-获取法币汇率
@@ -291,8 +296,8 @@ $obj = new SwapApi(Config::$config);
 //$res = $obj->getHistoricalFundingRate($instrumentId);
 
 // 期权
-$instrumentId = "TBTC-USD-191213-7500-C";
-$underlying = "TBTC-USD";
+$instrumentId = "BTC-USD-191213-7500-C";
+$underlying = "BTC-USD";
 $obj = new OptionsApi(Config::$config);
 // 单个标的指数持仓信息
 //$res = $obj -> getSpecificPosition($underlying);
@@ -333,6 +338,20 @@ $obj = new OptionsApi(Config::$config);
 // 公共-获取K线数据
 //$res = $obj->getKline($instrumentId,"60");
 
+// 合约大数据
+$currency = "BTC";
+$obj = new TradingDataAPI(Config::$config);
+// 公共-多空持仓人数比
+//$obj->getLongShortRatio($currency,'','','');
+// 公共-持仓总量及交易量
+//$obj->getVolume($currency,'','','');
+// 公共-主动买入卖出情况
+//$obj->getTaker($currency,'','','');
+// 公共-多空精英趋向指标
+//$obj->getSentiment($currency,'','','');
+// 公共-多空精英平均持仓比例
+//$obj->getMargin($currency,'','','');
+
 // 其他接口
 $instrumentId = "BTC-USD";
 $obj = new OthersAPI(Config::$config);
@@ -340,7 +359,7 @@ $obj = new OthersAPI(Config::$config);
 //$res = $obj->getServerTime();
 //公共-获取指数成分
 //$res = $obj->getConstituents($instrumentId);
-
+//Rest-获取系统升级状态
 //$res = $obj->getStatus("0");
 
 print_r($res);

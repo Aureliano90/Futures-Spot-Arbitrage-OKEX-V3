@@ -26,6 +26,8 @@ class SpotApi extends Utils {
     const SPOT_SPECIFIC_TICKER = '/api/spot/v3/instruments/';
     const SPOT_DEAL = '/api/spot/v3/instruments/';
     const SPOT_KLINE = '/api/spot/v3/instruments/';
+    const SPOT_HISTORY_KLINE = '/api/spot/v3/instruments/';
+
 
     // spot order_algo
     const SPOT_ORDER_ALGO = '/api/spot/v3/order_algo/';
@@ -176,6 +178,18 @@ class SpotApi extends Utils {
         ];
 
         return $this->request(self::SPOT_KLINE.$instrument_id.'/candles',  $params, 'GET');
+    }
+
+    // 公共-获取历史K线数据
+    public function getHistoryKine($instrument_id, $granularity='',$start='', $end='')
+    {
+        $params = [
+            'start' => $start,
+            'end' => $end,
+            'granularity' => $granularity
+        ];
+
+        return $this->request(self::SPOT_HISTORY_KLINE.$instrument_id.'/history/candles',  $params, 'GET');
     }
 
 

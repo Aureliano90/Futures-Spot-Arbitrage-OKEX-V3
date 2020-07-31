@@ -34,6 +34,7 @@ class FuturesApi extends Utils {
     const FUTURE_SPECIFIC_TICKER = '/api/futures/v3/instruments/';
     const FUTURE_TRADES = '/api/futures/v3/instruments/';
     const FUTURE_KLINE = '/api/futures/v3/instruments/';
+    const FUTURE_HISTORY_KLINE = '/api/futures/v3/instruments/';
     const FUTURE_INDEX = '/api/futures/v3/instruments/';
     const FUTURE_RATE = '/api/futures/v3/rate';
     const FUTURE_ESTIMAT_PRICE = '/api/futures/v3/instruments/';
@@ -232,6 +233,18 @@ class FuturesApi extends Utils {
         ];
 
         return $this->request(self::FUTURE_KLINE.$instrument_id.'/candles', $params, 'GET');
+    }
+
+    // 公共-获取历史K线数据
+    public function getHistoryKline($instrument_id, $granularity, $start='', $end='')
+    {
+        $params = [
+            'granularity' => $granularity,
+            'start' => $start,
+            'end' => $end
+        ];
+
+        return $this->request(self::FUTURE_HISTORY_KLINE.$instrument_id.'/history/candles', $params, 'GET');
     }
 
     // 获取指数信息

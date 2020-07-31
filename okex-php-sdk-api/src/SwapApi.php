@@ -34,6 +34,7 @@ class SwapApi extends Utils {
     const SWAP_SPECIFIC_TICKER = '/api/swap/v3/instruments/';
     const SWAP_TRADES = '/api/swap/v3/instruments/';
     const SWAP_KLINE = '/api/swap/v3/instruments/';
+    const SWAP_HISTORY_KLINE = '/api/swap/v3/instruments/';
     const SWAP_INDEX = '/api/swap/v3/instruments/';
     const SWAP_RATE = '/api/swap/v3/rate';
     const SWAP_ESTIMAT_PRICE = '/api/swap/v3/instruments/';
@@ -234,6 +235,19 @@ class SwapApi extends Utils {
 
         return $this->request(self::SWAP_KLINE.$instrument_id.'/candles', $params, 'GET');
     }
+
+    // 公共-获取历史K线数据
+    public function getHistoryKline($instrument_id, $granularity, $start='', $end='')
+    {
+        $params = [
+            'granularity' => $granularity,
+            'start' => $start,
+            'end' => $end
+        ];
+
+        return $this->request(self::SWAP_HISTORY_KLINE.$instrument_id.'/history/candles', $params, 'GET');
+    }
+
 
     // 获取指数信息
     public function getIndex($instrument_id)
