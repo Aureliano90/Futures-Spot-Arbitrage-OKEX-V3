@@ -1,28 +1,65 @@
-如何使用？
+###如何使用？
 
-强烈建议用户使用前阅读 Read before use.txt
+`python版本：3.6+`
 
-第一步：下载代码及版本要求
+`WebSocketAPI：建议websockets库版本为6.0`
 
-1.1 建议python版本3.6+  使用WebsocketAPI时 建议websockets库为6.0版本
+####第一步：下载SDK，安装相关所需库
 
-第二步：配置自己的API key
+1.1 下载`python SDK`
+* 将SDK目录`Clone`或者`Download`到本地，选择使用`okex-python-sdk-api`即可
 
-2.1 代码内默认没有key, 用户测试调用需要配置自己的相关信息
+1.2 安装所需库
+```python
+pip install requests
+pip install websockets==6.0
+```
 
-第三步：调用相关接口，在项目根目录下，找到相应文件
+####第二步：配置个人信息
 
-3.1 使用RestAPI
+2.1 如果还未有API，可[点击](https://www.okex.com/account/users/myApi)前往官网进行申请
+
+2.2 将各项信息在`example.py（RestAPI）`和`websocket_example.py（WebSocketAPI）`中填写
+```python
+api_key = ""
+secret_key = ""
+passphrase = ""
+```
+####第三步：调用接口
+
+* RestAPI
     
-    参阅调试example.py
+    * 运行`example.py`
     
-3.2 使用WebsocketAPI
+    * 解开相应方法的注释传参调用各接口即可
+    
+* WebSocketAPI
+    
+    * 运行`websocket_example.py`
+        
+    * 根据个人/公共频道选择对应启动方法，解开相应频道的注释即可
+    
+    ```python
+    # 公共数据 不需要登录（行情，K线，交易数据，资金费率，限价范围，深度数据，标记价格等频道）
+    loop.run_until_complete(subscribe_without_login(url, channels))
+    
+    # 个人数据 需要登录（用户账户，用户交易，用户持仓等频道）
+    loop.run_until_complete(subscribe(url, api_key, passphrase, secret_key, channels))
+    ```
 
-    参阅调试websocket_example.py
-    
 附言：
-1. 如果对API不太了解，建议可以先去参考OKEx官方api文档
 
-    https://www.okex.com/docs/zh/
+* 如果对API尚不了解，建议参考`OKEx`官方[API文档](https://www.okex.com/docs/zh/)
 
-2. 关于ws的相关问题请参阅同级目录下 WS-May be could help you.txt文件
+* 若使用`WebSocketAPI`遇到问题建议参考相关链接
+
+    * `asyncio`、`websockets`文档/`github`：
+    
+            https://docs.python.org/3/library/asyncio-dev.html
+            https://websockets.readthedocs.io/en/stable/intro.html
+            https://github.com/aaugustin/websockets
+    
+    * 关于`code=1006`：
+    
+            https://github.com/Rapptz/discord.py/issues/1996
+            https://github.com/aaugustin/websockets/issues/587

@@ -4,10 +4,10 @@ from .consts import *
 
 class OptionAPI(Client):
 
-    def __init__(self, api_key, api_secret_key, passphrase, use_server_time=False):
-        Client.__init__(self, api_key, api_secret_key, passphrase, use_server_time)
+    def __init__(self, api_key, api_secret_key, passphrase, use_server_time=False, test=False):
+        Client.__init__(self, api_key, api_secret_key, passphrase, use_server_time, test)
 
-    def take_order(self, instrument_id, side, price, size, client_oid='', order_type='', match_price=''):
+    def take_order(self, instrument_id, side, price, size, client_oid='', order_type='0', match_price='0'):
         params = {'instrument_id': instrument_id, 'side': side, 'price': price, 'size': size}
         if client_oid:
             params['client_oid'] = client_oid
@@ -155,8 +155,18 @@ class OptionAPI(Client):
         if granularity:
             params['granularity'] = granularity
         # 按时间倒叙 即由结束时间到开始时间
-        # return self._request_with_params(GET, OPTION_INSTRUMENTS + str(instrument_id) + '/candles', params)
+        return self._request_with_params(GET, OPTION_INSTRUMENTS + str(instrument_id) + '/candles', params)
 
         # 按时间正序 即由开始时间到结束时间
-        data = self._request_with_params(GET, OPTION_INSTRUMENTS + str(instrument_id) + '/candles', params)
-        return list(reversed(data))
+        # data = self._request_with_params(GET, OPTION_INSTRUMENTS + str(instrument_id) + '/candles', params)
+        # return list(reversed(data))
+
+    def get_history_settlement(self, instrument_id, start='', end='', limit=''):
+        params = {}
+        if start:
+            params['start'] = start
+        if end:
+            params['end'] = end
+        if limit:
+            params['limit'] = limit
+        return self._request_with_params(GET, OPTION_HISTORY_SETTLEMENT + str(instrument_id), params)

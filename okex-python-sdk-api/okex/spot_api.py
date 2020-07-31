@@ -1,11 +1,11 @@
 from .client import Client
 from .consts import *
-import json
+
 
 class SpotAPI(Client):
 
-    def __init__(self, api_key, api_secret_key, passphrase, use_server_time=False, first=False):
-        Client.__init__(self, api_key, api_secret_key, passphrase, use_server_time, first)
+    def __init__(self, api_key, api_secret_key, passphrase, use_server_time=False, test=False, first=False):
+        Client.__init__(self, api_key, api_secret_key, passphrase, use_server_time, test, first)
 
     # query spot account info
     def get_account_info(self):
@@ -164,7 +164,7 @@ class SpotAPI(Client):
         return self._request_with_params(GET, SPOT_DEAL + str(instrument_id) + '/trades', params)
 
     # query k-line info
-    def get_kline(self, instrument_id, granularity='', start='', end=''):
+    def get_kline(self, instrument_id, start='', end='', granularity=''):
         params = {}
         if start:
             params['start'] = start
@@ -172,10 +172,19 @@ class SpotAPI(Client):
             params['end'] = end
         if granularity:
             params['granularity'] = granularity
-
         # 按时间倒叙 即由结束时间到开始时间
         return self._request_with_params(GET, SPOT_KLINE + str(instrument_id) + '/candles', params)
 
         # 按时间正序 即由开始时间到结束时间
         # data = self._request_with_params(GET, SPOT_KLINE + str(instrument_id) + '/candles', params)
         # return list(reversed(data))
+
+    def get_history_kline(self, instrument_id, start='', end='', granularity=''):
+        params = {}
+        if start:
+            params['start'] = start
+        if end:
+            params['end'] = end
+        if granularity:
+            params['granularity'] = granularity
+        return self._request_with_params(GET, SPOT_KLINE + str(instrument_id) + '/history' + '/candles', params)

@@ -1,12 +1,11 @@
 
-# http header
 API_URL = 'https://www.okex.com'
+
 CONTENT_TYPE = 'Content-Type'
 OK_ACCESS_KEY = 'OK-ACCESS-KEY'
 OK_ACCESS_SIGN = 'OK-ACCESS-SIGN'
 OK_ACCESS_TIMESTAMP = 'OK-ACCESS-TIMESTAMP'
 OK_ACCESS_PASSPHRASE = 'OK-ACCESS-PASSPHRASE'
-
 
 ACEEPT = 'Accept'
 COOKIE = 'Cookie'
@@ -118,6 +117,8 @@ FUTURE_LIQUIDATION = '/api/futures/v3/instruments/'
 FUTURE_AUTO_MARGIN = '/api/futures/v3/accounts/auto_margin'
 FUTURE_CHANGE_MARGIN = '/api/futures/v3/position/margin'
 FUTURE_HISTORY_SETTLEMENT = '/api/futures/v3/settlement/history'
+FUTURE_AMEND_ORDER = '/api/futures/v3/amend_order/'
+FUTURE_AMEND_BATCH_ORDERS = '/api/futures/v3/amend_batch_orders/'
 
 # swap
 SWAP_POSITIONS = '/api/swap/v3/position'
@@ -138,6 +139,12 @@ SWAP_TICKETS = '/api/swap/v3/instruments/ticker'
 SWAP_RATE = '/api/swap/v3/rate'
 SWAP_CLOSE_POSITION = '/api/swap/v3/close_position'
 SWAP_CANCEL_ALL = '/api/swap/v3/cancel_all'
+SWAP_AMEND_ORDER = '/api/swap/v3/amend_order/'
+SWAP_AMEND_BATCH_ORDERS = '/api/swap/v3/amend_batch_orders/'
+SWAP_HISTORY_KLINE = '/api/swap/v3/instruments/'
+
+# information
+INFORMATION = '/api/information/v3/'
 
 # index
 INDEX_GET_CONSTITUENTS = '/api/index/v3/'
@@ -155,6 +162,7 @@ OPTION_ACCOUNT = '/api/option/v3/accounts/'
 OPTION_TRADE_FEE = '/api/option/v3/trade_fee'
 OPTION_INDEX = '/api/option/v3/underlying'
 OPTION_INSTRUMENTS = '/api/option/v3/instruments/'
+OPTION_HISTORY_SETTLEMENT = '/api/option/v3/settlement/history/'
 
 # system
 SYSTEM_STATUS = '/api/system/v3/status'

@@ -4,8 +4,8 @@ from .consts import *
 
 class LeverAPI(Client):
 
-    def __init__(self, api_key, api_secret_key, passphrase, use_server_time=False):
-        Client.__init__(self, api_key, api_secret_key, passphrase, use_server_time)
+    def __init__(self, api_key, api_secret_key, passphrase, use_server_time=False, test=False):
+        Client.__init__(self, api_key, api_secret_key, passphrase, use_server_time, test)
 
     # query lever account info
     def get_account_info(self):
@@ -45,15 +45,19 @@ class LeverAPI(Client):
         return self._request_with_params(GET, LEVER_SPECIFIC_CONFIG + str(instrument_id) + '/borrowed', params, cursor=True)
 
     # borrow coin
-    def borrow_coin(self, instrument_id, currency, amount):
+    def borrow_coin(self, instrument_id, currency, amount, client_oid=''):
         params = {'instrument_id': instrument_id, 'currency': currency, 'amount': amount}
+        if client_oid:
+            params['client_oid'] = client_oid
         return self._request_with_params(POST, LEVER_BORROW_COIN, params)
 
     # repayment coin
-    def repayment_coin(self, instrument_id, currency, amount, borrow_id=''):
+    def repayment_coin(self, instrument_id, currency, amount, borrow_id='', client_oid=''):
         params = {'instrument_id': instrument_id, 'currency': currency, 'amount': amount}
         if borrow_id:
             params['borrow_id'] = borrow_id
+        if client_oid:
+            params['client_oid'] = client_oid
         return self._request_with_params(POST, LEVER_REPAYMENT_COIN, params)
 
     # take order
@@ -80,12 +84,12 @@ class LeverAPI(Client):
         params = {'instrument_id': instrument_id, 'state': state, 'after': after, 'before': before, 'limit': limit}
         return self._request_with_params(GET, LEVER_ORDER_LIST, params, cursor=True)
 
-    def get_order_pending(self, instrument_id, after='', to='', limit=''):
+    def get_order_pending(self, instrument_id, after='', before='', limit=''):
         params = {'instrument_id': instrument_id}
         if after:
             params['after'] = after
-        if to:
-            params['to'] = to
+        if before:
+            params['before'] = before
         if limit:
             params['limit'] = limit
         return self._request_with_params(GET, LEVEL_ORDERS_PENDING, params, cursor=True)
@@ -98,8 +102,16 @@ class LeverAPI(Client):
         elif client_oid:
             return self._request_with_params(GET, LEVER_ORDER_INFO + str(client_oid), params)
 
-    def get_fills(self, instrument_id, order_id='', after='', to='', limit=''):
-        params = {'instrument_id': instrument_id, 'order_id': order_id, 'after': after, 'to': to, 'limit': limit}
+    def get_fills(self, instrument_id, order_id='', after='', before='', limit=''):
+        params = {'instrument_id': instrument_id}
+        if order_id:
+            params['order_id'] = order_id
+        if after:
+            params['after'] = after
+        if before:
+            params['before'] = before
+        if limit:
+            params['limit'] = limit
         return self._request_with_params(GET, LEVER_FILLS, params, cursor=True)
 
     def get_leverage(self, instrument_id):

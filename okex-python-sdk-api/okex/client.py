@@ -5,13 +5,14 @@ from . import consts as c, utils, exceptions
 
 class Client(object):
 
-    def __init__(self, api_key, api_secret_key, passphrase, use_server_time=False, first=False):
+    def __init__(self, api_key, api_secret_key, passphrase, use_server_time=False, test=False, first=False):
 
         self.API_KEY = api_key
         self.API_SECRET_KEY = api_secret_key
         self.PASSPHRASE = passphrase
         self.use_server_time = use_server_time
         self.first = first
+        self.test = test
 
     def _request(self, method, request_path, params, cursor=False):
         if method == c.GET:
@@ -24,13 +25,15 @@ class Client(object):
 
         # sign & header
         if self.use_server_time:
-            # 获取服务器时间接口
+            # 获取服务器时间
             timestamp = self._get_timestamp()
 
         body = json.dumps(params) if method == c.POST else ""
         sign = utils.sign(utils.pre_hash(timestamp, method, request_path, str(body)), self.API_SECRET_KEY)
         header = utils.get_header(self.API_KEY, sign, timestamp, self.PASSPHRASE)
 
+        if self.test:
+            header['x-simulated-trading'] = '1'
         if self.first:
             print("url:", url)
             self.first = False
@@ -45,7 +48,6 @@ class Client(object):
             response = requests.get(url, headers=header)
         elif method == c.POST:
             response = requests.post(url, data=body, headers=header)
-            #response = requests.post(url, json=body, headers=header)
         elif method == c.DELETE:
             response = requests.delete(url, headers=header)
 

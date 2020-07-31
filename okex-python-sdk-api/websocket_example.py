@@ -57,10 +57,10 @@ def partial(res, timestamp):
     bids = data_obj['bids']
     asks = data_obj['asks']
     instrument_id = data_obj['instrument_id']
-    print(timestamp + '全量数据bids为：' + str(bids))
-    print('档数为：' + str(len(bids)))
-    print(timestamp + '全量数据asks为：' + str(asks))
-    print('档数为：' + str(len(asks)))
+    # print(timestamp + '全量数据bids为：' + str(bids))
+    # print('档数为：' + str(len(bids)))
+    # print(timestamp + '全量数据asks为：' + str(asks))
+    # print('档数为：' + str(len(asks)))
     return bids, asks, instrument_id
 
 
@@ -68,7 +68,7 @@ def update_bids(res, bids_p, timestamp):
     # 获取增量bids数据
     bids_u = res['data'][0]['bids']
     print(timestamp + '增量数据bids为：' + str(bids_u))
-    print('档数为：' + str(len(bids_u)))
+    # print('档数为：' + str(len(bids_u)))
     # bids合并
     for i in bids_u:
         bid_price = i[0]
@@ -86,7 +86,7 @@ def update_bids(res, bids_p, timestamp):
                 bids_p.append(i)
     else:
         bids_p.sort(key=lambda price: sort_num(price[0]), reverse=True)
-        print(timestamp + '合并后的bids为：' + str(bids_p) + '，档数为：' + str(len(bids_p)))
+        # print(timestamp + '合并后的bids为：' + str(bids_p) + '，档数为：' + str(len(bids_p)))
     return bids_p
 
 
@@ -94,7 +94,7 @@ def update_asks(res, asks_p, timestamp):
     # 获取增量asks数据
     asks_u = res['data'][0]['asks']
     print(timestamp + '增量数据asks为：' + str(asks_u))
-    print('档数为：' + str(len(asks_u)))
+    # print('档数为：' + str(len(asks_u)))
     # asks合并
     for i in asks_u:
         ask_price = i[0]
@@ -112,7 +112,7 @@ def update_asks(res, asks_p, timestamp):
                 asks_p.append(i)
     else:
         asks_p.sort(key=lambda price: sort_num(price[0]))
-        print(timestamp + '合并后的asks为：' + str(asks_p) + '，档数为：' + str(len(asks_p)))
+        # print(timestamp + '合并后的asks为：' + str(asks_p) + '，档数为：' + str(len(asks_p)))
     return asks_p
 
 
@@ -204,7 +204,7 @@ async def subscribe_without_login(url, channels):
                             continue
                         except Exception as e:
                             timestamp = get_timestamp()
-                            print(timestamp + "连接关闭，正在重连……")
+                            print(timestamp + "正在重连……")
                             print(e)
                             break
 
@@ -232,9 +232,9 @@ async def subscribe_without_login(url, channels):
 
                                 # 校验checksum
                                 checksum = res['data'][0]['checksum']
-                                print(timestamp + '推送数据的checksum为：' + str(checksum))
+                                # print(timestamp + '推送数据的checksum为：' + str(checksum))
                                 check_num = check(bids_p, asks_p)
-                                print(timestamp + '校验后的checksum为：' + str(check_num))
+                                # print(timestamp + '校验后的checksum为：' + str(check_num))
                                 if check_num == checksum:
                                     print("校验结果为：True")
                                 else:
@@ -262,9 +262,9 @@ async def subscribe_without_login(url, channels):
 
                                         # 校验checksum
                                         checksum = res['data'][0]['checksum']
-                                        print(timestamp + '推送数据的checksum为：' + str(checksum))
+                                        # print(timestamp + '推送数据的checksum为：' + str(checksum))
                                         check_num = check(bids_p, asks_p)
-                                        print(timestamp + '校验后的checksum为：' + str(check_num))
+                                        # print(timestamp + '校验后的checksum为：' + str(check_num))
                                         if check_num == checksum:
                                             print("校验结果为：True")
                                         else:
@@ -322,7 +322,7 @@ async def subscribe(url, api_key, passphrase, secret_key, channels):
                             continue
                         except Exception as e:
                             time = get_timestamp()
-                            print(time + "连接关闭，正在重连……")
+                            print(time + "正在重连……")
                             print(e)
                             break
 
@@ -384,6 +384,7 @@ secret_key = ""
 passphrase = ""
 
 url = 'wss://real.okex.com:8443/ws/v3'
+# url = 'wss://real.okex.com:8443/ws/v3?brokerId=9999'
 
 # 现货
 # 用户币币账户频道
@@ -391,11 +392,11 @@ url = 'wss://real.okex.com:8443/ws/v3'
 # 用户杠杆账户频道
 # channels = ["spot/margin_account:BTC-USDT"]
 # 用户委托策略频道
-# channels = ["spot/order_algo:XRP-USDT"]
+# channels = ["spot/order_algo:BTC-USDT"]
 # 用户交易频道
-# channels = ["spot/order:XRP-USDT"]
+# channels = ["spot/order:BTC-USDT"]
 # 公共-Ticker频道
-# channels = ["spot/ticker:ETH-USDT"]
+# channels = ["spot/ticker:BTC-USDT"]
 # 公共-K线频道
 # channels = ["spot/candle60s:BTC-USDT"]
 # 公共-交易频道
@@ -409,13 +410,13 @@ url = 'wss://real.okex.com:8443/ws/v3'
 
 # 交割合约
 # 用户持仓频道
-# channels = ["futures/position:XRP-USD-200327"]
+# channels = ["futures/position:BTC-USD-200327"]
 # 用户账户频道
-# channels = ["futures/account:XRP"]
+# channels = ["futures/account:BTC"]
 # 用户交易频道
-# channels = ["futures/order:BTC-USDT-200626"]
+# channels = ["futures/order:BTC-USD-200626"]
 # 用户委托策略频道
-# channels = ["futures/order_algo:XRP-USD-200327"]
+# channels = ["futures/order_algo:BTC-USD-200327"]
 # 公共-全量合约信息频道
 # channels = ["futures/instruments"]
 # 公共-Ticker频道
@@ -431,7 +432,7 @@ url = 'wss://real.okex.com:8443/ws/v3'
 # 公共-5档深度频道
 # channels = ["futures/depth5:BTC-USD-200327"]
 # 公共-400档深度频道
-# channels = ["futures/depth:XRP-USD-200327"]
+# channels = ["futures/depth:BTC-USD-200327"]
 # 公共-400档增量数据频道
 # channels = ["futures/depth_l2_tbt:BTC-USD-200327"]
 # 公共-标记价格频道
@@ -445,7 +446,7 @@ url = 'wss://real.okex.com:8443/ws/v3'
 # 用户交易频道
 # channels = ["swap/order:BTC-USD-SWAP"]
 # 用户委托策略频道
-# channels = ["swap/order_algo:LTC-USD-SWAP"]
+# channels = ["swap/order_algo:BTC-USD-SWAP"]
 # 公共-Ticker频道
 # channels = ["swap/ticker:BTC-USD-SWAP"]
 # 公共-K线频道
@@ -495,12 +496,15 @@ url = 'wss://real.okex.com:8443/ws/v3'
 # 指数K线
 # channels = ["index/candle60s:BTC-USD"]
 
+# WebSocket-获取系统升级状态
+# channels = ["system/status"]
+
 loop = asyncio.get_event_loop()
 
-#公共数据 不需要登录（行情，K线，交易数据，资金费率，限价范围，深度数据，标记价格等频道）
+# 公共数据 不需要登录（行情，K线，交易数据，资金费率，限价范围，深度数据，标记价格等频道）
 loop.run_until_complete(subscribe_without_login(url, channels))
 
-#个人数据 需要登录（用户账户，用户交易，用户持仓等频道）
+# 个人数据 需要登录（用户账户，用户交易，用户持仓等频道）
 # loop.run_until_complete(subscribe(url, api_key, passphrase, secret_key, channels))
 
 loop.close()

@@ -4,8 +4,8 @@ from .consts import *
 
 class SwapAPI(Client):
 
-    def __init__(self, api_key, api_secret_key, passphrase, use_server_time=False, first=False):
-        Client.__init__(self, api_key, api_secret_key, passphrase, use_server_time, first)
+    def __init__(self, api_key, api_secret_key, passphrase, use_server_time=False, test=False, first=False):
+        Client.__init__(self, api_key, api_secret_key, passphrase, use_server_time, test, first)
 
     def get_position(self):
         return self._request_without_params(GET, SWAP_POSITIONS)
@@ -38,7 +38,7 @@ class SwapAPI(Client):
             params['type'] = type
         return self._request_with_params(GET, SWAP_ACCOUNTS + '/' + str(instrument_id) + '/ledger', params, cursor=True)
 
-    def take_order(self, instrument_id, type, price, size, client_oid='', order_type='0', match_price=''):
+    def take_order(self, instrument_id, type, price, size, client_oid='', order_type='0', match_price='0'):
         params = {'instrument_id': instrument_id, 'type': type, 'size': size, 'price': price}
         if client_oid:
             params['client_oid'] = client_oid
@@ -65,6 +65,24 @@ class SwapAPI(Client):
         elif client_oids:
             params = {'client_oids': client_oids}
         return self._request_with_params(POST, SWAP_CANCEL_ORDERS + str(instrument_id), params)
+
+    def amend_order(self, instrument_id, cancel_on_fail, order_id='', client_oid='', request_id='', new_size='', new_price=''):
+        params = {'cancel_on_fail': cancel_on_fail}
+        if order_id:
+            params['order_id'] = order_id
+        if client_oid:
+            params['client_oid'] = client_oid
+        if request_id:
+            params['request_id'] = request_id
+        if new_size:
+            params['new_size'] = new_size
+        if new_price:
+            params['new_price'] = new_price
+        return self._request_with_params(POST, SWAP_AMEND_ORDER + str(instrument_id), params)
+
+    def amend_batch_orders(self, instrument_id, amend_data):
+        params = {'amend_data': amend_data}
+        return self._request_with_params(POST, SWAP_AMEND_BATCH_ORDERS + str(instrument_id), params)
 
     def get_order_list(self, instrument_id, state, after='', before='', limit=''):
         params = {'state': state}
@@ -129,14 +147,14 @@ class SwapAPI(Client):
             params['limit'] = limit
         return self._request_with_params(GET, SWAP_INSTRUMENTS + '/' + str(instrument_id) + '/trades', params, cursor=True)
 
-    def get_kline(self, instrument_id, granularity='', start='', end=''):
+    def get_kline(self, instrument_id, start='', end='', granularity=''):
         params = {}
-        if granularity:
-            params['granularity'] = granularity
         if start:
             params['start'] = start
         if end:
             params['end'] = end
+        if granularity:
+            params['granularity'] = granularity
         # 按时间倒叙 即由结束时间到开始时间
         return self._request_with_params(GET, SWAP_INSTRUMENTS + '/' + str(instrument_id) + '/candles', params)
 
@@ -229,3 +247,13 @@ class SwapAPI(Client):
         if limit:
             params['limit'] = limit
         return self._request_with_params(GET, SWAP_INSTRUMENTS + '/' + str(instrument_id) + '/historical_funding_rate', params)
+
+    def get_history_kline(self, instrument_id, start='', end='', granularity=''):
+        params = {}
+        if start:
+            params['start'] = start
+        if end:
+            params['end'] = end
+        if granularity:
+            params['granularity'] = granularity
+        return self._request_with_params(GET, SWAP_HISTORY_KLINE + str(instrument_id) + '/history' + '/candles', params)
