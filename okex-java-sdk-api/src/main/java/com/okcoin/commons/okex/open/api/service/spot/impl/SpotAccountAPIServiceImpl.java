@@ -22,29 +22,28 @@ public class SpotAccountAPIServiceImpl implements SpotAccountAPIService {
         this.api = this.client.createService(SpotAccountAPI.class);
     }
 
-
-    @Override
-    public Map<String, Object> getMiningData() {
-        return this.client.executeSync(this.api.getMiningdata());
-    }
-
+    //币币账户信息
     @Override
     public List<Account> getAccounts() {
         return this.client.executeSync(this.api.getAccounts());
     }
 
-    @Override
-    public JSONArray getLedgersByCurrency(final String currency, final String before, final String after, final String limit,String type) {
-        return this.client.executeSync(this.api.getLedgersByCurrency(currency, before, after, limit,type));
-    }
-
+    //单一币种账户信息
     @Override
     public Account getAccountByCurrency(final String currency) {
         return this.client.executeSync(this.api.getAccountByCurrency(currency));
     }
 
+    //账单流水查询
     @Override
-    public JSONObject getTradeFee() {
-        return this.client.executeSync(this.api.getTradeFee());
+    public JSONArray getLedgersByCurrency(final String currency, final String before, final String after, final String limit,String type) {
+        return this.client.executeSync(this.api.getLedgersByCurrency(currency, before, after, limit,type));
     }
+
+    //获取当前账户费率
+    @Override
+    public JSONObject getTradeFee(String category, String instrument_id) {
+        return this.client.executeSync(this.api.getTradeFee(category, instrument_id));
+    }
+
 }

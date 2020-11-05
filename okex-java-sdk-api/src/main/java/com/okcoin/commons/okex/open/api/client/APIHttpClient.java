@@ -68,9 +68,9 @@ public class APIHttpClient {
             final Request.Builder requestBuilder = chain.request().newBuilder();
             final String timestamp = DateUtils.getUnixTime();
             //打印首行时间戳
-            System.out.println("时间戳timestamp={" + timestamp + "}");
-
-            String simulated = "1";
+//            System.out.println("时间戳timestamp={" + timestamp + "}");
+//              设置模拟盘请求头
+//            String simulated = "1";
             requestBuilder.headers(this.headers(chain.request(), timestamp));
             final Request request = requestBuilder.build();
             if (this.config.isPrint()) {
