@@ -9,6 +9,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Query;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Futures Trade API Service
@@ -104,13 +105,13 @@ public interface FuturesTradeAPIService {
     CancelFuturesOrdeResult cancelFuturesOrder(@Body CancelFuturesOrder cancelFuturesOrder);
 
     //获取委托单列表
-    String findFuturesOrder( String instrument_id,
-                             String order_type,
-                             String status,
-                             String algo_id,
-                             String before,
-                             String after,
-                             String limit);
+    JSONArray findFuturesOrder(String instrument_id,
+                                         String order_type,
+                                         String status,
+                                         String algo_id,
+                                         String before,
+                                         String after,
+                                         String limit);
 
     //获取当前手续费费率
     JSONObject getTradeFee(String category,String underlying);
@@ -120,5 +121,8 @@ public interface FuturesTradeAPIService {
 
     //设置逐仓自动追加保证金
     JSONObject modifyFixedMargin(ModifyFixedMargin modifyFixedMargin);
+
+
+
 
 }

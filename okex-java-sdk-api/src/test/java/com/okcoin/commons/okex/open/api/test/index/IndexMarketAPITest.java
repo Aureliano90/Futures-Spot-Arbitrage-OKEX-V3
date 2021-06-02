@@ -24,7 +24,7 @@ public class IndexMarketAPITest extends IndexAPIBaseTest {
      */
     @Test
     public void testGetIndex() {
-        final String index = this.marketAPIService.getIndex("OMG-USD");
+        final String index = this.marketAPIService.getIndex("BTC-USD");
         this.toResultString(IndexMarketAPITest.LOG, "index", index);
     }
 

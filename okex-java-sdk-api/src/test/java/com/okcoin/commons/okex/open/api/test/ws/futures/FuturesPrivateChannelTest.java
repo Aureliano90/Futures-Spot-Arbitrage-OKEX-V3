@@ -53,7 +53,8 @@ public class FuturesPrivateChannelTest {
     @Test
     public void positionChannel() {
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/position:BTC-USDT-201225");
+        channel.add("futures/position:XRP-USDT-210625");
+        channel.add("futures/ticker:BTC-USDT-210924");
         try {
             Thread.sleep(100);
         } catch (Exception e) {
@@ -76,7 +77,7 @@ public class FuturesPrivateChannelTest {
     @Test
     public void accountChannel() {
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("futures/account:BTC-USDT");
+        channel.add("futures/account:MNBTC-USDT");
         try {
             Thread.sleep(100);
         } catch (Exception e) {

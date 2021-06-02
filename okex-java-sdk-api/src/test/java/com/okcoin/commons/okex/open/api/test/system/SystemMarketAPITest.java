@@ -1,5 +1,7 @@
 package com.okcoin.commons.okex.open.api.test.system;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.okcoin.commons.okex.open.api.service.system.SystemMarketAPIService;
 import com.okcoin.commons.okex.open.api.service.system.impl.SystemMarketAPIServiceImpl;
 import org.junit.Before;
@@ -23,8 +25,29 @@ public class SystemMarketAPITest extends SystemAPIBaseTest{
      */
     @Test
     public void testGetMaintenance(){
-        String result = systemMarketAPIService.getMaintenance("0");
+        JSONArray result = systemMarketAPIService.getMaintenance(null);
         System.out.println(result);
+    }
+
+    /**
+     * 公共-获取系统升级状态V5
+     * GET /api/system/v3/status
+     */
+    @Test
+    public void testGetStatus(){
+        while (true){
+
+            try{
+                JSONObject result = systemMarketAPIService.getStatus(null);
+                Thread.sleep(256000L);
+            }catch(Exception e){
+                System.out.println("异常："+e.getMessage());
+            }
+
+
+
+        }
+
     }
 
 }

@@ -13,6 +13,7 @@ import retrofit2.http.Query;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 
 public interface AccountAPIService {
@@ -24,6 +25,9 @@ public interface AccountAPIService {
 
     //资金划转
     JSONObject transfer(Transfer transfer);
+
+    //资金划转状态查询
+    JSONObject getTransferState(String transfer_id);
 
     //提币
     JSONObject withdraw(Withdraw withdraw);
@@ -38,7 +42,7 @@ public interface AccountAPIService {
     JSONObject getAllAccount(String account_type,String valuation_currency);
 
     //获取子账户余额信息
-    String getSubAccount(String sub_account);
+    Map<String,Object> getSubAccount(String sub_account);
 
     //查看所有币种提币记录
     JSONArray getWithdrawalHistory();
@@ -47,18 +51,22 @@ public interface AccountAPIService {
     JSONArray getWithdrawalHistory(String currency);
 
     //获取所有币种充值记录
-    String getDepositHistory();
+    JSONArray getDepositHistory();
 
     //获取单个币种充值记录
-    String getDepositHistory(String currency);
+    JSONArray getDepositHistory(String currency);
 
     //获取币种列表
-    List<Currency> getCurrencies();
+    JSONArray getCurrencies();
 
     //提币手续费
     List<WithdrawFee> getWithdrawFee(String currency);
 
+    //获取用户ID
+    Map<String,String> getUid();
+
     //余币宝申购赎回
     JSONObject purchaseRedempt(PurchaseRedempt purchaseRedempt);
+
 
 }

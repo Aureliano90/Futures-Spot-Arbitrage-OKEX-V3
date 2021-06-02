@@ -55,7 +55,7 @@ public class IndexPublicChannelTest {
     public void indexCandleChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("index/candle60s:BTC-USD");
+        channel.add("index/candle60s:BTC-USDT");
         //调用订阅方法
         WebSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟

@@ -90,7 +90,9 @@ public class ApiHttp {
         if (responseIsNotNull) {
             responseInfo.append("\n\t\t").append("Status: ").append(status);
             responseInfo.append("\n\t\t").append("Message: ").append(message);
+//            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~");
             responseInfo.append("\n\t\t").append("Response Body: ").append(body);
+//            System.out.println("____________________________");
         } else {
             responseInfo.append("\n\t\t").append("\n\tRequest Error: response is null");
         }

@@ -47,7 +47,7 @@ public class SwapPrivateChannelTest {
     @Test
     public void positionChannel() {
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("swap/position:BTC-USDT-SWAP");
+        channel.add("swap/position:EOS-USD-SWAP");
         try {
             Thread.sleep(100);
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class SwapPrivateChannelTest {
     @Test
     public void orderChannel() {
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("swap/order:BTC-USDT-SWAP");
+        channel.add("swap/order:EOS-USDT-SWAP");
         try {
             Thread.sleep(100);
         } catch (Exception e) {

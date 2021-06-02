@@ -46,6 +46,7 @@ public class SpotPublicChannelTest {
     public void tickerChannel() {
         final ArrayList<String> list = new ArrayList<>();
         list.add("spot/ticker:ETH-USDT");
+        list.add("spot/candle60s:ETH-USDT");
         webSocketClient.subscribe(list);
         //为保证测试方法不停，需要让线程延迟
         try {
@@ -62,7 +63,7 @@ public class SpotPublicChannelTest {
     @Test
     public void klineChannel() {
         final ArrayList<String> list = new ArrayList<>();
-        list.add("spot/candle60s:ETH-USDT");
+        list.add("spot/candle60s:LINK-USDT");
         webSocketClient.subscribe(list);
         //为保证测试方法不停，需要让线程延迟
         try {
@@ -96,7 +97,7 @@ public class SpotPublicChannelTest {
     @Test
     public void depth5Channel() {
         final ArrayList<String> list = new ArrayList<>();
-        list.add("spot/depth5:ETH-USDT");
+        list.add("spot/depth5:BTC-USDT");
         webSocketClient.subscribe(list);
         //为保证测试方法不停，需要让线程延迟
         try {
@@ -113,7 +114,8 @@ public class SpotPublicChannelTest {
     @Test
     public void depthChannel() {
         final ArrayList<String> list = new ArrayList<>();
-        list.add("spot/depth:ETC-USDT");
+        list.add("spot/depth:LINK-USDT");
+//        list.add("spot/depth:ETH-USD");
         webSocketClient.subscribe(list);
         //为保证测试方法不停，需要让线程延迟
         try {
@@ -130,7 +132,7 @@ public class SpotPublicChannelTest {
     @Test
     public void allDepthChannel() {
         final ArrayList<String> list = new ArrayList<>();
-        list.add("spot/depth_l2_tbt:BTM-ETH");
+        list.add("spot/depth_l2_tbt:EOS-USDT");
         webSocketClient.subscribe(list);
         //为保证测试方法不停，需要让线程延迟
         try {

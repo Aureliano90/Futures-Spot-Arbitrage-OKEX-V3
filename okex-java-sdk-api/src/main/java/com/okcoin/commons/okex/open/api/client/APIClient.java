@@ -156,12 +156,12 @@ public class APIClient {
             responseInfo.append("\n\t\t").append("Status: ").append(response.code());
             responseInfo.append("\n\t\t").append("Message: ").append(response.message());
             if(response.body()!=null){
-                responseInfo.append("\n\t\t").append("Response Body: ").append(JSON.toJSONString(response.body()));
+//                responseInfo.append("\n\t\t").append("Response Body: ").append(JSON.toJSONString(response.body()));
             }
         } else {
             responseInfo.append("\n\t\t").append("\n\tRequest Error: response is null");
         }
-        APIClient.LOG.info(responseInfo.toString());
+//        APIClient.LOG.info(responseInfo.toString());
     }
 
     @Override

@@ -26,12 +26,12 @@ public class InformationMarketAPITest extends InformationAPIBaseTest{
      **/
     @Test
     public void testGetLongShortRatio(){
-        String start = "2020-08-08T02:00:00Z";
-        String end = "2020-08-10T02:00:00Z";
-        /*String start = null;
-        String end = null;*/
+        String start = "2021-01-06T17:00:00Z";
+        String end = "2021-05-07T16:00:00Z";
+//        String start = null;
+//        String end = null;
 
-        JSONArray result = marketAPIService.getLongShortRatio("BTC",start,end,"900");
+        JSONArray result = marketAPIService.getLongShortRatio("BTC",start,end,"86400");
         toResultString(LOG, "long-short-ratio", result);
     }
 
@@ -41,12 +41,12 @@ public class InformationMarketAPITest extends InformationAPIBaseTest{
      */
     @Test
     public void testGetVolume(){
-        String start = "2020-08-09T00:00:00Z";
-        String end = "2020-08-09T08:00:00Z";
+        String start = "2021-01-09T00:00:00Z";
+        String end = "2021-01-10T08:00:00Z";
         /*String start = null;
         String end = null;*/
 
-        JSONArray result = marketAPIService.getVolume("BTC",start,end,"86400");
+        JSONArray result = marketAPIService.getVolume("BTC",start,end,"300");
         toResultString(LOG, "volume", result);
     }
 

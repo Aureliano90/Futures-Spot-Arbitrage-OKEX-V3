@@ -53,11 +53,11 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
     @Test
     public void testPlaceOrder(){
         OrderParam param = new OrderParam();
-        param.setClient_oid("testoption01");
-        param.setInstrument_id("BTC-USD-201225-11500-C");
-        param.setSide("sell");
+        param.setClient_oid("testoption012");
+        param.setInstrument_id("BTC-USD-201113-15500-C");
+        param.setSide("buy");
         param.setOrder_type("0");
-        param.setPrice("0.001497");
+        param.setPrice("0.0135");
         param.setSize("1");
         param.setMatch_price("0");
 
@@ -76,19 +76,19 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
 
         OrderParam orderParam = new OrderParam();
         orderParam.setClient_oid("");
-        orderParam.setInstrument_id("BTC-USD-200925-7500-C");
+        orderParam.setInstrument_id("MNBTC-USD-201113-15500-C");
         orderParam.setSide("buy");
         orderParam.setOrder_type("0");
-        orderParam.setPrice("0.0005");
+        orderParam.setPrice("0.0125");
         orderParam.setSize("1");
         orderParam.setMatch_price("0");
 
         OrderParam orderParam1 = new OrderParam();
         orderParam1.setClient_oid("");
-        orderParam1.setInstrument_id("BTC-USD-2000925-7500-C");
+        orderParam1.setInstrument_id("MNBTC-USD-201113-15500-C");
         orderParam1.setSide("buy");
         orderParam1.setOrder_type("0");
-        orderParam1.setPrice("0.001");
+        orderParam1.setPrice("0.0135");
         orderParam1.setSize("1");
         orderParam1.setMatch_price("0");
 
@@ -108,7 +108,7 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
      */
     @Test
     public void testCancelOrderByOrderId(){
-        JSONObject result = tradeAPIService.cancelOrderByOrderId("BTC-USD","127775390743711744");
+        JSONObject result = tradeAPIService.cancelOrderByOrderId("MNBTC-USD","246336657858576384");
         toResultString(LOG,"result",result);
     }
 
@@ -128,7 +128,7 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
      */
     @Test
     public void testCancalAll(){
-        JSONObject result = tradeAPIService.cancelAll("BTC-USD");
+        JSONObject result = tradeAPIService.cancelAll("MNBTC-USD");
         toResultString(LOG,"result",result);
     }
 
@@ -145,7 +145,7 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
         list.add("125243617098915841");
         cancelOrders.setOrder_ids(list);
 
-        JSONObject result = tradeAPIService.cancelBatchOrdersByOrderId("BTC-USD",cancelOrders);
+        JSONObject result = tradeAPIService.cancelBatchOrdersByOrderId("MNBTC-USD",cancelOrders);
         toResultString(LOG,"result",result);
     }
 
@@ -176,11 +176,11 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
 
         amentDate.setCancel_on_fail("");
         amentDate.setRequest_id("");
-        amentDate.setOrder_id("158444945847922688");
+        amentDate.setOrder_id("246337761300267008");
         amentDate.setNew_size("2");
         amentDate.setNew_price("0.001");
 
-        JSONObject result = tradeAPIService.amendOrderByOrderId("BTC-USD",amentDate);
+        JSONObject result = tradeAPIService.amendOrderByOrderId("MNBTC-USD",amentDate);
         toResultString(LOG,"result",result);
     }
 
@@ -212,23 +212,23 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
 
         AmentDate amentDate = new AmentDate();
 
-        amentDate.setCancel_on_fail("");
-        amentDate.setOrder_id("");
-        amentDate.setRequest_id("");
-        amentDate.setNew_size("");
-        amentDate.setNew_price("");
+        amentDate.setCancel_on_fail("0");
+        amentDate.setOrder_id("246337761300267008");
+        amentDate.setRequest_id(null);
+        amentDate.setNew_size("2");
+        amentDate.setNew_price("0.0123");
 
-        AmentDate amentDate1 = new AmentDate();
+        /*AmentDate amentDate1 = new AmentDate();
 
         amentDate1.setCancel_on_fail("");
         amentDate1.setOrder_id("");
         amentDate1.setRequest_id("");
         amentDate1.setNew_size("");
-        amentDate1.setNew_price("");
+        amentDate1.setNew_price("");*/
 
         List<AmentDate> list = new ArrayList<>();
         list.add(amentDate);
-        list.add(amentDate1);
+//        list.add(amentDate1);
 
         param.setAmend_data(list);
 
@@ -326,6 +326,18 @@ public class OptionTradeAPITests extends OptionAPIBaseTests{
     @Test
     public void testGetTradeFee(){
         JSONObject result = tradeAPIService.getTradeFee(null,"BTC-USD");
+        toResultString(LOG,"result",result);
+    }
+
+    /**
+     * 新增希腊字母PA/BS切换
+     * POST /api/option/v3/set-greeks
+     */
+    @Test
+    public void testSetGreeks(){
+        SetGreeks setGreeks = new SetGreeks();
+        setGreeks.setGreeks_type("BS");
+        JSONObject result = tradeAPIService.setGreeks(setGreeks);
         toResultString(LOG,"result",result);
     }
 

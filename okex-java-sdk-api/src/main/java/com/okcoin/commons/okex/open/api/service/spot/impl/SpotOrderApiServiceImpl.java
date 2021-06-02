@@ -126,8 +126,8 @@ public class SpotOrderApiServiceImpl implements SpotOrderAPIServive {
 
     //获取委托单列表
     @Override
-    public String getAlgoOrder(final String instrument_id, final String order_type, final String status, final String algo_ids, final String before, final String after, final String limit) {
-        return this.client.executeSync(this.spotOrderAPI.getAlgoOrder(instrument_id,order_type,status,algo_ids,before,after,limit));
+    public Map<String, Object> getAlgoOrder(final String instrument_id, final String order_type, final String status, final String algo_id, final String before, final String after, final String limit) {
+        return this.client.executeSync(this.spotOrderAPI.getAlgoOrder(instrument_id,order_type,status,algo_id,before,after,limit));
     }
 
 }

@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.okcoin.commons.okex.open.api.bean.spot.result.Account;
 import com.okcoin.commons.okex.open.api.bean.spot.result.Ledger;
 import com.okcoin.commons.okex.open.api.bean.spot.result.ServerTimeDto;
+import retrofit2.Call;
+import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 import java.util.List;
@@ -26,5 +28,6 @@ public interface SpotAccountAPIService {
 
     //获取当前账户费率
     JSONObject getTradeFee(String category, String instrument_id);
+
 
 }

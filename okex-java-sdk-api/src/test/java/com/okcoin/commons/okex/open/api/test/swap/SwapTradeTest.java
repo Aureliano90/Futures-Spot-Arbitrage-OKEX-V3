@@ -18,8 +18,10 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class SwapTradeTest extends SwapBaseTest {
+
     private SwapTradeAPIService tradeAPIService;
     private static final Logger LOG = LoggerFactory.getLogger(SwapTradeTest.class);
 
@@ -36,10 +38,9 @@ public class SwapTradeTest extends SwapBaseTest {
      */
     @Test
     public void order() {
-        PpOrder ppOrder = new PpOrder("1026testswap01", "1", "2", "0","4.5", "DOT-USDT-SWAP","0");
+        PpOrder ppOrder = new PpOrder("0602testswap07", "1", "1", "0","0.5", "XRP-USDT-SWAP","0");
         final  Object apiOrderVO = tradeAPIService.order(ppOrder);
         this.toResultString(SwapTradeTest.LOG, "orders", apiOrderVO);
-        System.out.println("jsonObject:"+apiOrderVO);
 
     }
 
@@ -51,16 +52,15 @@ public class SwapTradeTest extends SwapBaseTest {
     public void batchOrder() {
 
         List<PpBatchOrder> list = new LinkedList<>();
-        list.add(new PpBatchOrder("1026testswap07", "1", "2", "0", "4.51","0"));
-        list.add(new PpBatchOrder("1026testswap08", "1", "2", "0", "4.54","0"));
+        list.add(new PpBatchOrder("testswap06027", "1", "1", "0", "0.5","0"));
+        list.add(new PpBatchOrder("testswap06028", "1", "1", "0", "0.4","0"));
 
         PpOrders ppOrders = new PpOrders();
-        ppOrders.setInstrument_id("DOT-USDT-SWAP");
+        ppOrders.setInstrument_id("XRP-USDT-SWAP");
         ppOrders.setOrder_data(list);
-        String jsonObject = tradeAPIService.orders(ppOrders);
-        //ApiOrderResultVO apiOrderResultVO = JSONObject.parseObject(jsonObject, ApiOrderResultVO.class);
-        System.out.println("success");
-        System.out.println(jsonObject);
+        Map<String, Object> jsonObject = tradeAPIService.orders(ppOrders);
+        this.toResultString(SwapTradeTest.LOG, "orders", jsonObject);
+
     }
 
     /**
@@ -69,10 +69,8 @@ public class SwapTradeTest extends SwapBaseTest {
      */
     @Test
     public void cancelOrderByOrderId() {
-        String jsonObject = tradeAPIService.cancelOrderByOrderId("DOT-USDT-SWAP", "618617501149466625");
-        ApiCancelOrderVO apiCancelOrderVO = JSONObject.parseObject(jsonObject, ApiCancelOrderVO.class);
-        System.out.println("success");
-        System.out.println(apiCancelOrderVO.getOrder_id());
+        JSONObject jsonObject = tradeAPIService.cancelOrderByOrderId("XRP-USDT-SWAP", "777291060863471617");
+        this.toResultString(SwapTradeTest.LOG, "cancelOrders", jsonObject);
     }
 
     /**
@@ -81,10 +79,8 @@ public class SwapTradeTest extends SwapBaseTest {
      */
     @Test
     public void cancelOrderByClientOid() {
-        String jsonObject = tradeAPIService.cancelOrderByClientOid("DOT-USDT-SWAP", "1026testswap03");
-        ApiCancelOrderVO apiCancelOrderVO = JSONObject.parseObject(jsonObject, ApiCancelOrderVO.class);
-        System.out.println("success");
-        System.out.println(apiCancelOrderVO.getOrder_id());
+        JSONObject jsonObject = tradeAPIService.cancelOrderByClientOid("XRP-USDT-SWAP", "testswap06023");
+        this.toResultString(SwapTradeTest.LOG, "cancelOrders", jsonObject);
     }
 
     /**
@@ -96,14 +92,11 @@ public class SwapTradeTest extends SwapBaseTest {
         //生成一个PpCancelOrderVO对象
         PpCancelOrderVO ppCancelOrderVO = new PpCancelOrderVO();
 
-        ppCancelOrderVO.getIds().add("618619002810961920");
-        ppCancelOrderVO.getIds().add("618619002810961921");
+        ppCancelOrderVO.getIds().add("777295696223703040");
+        ppCancelOrderVO.getIds().add("777295696232091648");
 
-        System.out.println(JSONObject.toJSONString(ppCancelOrderVO));
-        String jsonObject = tradeAPIService.cancelOrdersByOrderIds("DOT-USDT-SWAP", ppCancelOrderVO);
-        OrderCancelResult orderCancelResult = JSONObject.parseObject(jsonObject, OrderCancelResult.class);
-        System.out.println("success");
-        System.out.println(orderCancelResult.getInstrument_id());
+        Map<String, Object> jsonObject = tradeAPIService.cancelOrdersByOrderIds("XRP-USDT-SWAP", ppCancelOrderVO);
+        this.toResultString(SwapTradeTest.LOG, "cancelOrders", jsonObject);
     }
 
     /**
@@ -115,15 +108,13 @@ public class SwapTradeTest extends SwapBaseTest {
         PpCancelOrderVO ppCancelOrderVO = new PpCancelOrderVO();
         List<String> oidlist = new ArrayList<String>();
 
-        oidlist.add("1026testswap07");
-        oidlist.add("1026testswap08");
+        oidlist.add("testswap06027");
+        oidlist.add("testswap06028");
         ppCancelOrderVO.setClientOids(oidlist);
 
-        System.out.println(JSONObject.toJSONString(ppCancelOrderVO));
-        String jsonObject = tradeAPIService.cancelOrdersByClientOids("DOT-USDT-SWAP", ppCancelOrderVO);
-        OrderCancelResult orderCancelResult = JSONObject.parseObject(jsonObject, OrderCancelResult.class);
-        System.out.println("success");
-        System.out.println(orderCancelResult.getInstrument_id());
+        Map<String, Object> jsonObject = tradeAPIService.cancelOrdersByClientOids("XRP-USDT-SWAP", ppCancelOrderVO);
+        this.toResultString(SwapTradeTest.LOG, "cancelOrders", jsonObject);
+
     }
 
     /**
@@ -134,14 +125,14 @@ public class SwapTradeTest extends SwapBaseTest {
     public void testAmendOrderByOrderId(){
         AmendOrder amendOrder = new AmendOrder();
         amendOrder.setCancel_on_fail("0");
-        amendOrder.setOrder_id("618614099317264384");
+        amendOrder.setOrder_id("777297331087904769");
         amendOrder.setRequest_id(null);
-        amendOrder.setNew_price("4.52");
-        amendOrder.setNew_size("2");
+        amendOrder.setNew_price("2.2");
+        amendOrder.setNew_size("1");
 
-        String result = tradeAPIService.amendOrderByOrderId("DOT-USDT-SWAP",amendOrder);
-        System.out.println("success");
-        System.out.println(result);
+        JSONObject result = tradeAPIService.amendOrderByOrderId("XRP-USDT-SWAP",amendOrder);
+        this.toResultString(SwapTradeTest.LOG, "amendOrder", result);
+
 
     }
 
@@ -153,14 +144,14 @@ public class SwapTradeTest extends SwapBaseTest {
     public void testAmentOrderByClientOid(){
         AmendOrder amendOrder = new AmendOrder();
         amendOrder.setCancel_on_fail("0");
-        amendOrder.setClient_oid("1026testswap01");
+        amendOrder.setClient_oid("0602testswap06");
         amendOrder.setRequest_id(null);
-        amendOrder.setNew_price("4.53");
-        amendOrder.setNew_size("3");
+        amendOrder.setNew_price("1.9");
+        amendOrder.setNew_size("1");
 
-        String result = tradeAPIService.amendOrderByClientOid("DOT-USDT-SWAP",amendOrder);
-        System.out.println("success");
-        System.out.println(result);
+        JSONObject result = tradeAPIService.amendOrderByClientOid("XRP-USDT-SWAP",amendOrder);
+        this.toResultString(SwapTradeTest.LOG, "amendOrder", result);
+
     }
 
     /**
@@ -174,25 +165,25 @@ public class SwapTradeTest extends SwapBaseTest {
 
         AmendOrder amendOrder = new AmendOrder();
         amendOrder.setCancel_on_fail("0");
-        amendOrder.setOrder_id("618619002810961920");
+        amendOrder.setOrder_id("777297331087904769");
         amendOrder.setRequest_id(null);
-        amendOrder.setNew_price("4.54");
-        amendOrder.setNew_size("2");
+        amendOrder.setNew_price("2.3");
+        amendOrder.setNew_size("1");
 
         AmendOrder amendOrder1 = new AmendOrder();
         amendOrder1.setCancel_on_fail("0");
-        amendOrder1.setOrder_id("618619002810961921");
+        amendOrder1.setOrder_id("777301594337873921");
         amendOrder1.setRequest_id(null);
-        amendOrder1.setNew_price("4.51");
-        amendOrder1.setNew_size("3");
+        amendOrder1.setNew_price("0.7");
+        amendOrder1.setNew_size("1");
 
         list.add(amendOrder);
         list.add(amendOrder1);
         amendOrderParam.setAmend_data(list);
 
-        String result = tradeAPIService.amendBatchOrderByOrderId("DOT-USDT-SWAP",amendOrderParam);
-        System.out.println("success");
-        System.out.println(result);
+        Map<String, Object> result = tradeAPIService.amendBatchOrderByOrderId("XRP-USDT-SWAP",amendOrderParam);
+        this.toResultString(SwapTradeTest.LOG, "amendOrder", result);
+
     }
 
     /**
@@ -206,16 +197,16 @@ public class SwapTradeTest extends SwapBaseTest {
 
         AmendOrder amendOrder = new AmendOrder();
         amendOrder.setCancel_on_fail("0");
-        amendOrder.setClient_oid("1026testswap03");
+        amendOrder.setClient_oid("0602testswap06");
         amendOrder.setRequest_id(null);
-        amendOrder.setNew_price("4.52");
+        amendOrder.setNew_price("4");
         amendOrder.setNew_size("1");
 
         AmendOrder amendOrder1 = new AmendOrder();
         amendOrder1.setCancel_on_fail("0");
-        amendOrder1.setClient_oid("1026testswap04");
+        amendOrder1.setClient_oid("0602testswap07");
         amendOrder1.setRequest_id(null);
-        amendOrder1.setNew_price("4.56");
+        amendOrder1.setNew_price("0.45");
         amendOrder1.setNew_size("1");
 
 
@@ -224,9 +215,8 @@ public class SwapTradeTest extends SwapBaseTest {
 
         amendOrderParam.setAmend_data(list);
 
-        String result = tradeAPIService.amendBatchOrderByClientOid("DOT-USDT-SWAP",amendOrderParam);
-        System.out.println("success");
-        System.out.println(result);
+        Map<String, Object> result = tradeAPIService.amendBatchOrderByClientOid("XRP-USDT-SWAP",amendOrderParam);
+        this.toResultString(SwapTradeTest.LOG, "amendOrder", result);
     }
 
     /**
@@ -237,14 +227,14 @@ public class SwapTradeTest extends SwapBaseTest {
     public void testSwapOrderAlgo(){
         SwapOrderParam swapOrderParam=new SwapOrderParam();
         //公共参数
-        swapOrderParam.setInstrument_id("DOT-USDT-SWAP");
-        swapOrderParam.setType("1");
+        swapOrderParam.setInstrument_id("XRP-USDT-SWAP");
+        swapOrderParam.setType("3");
         swapOrderParam.setOrder_type("1");
         swapOrderParam.setSize("1");
 
-        //计划委托
-        swapOrderParam.setTrigger_price("4.1");
-        swapOrderParam.setAlgo_price("3.5");
+//        //计划委托
+        swapOrderParam.setTrigger_price("2");
+        swapOrderParam.setAlgo_price("2.1");
         swapOrderParam.setAlgo_type("1");
 
         //跟踪委托
@@ -264,15 +254,16 @@ public class SwapTradeTest extends SwapBaseTest {
         swapOrderParam.setTime_interval("");*/
 
         //止盈止损
-        /*swapOrderParam.setTp_trigger_price("0.26");
-        swapOrderParam.setTp_price("0.255");
-        swapOrderParam.setTp_trigger_type("1");*/
-      /*  swapOrderParam.setSl_trigger_price("11700.2");
-        swapOrderParam.setSl_price("11750.3");
-        swapOrderParam.setSl_trigger_type("1");*/
+//        swapOrderParam.setTp_trigger_price("23100");
+//        swapOrderParam.setTp_price("0.255");
+//        swapOrderParam.setTp_trigger_type("2");
+//        swapOrderParam.setSl_trigger_price("26500");
+//        swapOrderParam.setSl_price("11750.3");
+//        swapOrderParam.setSl_trigger_type("2");
 
-        String jsonObject = tradeAPIService.swapOrderAlgo(swapOrderParam);
-        System.out.println(jsonObject);
+        JSONObject jsonObject = tradeAPIService.swapOrderAlgo(swapOrderParam);
+        this.toResultString(SwapTradeTest.LOG, "algoOrder", jsonObject);
+
     }
 
     /**
@@ -283,14 +274,15 @@ public class SwapTradeTest extends SwapBaseTest {
     public void testCancelOrderAlgo(){
         CancelOrderAlgo cancelOrderAlgo=new CancelOrderAlgo();
         List<String>  list = new ArrayList<>();
-        list.add("618627634680205312");
+        list.add("777305120682184704");
 
         cancelOrderAlgo.setAlgo_ids(list);
-        cancelOrderAlgo.setInstrument_id("DOT-USDT-SWAP");
+        cancelOrderAlgo.setInstrument_id("XRP-USDT-SWAP");
         cancelOrderAlgo.setOrder_type("1");
 
-        String jsonObject = tradeAPIService.cancelOrderAlgo(cancelOrderAlgo);
-        System.out.println(jsonObject);
+        JSONObject jsonObject = tradeAPIService.cancelOrderAlgo(cancelOrderAlgo);
+        this.toResultString(SwapTradeTest.LOG, "algoOrder", jsonObject);
+
     }
 
     /**
@@ -300,9 +292,8 @@ public class SwapTradeTest extends SwapBaseTest {
 
     @Test
     public void testGetSwapAlgOrders(){
-
-        String jsonObject = tradeAPIService.getSwapOrders("DOT-USDT-SWAP", "1", null,"618627634680205312",null,null,"10");
-        System.out.println(jsonObject);
+        Map<String,Object> jsonObject = tradeAPIService.getSwapOrders("XRP-USDT-SWAP", "1", "3",null,null,null,"10");
+        this.toResultString(SwapTradeTest.LOG, "algoOrders", jsonObject);
     }
 
     /**
@@ -314,8 +305,8 @@ public class SwapTradeTest extends SwapBaseTest {
         ClosePosition closePosition = new ClosePosition();
         closePosition.setInstrument_id("XRP-USDT-SWAP");
         closePosition.setDirection("long");
-        String result = tradeAPIService.closePosition(closePosition);
-        System.out.println(result);
+        JSONObject result = tradeAPIService.closePosition(closePosition);
+        this.toResultString(SwapTradeTest.LOG, "closePosition", result);
 
     }
 
@@ -328,9 +319,8 @@ public class SwapTradeTest extends SwapBaseTest {
         CancelAllParam cancelAllParam = new CancelAllParam();
         cancelAllParam.setInstrument_id("XRP-USDT-SWAP");
         cancelAllParam.setDirection("long");
-        String result = tradeAPIService.CancelAll(cancelAllParam);
-        System.out.println(result);
-
+        JSONObject result = tradeAPIService.CancelAll(cancelAllParam);
+        this.toResultString(SwapTradeTest.LOG, "cancelAllParam", result);
     }
 
 }

@@ -35,4 +35,5 @@ public interface SpotAccountAPI {
     @GET("/api/spot/v3/trade_fee")
     Call<JSONObject> getTradeFee(@Query("category") String category, @Query("instrument_id") String instrument_id);
 
+
 }

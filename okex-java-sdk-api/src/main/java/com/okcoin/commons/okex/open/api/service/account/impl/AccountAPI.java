@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Account api
@@ -31,6 +32,10 @@ public interface AccountAPI {
     @POST("/api/account/v3/transfer")
     Call<JSONObject> transfer(@Body JSONObject jsonObject);
 
+    //资金划转状态查询
+    @GET("/api/account/v3/transfer/state")
+    Call<JSONObject> getTransferState(@Query("transfer_id") String transfer_id);
+
     //提币
     @POST("/api/account/v3/withdrawal")
     Call<JSONObject> withdraw(@Body JSONObject jsonObject);
@@ -51,7 +56,7 @@ public interface AccountAPI {
 
     //获取子账户余额信息
     @GET("/api/account/v3/sub-account")
-    Call<String> getSubAccount(@Query("sub-account") String sub_account);
+    Call<Map<String,Object>> getSubAccount(@Query("sub-account") String sub_account);
 
     //查询所有币种提币记录
     @GET("/api/account/v3/withdrawal/history")
@@ -63,19 +68,23 @@ public interface AccountAPI {
 
     //获取所有币种充值记录
     @GET("/api/account/v3/deposit/history")
-    Call<String> getDepositHistory();
+    Call<JSONArray> getDepositHistory();
 
     //获取单个币种充值记录
     @GET("/api/account/v3/deposit/history/{currency}")
-    Call<String> getDepositHistory(@Path("currency") String currency);
+    Call<JSONArray> getDepositHistory(@Path("currency") String currency);
 
     //获取币种列表
     @GET("/api/account/v3/currencies")
-    Call<List<Currency>> getCurrencies();
+    Call<JSONArray> getCurrencies();
 
     //提币手续费
     @GET("/api/account/v3/withdrawal/fee")
     Call<List<WithdrawFee>> getWithdrawFee(@Query("currency") String currency);
+
+    //获取用户ID
+    @GET("/api/account/v3/uid")
+    Call<Map<String,String>> getUid();
 
     //余币宝申购赎回
     @POST("/api/account/v3/purchase_redempt")

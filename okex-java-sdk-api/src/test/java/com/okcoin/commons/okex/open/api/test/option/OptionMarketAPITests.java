@@ -46,7 +46,7 @@ public class OptionMarketAPITests extends OptionAPIBaseTests{
      */
     @Test
     public void testGetAllSummary(){
-        JSONArray result = marketAPIService.getAllSummary("BTC-USD","201225");
+        JSONArray result = marketAPIService.getAllSummary("BTC-USD","210326");
         toResultString(LOG,"",result);
     }
 
@@ -56,7 +56,7 @@ public class OptionMarketAPITests extends OptionAPIBaseTests{
      */
     @Test
     public void testGetDetailPrice(){
-        JSONObject result = marketAPIService.getDetailPrice("BTC-USD","BTC-USD-200925-7000-C");
+        JSONObject result = marketAPIService.getDetailPrice("BTC-USD","BTC-USD-210326-7000-C");
         toResultString(LOG,"result",result);
     }
 

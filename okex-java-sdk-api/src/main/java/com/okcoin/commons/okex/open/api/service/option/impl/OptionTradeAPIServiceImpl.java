@@ -133,4 +133,9 @@ public class OptionTradeAPIServiceImpl implements OptionTradeAPIService {
         return this.client.executeSync(this.api.getTradeFee(category,underlying));
     }
 
+    @Override
+    public JSONObject setGreeks(SetGreeks setGreeks) {
+        return this.client.executeSync(this.api.setGreeks(setGreeks));
+    }
+
 }

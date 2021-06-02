@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 interface FuturesTradeAPI {
@@ -134,13 +135,13 @@ interface FuturesTradeAPI {
 
     //获取委托单列表
     @GET("api/futures/v3/order_algo/{instrument_id}")
-    Call<String> findFuturesOrder(@Path("instrument_id") String instrument_id,
-                                  @Query("order_type") String order_type,
-                                  @Query("status") String status,
-                                  @Query("algo_id") String algo_id,
-                                  @Query("before") String before,
-                                  @Query("after") String after,
-                                  @Query("limit") String limit);
+    Call<JSONArray> findFuturesOrder(@Path("instrument_id") String instrument_id,
+                                              @Query("order_type") String order_type,
+                                              @Query("status") String status,
+                                              @Query("algo_id") String algo_id,
+                                              @Query("before") String before,
+                                              @Query("after") String after,
+                                              @Query("limit") String limit);
 
     //获取当前手续费费率
     @GET("/api/futures/v3/trade_fee")
@@ -154,5 +155,8 @@ interface FuturesTradeAPI {
     //设置逐仓自动追加保证金
     @POST("/api/futures/v3/accounts/auto_margin")
     Call<JSONObject> modifyFixedMargin(@Body ModifyFixedMargin modifyFixedMargin);
+
+
+
 
 }

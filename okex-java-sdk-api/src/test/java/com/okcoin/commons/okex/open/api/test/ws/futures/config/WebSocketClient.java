@@ -210,7 +210,7 @@ public class WebSocketClient {
             byte[] bytes = sha256_HMAC.doFinal(message.getBytes(CharsetEnum.UTF_8.charset()));
             hash = Base64.getEncoder().encodeToString(bytes);
         } catch (Exception e) {
-            System.out.println("Error HmacSHA256 ===========" + e.getMessage());
+            System.out.println("Error HmacSHA256" + e.getMessage());
         }
         return hash;
     }

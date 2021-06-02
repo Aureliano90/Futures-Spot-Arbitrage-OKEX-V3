@@ -46,4 +46,5 @@ public class SpotAccountAPIServiceImpl implements SpotAccountAPIService {
         return this.client.executeSync(this.api.getTradeFee(category, instrument_id));
     }
 
+
 }

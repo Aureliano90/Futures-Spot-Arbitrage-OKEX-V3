@@ -44,7 +44,7 @@ public class SpotAccountAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getAccountByCurrency() {
-        final Account account = this.spotAccountAPIService.getAccountByCurrency("EOS");
+        final Account account = this.spotAccountAPIService.getAccountByCurrency("MINA");
         this.toResultString(SpotAccountAPITest.LOG, "account", account);
     }
 
@@ -61,12 +61,13 @@ public class SpotAccountAPITest extends SpotAPIBaseTests {
     /**
      * 获取当前账户费率
      * GET /api/spot/v3/trade_fee
-     * **/
+     */
     @Test
     public void testGetTradefee(){
-        JSONObject result = spotAccountAPIService.getTradeFee("3",null);
+        JSONObject result = spotAccountAPIService.getTradeFee(null,"BTC-USDT");
         this.toResultString(SpotAccountAPITest.LOG, "result", result);
 
     }
+
 
 }

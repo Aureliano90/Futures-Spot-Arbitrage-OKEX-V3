@@ -1,6 +1,8 @@
 package com.okcoin.commons.okex.open.api.service.spot.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.okcoin.commons.okex.open.api.bean.spot.param.MarginAmendOrder;
 import com.okcoin.commons.okex.open.api.bean.spot.param.OrderParamDto;
 import com.okcoin.commons.okex.open.api.bean.spot.param.PlaceOrderParam;
 import com.okcoin.commons.okex.open.api.bean.spot.result.*;
@@ -30,6 +32,18 @@ public class MarginOrderAPIServiceImpl implements MarginOrderAPIService {
     @Override
     public Map<String, List<OrderResult>> batchOrders(final List<PlaceOrderParam> order) {
         return this.client.executeSync(this.marginOrderAPI.batchOrders(order));
+    }
+
+    //修改订单
+    @Override
+    public OrderResult amendOder(String instrument_id, MarginAmendOrder marginAmendOrder) {
+        return this.client.executeSync(this.marginOrderAPI.amendOder(instrument_id,marginAmendOrder));
+    }
+
+    //批量修改订单
+    @Override
+    public Map<String, List<OrderResult>> batchAmendOder(List<MarginAmendOrder> marginAmendOrders) {
+        return this.client.executeSync(this.marginOrderAPI.batchAmendOder(marginAmendOrders));
     }
 
     //撤销指定订单(通过order_id)

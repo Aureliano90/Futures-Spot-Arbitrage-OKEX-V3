@@ -39,16 +39,9 @@ public class SpotProductAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void bookProductsByProductId() {
-        for (int i = 0; i < 1; i++) {
-            final Book book = this.spotProductAPIService.bookProductsByInstrumentId("BTC-USDT", "100", "0.1");
-            this.toResultString(SpotProductAPITest.LOG, "book", book);
-            System.out.println("==========i=" + i);
-            try {
-                Thread.sleep(400);
-            } catch (final InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        final Book book = this.spotProductAPIService.bookProductsByInstrumentId("BTC-USDT", "100", "0.1");
+        this.toResultString(SpotProductAPITest.LOG, "book", book);
+
     }
 
     /**
@@ -88,13 +81,15 @@ public class SpotProductAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getCandlesByInstrumentId() {
-        /*String start = "2020-10-21T04:20:00.000Z";
-        String end = "2020-10-21T06:39:00.000Z";*/
+
+//        String start = "2021-03-04T07:57:23.678Z";
+//        String end = "2021-03-05T07:57:23.678Z";
         String start = null;
         String end = null;
-        final JSONArray klines = this.spotProductAPIService.getCandlesByInstrumentId("ETH-USDT", start,end,"60");
+        final JSONArray klines = this.spotProductAPIService.getCandlesByInstrumentId("BTC-USDT", start, end, "300");
         this.toResultString(SpotProductAPITest.LOG, "klines", klines);
     }
+
 
     /**
      * 公共-获取历史K线数据
@@ -102,12 +97,12 @@ public class SpotProductAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getHistoryCandlesByInstrumentId() {
-        String start = "2019-10-11T00:00:00.000Z";
-        String end = "2019-10-10T00:00:00.000Z";
-       /* String start = null;
-        String end = null;*/
-        final JSONArray klines = this.spotProductAPIService.getHistoryCandlesByInstrumentId("BTC-USDT", start, end,"60","100");
-        this.toResultString(SpotProductAPITest.LOG, "HistoryCandles", klines);
+            String start = "2020-04-26T14:14:00.000Z";
+            String end = "2020-04-25T14:13:00.000Z";
+//        String start = null;
+//        String end = null;
+            final JSONArray klines = this.spotProductAPIService.getHistoryCandlesByInstrumentId("BTC-USDT", start, end, "900", null);
+            this.toResultString(SpotProductAPITest.LOG, "HistoryCandles", klines);
     }
 
 

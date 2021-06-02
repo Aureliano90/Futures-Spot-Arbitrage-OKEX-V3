@@ -40,7 +40,7 @@ public class MarginAccountAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getAccountsByInstrumentId() {
-        final Map<String, Object> result = this.marginAccountAPIService.getAccountsByInstrumentId("BTC-USDT");
+        final Map<String, Object> result = this.marginAccountAPIService.getAccountsByInstrumentId("ETH-USDT");
         this.toResultString(MarginAccountAPITest.LOG, "result", result);
     }
 
@@ -51,7 +51,7 @@ public class MarginAccountAPITest extends SpotAPIBaseTests {
     @Test
     public void getLedger() {
         final List<UserMarginBillDto> result = this.marginAccountAPIService.getLedger(
-                "OKB-USDT", null,null, null, null);
+                "MINA-USDT", null,null, null, null);
         this.toResultString(MarginAccountAPITest.LOG, "result", result);
     }
 
@@ -102,10 +102,10 @@ public class MarginAccountAPITest extends SpotAPIBaseTests {
     @Test
     public void borrow() {
         final BorrowRequestDto dto = new BorrowRequestDto();
-        dto.setInstrument_id("BTC-USDT");
-        dto.setClient_oid("jiebi02");
-        dto.setCurrency("USDT");
-        dto.setAmount("3");
+        dto.setInstrument_id("MNBTC-MNUSDT");
+        dto.setClient_oid("monijiebi01");
+        dto.setCurrency("MNUSDT");
+        dto.setAmount("1");
         final BorrowResult result = this.marginAccountAPIService.borrow(dto);
         this.toResultString(MarginAccountAPITest.LOG, "result", result);
     }
@@ -117,11 +117,11 @@ public class MarginAccountAPITest extends SpotAPIBaseTests {
     @Test
     public void repayment() {
         final RepaymentRequestDto dto = new RepaymentRequestDto();
-        dto.setBorrow_id("185778");
+        dto.setBorrow_id("7253125");
         dto.setClient_oid("");
-        dto.setInstrument_id("XRP-USDT");
-        dto.setCurrency("XRP");
-        dto.setAmount("1");
+        dto.setInstrument_id("MNBTC-MNUSDT");
+        dto.setCurrency("MNUSDT");
+        dto.setAmount("4");
 
         final RepaymentResult result = this.marginAccountAPIService.repayment(dto);
         this.toResultString(MarginAccountAPITest.LOG, "result", result);
@@ -133,7 +133,7 @@ public class MarginAccountAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void testGetLeverage(){
-        JSONObject result = marginAccountAPIService.getLeverage("BTC-USDT");
+        JSONObject result = marginAccountAPIService.getLeverage("MNBTC-MNUSDT");
         this.toResultString(MarginAccountAPITest.LOG, "result", result);
 
     }
@@ -145,8 +145,8 @@ public class MarginAccountAPITest extends SpotAPIBaseTests {
     @Test
     public void testSetLeverage(){
         MarginLeverage leverage = new MarginLeverage();
-        leverage.setLeverage("4");
-        JSONObject result = marginAccountAPIService.setLeverage("XRP-USDT",leverage);
+        leverage.setLeverage("3");
+        JSONObject result = marginAccountAPIService.setLeverage("MNBTC-MNUSDT",leverage);
         this.toResultString(MarginAccountAPITest.LOG, "result", result);
     }
 

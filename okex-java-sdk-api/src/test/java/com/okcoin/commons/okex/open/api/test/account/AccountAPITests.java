@@ -1,7 +1,9 @@
 package com.okcoin.commons.okex.open.api.test.account;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import com.okcoin.commons.okex.open.api.bean.account.param.PurchaseRedempt;
 import com.okcoin.commons.okex.open.api.bean.account.param.Transfer;
 import com.okcoin.commons.okex.open.api.bean.account.param.Withdraw;
@@ -18,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 public class AccountAPITests extends  AccountAPIBaseTests {
 
@@ -39,12 +42,14 @@ public class AccountAPITests extends  AccountAPIBaseTests {
      */
     @Test
     public void getWallet() {
+
         //所有的资金账户信息
-        List<Wallet> result = this.accountAPIService.getWallet();
-        this.toResultString(AccountAPITests.LOG, "result", result);
+//        List<Wallet> result = this.accountAPIService.getWallet();
+//        this.toResultString(AccountAPITests.LOG, "：", result);
+
         //单一币种账户信息
-        /*List<Wallet> result2 = this.accountAPIService.getWallet("USDT");
-        this.toResultString(AccountAPITests.LOG, "result", result2);*/
+        List<Wallet> result2 = this.accountAPIService.getWallet("EOS");
+        this.toResultString(AccountAPITests.LOG, "：", result2);
     }
 
     /**资金划转
@@ -53,19 +58,30 @@ public class AccountAPITests extends  AccountAPIBaseTests {
     @Test
     public void transfer() {
         Transfer transfer = new Transfer();
-        transfer.setCurrency("OKB");
+        transfer.setCurrency("EOS");
         transfer.setAmount("1");
         transfer.setType("0");
-        transfer.setFrom("6");
-        transfer.setTo("1");
+        transfer.setFrom("9");
+        transfer.setTo("6");
 
-//        transfer.setSub_account("ctt042501");
-//        transfer.setInstrument_id("BTC-USDT");
-//        transfer.setTo_instrument_id("BTC-USDT");
+//        transfer.setSub_account("");
+//        transfer.setInstrument_id("XRP-USDT");
+//        transfer.setTo_instrument_id("XRP-USDT");
 
         JSONObject result = this.accountAPIService.transfer(transfer);
         this.toResultString(AccountAPITests.LOG, "result", result);
     }
+
+    /**
+     * 资金划转状态查询
+     * GET /api/account/v3/transfer/state
+     */
+    @Test
+    public void getTransferState() {
+        JSONObject result = this.accountAPIService.getTransferState("388782900");
+        this.toResultString(AccountAPITests.LOG, "result", result);
+    }
+
 
     /**提币
      * POST /api/account/v3/withdrawal
@@ -73,11 +89,11 @@ public class AccountAPITests extends  AccountAPIBaseTests {
     @Test
     public void withdraw() {
         Withdraw withdraw = new Withdraw();
-        withdraw.setCurrency("OKB");
-        withdraw.setAmount("2");
-        withdraw.setDestination("3");
-        withdraw.setTo_address("*******");
-        withdraw.setTrade_pwd("*******");
+        withdraw.setCurrency("USDT");
+        withdraw.setAmount("1");
+        withdraw.setDestination("4");
+        withdraw.setTo_address("");
+        withdraw.setTrade_pwd("");
         withdraw.setFee("0");
 
         JSONObject result = this.accountAPIService.withdraw(withdraw);
@@ -90,7 +106,7 @@ public class AccountAPITests extends  AccountAPIBaseTests {
      */
     @Test
     public void getLedger() {
-        JSONArray result = this.accountAPIService.getLedger("OKB",null,null,null,null);
+        JSONArray result = this.accountAPIService.getLedger("EOS",null,null,"10",null);
         this.toResultString(AccountAPITests.LOG, "result", result);
     }
 
@@ -110,7 +126,7 @@ public class AccountAPITests extends  AccountAPIBaseTests {
      */
     @Test
     public void testGetAllAcccount(){
-        JSONObject result = this.accountAPIService.getAllAccount("8","USDT");
+        JSONObject result = this.accountAPIService.getAllAccount("0","USD");
         this.toResultString(AccountAPITests.LOG, "result", result);
     }
 
@@ -120,7 +136,7 @@ public class AccountAPITests extends  AccountAPIBaseTests {
      */
     @Test
     public void testGetSubAccount(){
-        String result = this.accountAPIService.getSubAccount("ctt042501");
+        Map<String,Object> result = this.accountAPIService.getSubAccount("ctt042501");
         this.toResultString(AccountAPITests.LOG, "result", result);
 
     }
@@ -133,8 +149,11 @@ public class AccountAPITests extends  AccountAPIBaseTests {
      */
     @Test
     public void getWithdrawalHistory() {
-        /*JSONArray result = this.accountAPIService.getWithdrawalHistory();
-        this.toResultString(AccountAPITests.LOG, "result", result);*/
+        //所有币种的提币记录
+//        JSONArray result = this.accountAPIService.getWithdrawalHistory();
+//        this.toResultString(AccountAPITests.LOG, "result", result);
+
+        //单个币种的提币记录
         JSONArray result2 = this.accountAPIService.getWithdrawalHistory("OKB");
         this.toResultString(AccountAPITests.LOG, "result", result2);
     }
@@ -147,10 +166,12 @@ public class AccountAPITests extends  AccountAPIBaseTests {
      */
     @Test
     public void getDepositHistory() {
-        String result = this.accountAPIService.getDepositHistory();
-        this.toResultString(AccountAPITests.LOG, "result", result);
-        /*String result2 = this.accountAPIService.getDepositHistory("USDT");
-        this.toResultString(AccountAPITests.LOG, "result", result2);*/
+        //所有币种充值记录
+//        JSONArray result = this.accountAPIService.getDepositHistory();
+//        this.toResultString(AccountAPITests.LOG, "result", result);
+        //单个币种充值记录
+        JSONArray result2 = this.accountAPIService.getDepositHistory("USDT");
+        this.toResultString(AccountAPITests.LOG, "result", result2);
     }
 
     /**
@@ -159,7 +180,7 @@ public class AccountAPITests extends  AccountAPIBaseTests {
      */
     @Test
     public void getCurrencies() {
-        List<Currency> result = this.accountAPIService.getCurrencies();
+        JSONArray result = this.accountAPIService.getCurrencies();
         this.toResultString(AccountAPITests.LOG, "result", result);
     }
 
@@ -169,7 +190,17 @@ public class AccountAPITests extends  AccountAPIBaseTests {
      */
     @Test
     public void getWithdrawFee() {
-        List<WithdrawFee> result = this.accountAPIService.getWithdrawFee("BTC");
+        List<WithdrawFee> result = this.accountAPIService.getWithdrawFee(null);
+        this.toResultString(AccountAPITests.LOG, "result", result);
+    }
+
+    /**
+     * 获取用户ID
+     * GET /api/account/v3/uid
+     */
+    @Test
+    public void getUid(){
+        Map<String,String> result = this.accountAPIService.getUid();
         this.toResultString(AccountAPITests.LOG, "result", result);
     }
 
@@ -180,11 +211,14 @@ public class AccountAPITests extends  AccountAPIBaseTests {
     @Test
     public void testPurchaseRedempt() {
         PurchaseRedempt purchaseRedempt = new PurchaseRedempt();
-        purchaseRedempt.setCurrency("USDT");
+        purchaseRedempt.setCurrency("EOS");
         purchaseRedempt.setAmount("1");
         purchaseRedempt.setSide("redempt");
         JSONObject result = this.accountAPIService.purchaseRedempt(purchaseRedempt);
         this.toResultString(AccountAPITests.LOG, "result", result);
     }
+
+
+
 
 }

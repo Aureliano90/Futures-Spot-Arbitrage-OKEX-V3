@@ -11,6 +11,7 @@ import com.okcoin.commons.okex.open.api.service.futures.FuturesTradeAPIService;
 import com.okcoin.commons.okex.open.api.utils.JsonUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Futures trade api
@@ -212,7 +213,7 @@ public class FuturesTradeAPIServiceImpl implements FuturesTradeAPIService {
 
     //获取委托单列表
     @Override
-    public String findFuturesOrder(String instrument_id, String order_type,String status,String algo_id, String after, String before, String limit) {
+    public JSONArray findFuturesOrder(String instrument_id, String order_type, String status, String algo_id, String after, String before, String limit) {
         return this.client.executeSync(this.api.findFuturesOrder(instrument_id,order_type,status,algo_id,after,before,limit));
     }
 
@@ -233,5 +234,7 @@ public class FuturesTradeAPIServiceImpl implements FuturesTradeAPIService {
     public JSONObject modifyFixedMargin(ModifyFixedMargin modifyFixedMargin) {
         return this.client.executeSync(this.api.modifyFixedMargin(modifyFixedMargin));
     }
+
+
 
 }

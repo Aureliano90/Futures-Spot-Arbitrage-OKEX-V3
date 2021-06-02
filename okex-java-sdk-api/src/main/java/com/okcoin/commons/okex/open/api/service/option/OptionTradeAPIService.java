@@ -67,4 +67,6 @@ public interface OptionTradeAPIService {
     //获取手续费费率
     JSONObject getTradeFee(String category, String underlying);
 
+    JSONObject setGreeks(SetGreeks setGreeks);
+
 }

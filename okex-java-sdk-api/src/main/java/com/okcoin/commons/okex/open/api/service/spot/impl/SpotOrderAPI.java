@@ -95,10 +95,10 @@ public interface SpotOrderAPI {
 
     //获取委托单列表
     @GET("/api/spot/v3/algo")
-    Call <String> getAlgoOrder(@Query("instrument_id") String instrument_id,
+    Call <Map<String, Object>> getAlgoOrder(@Query("instrument_id") String instrument_id,
                                @Query("order_type") String order_type,
                                @Query("status") String status,
-                               @Query("algo_ids") String algo_ids,
+                               @Query("algo_id") String algo_id,
                                @Query("before") String before,
                                @Query("after") String after,
                                @Query("limit") String limit);

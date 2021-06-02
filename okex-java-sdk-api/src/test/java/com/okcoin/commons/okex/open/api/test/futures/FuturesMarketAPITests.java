@@ -10,6 +10,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.List;
 
 /**
@@ -46,9 +50,9 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      * GET /api/futures/v3/instruments/<instrument_id>/book
      */
     @Test
-    public void testGetInstrumentBook() {
-        Book book = marketAPIService.getInstrumentBook("BTC-USD-210326", "50","0.1");
-        toResultString(LOG, "Instrument-Book", book);
+    public void testGetInstrumentBook(){
+        Book book = marketAPIService.getInstrumentBook("BTC-USDT-210625", null, null);
+        toResultString(LOG, "BTC-USDT-210625", book);
     }
 
     /**
@@ -67,7 +71,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentTicker() {
-        Ticker ticker = marketAPIService.getInstrumentTicker("BTC-USD-210326");
+        Ticker ticker = marketAPIService.getInstrumentTicker("ETH-USD-210924");
         toResultString(LOG, "Instrument-Ticker", ticker);
     }
 
@@ -77,7 +81,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentTrades() {
-        List<Trades> trades = marketAPIService.getInstrumentTrades("BTC-USDT-210326", null, null, "20");
+        List<Trades> trades = marketAPIService.getInstrumentTrades("BTC-USDT-210924", null, null, "20");
         toResultString(LOG, "Instrument-Trades", trades);
     }
 
@@ -86,13 +90,18 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      * GET /api/futures/v3/instruments/<instrument-id>/candles
      */
     @Test
-    public void testGetInstrumentCandles() {
-        /*String start = "2020-09-10T21:00:00.000Z";
-        String end = "2020-09-10T23:00:00.000Z";*/
+    public void testGetInstrumentCandles(){
+
+//        String start = "2021-04-13T08:36:00.000Z";
+//        String end = "2021-04-13T08:39:00.000Z";
+
         String start = null;
         String end = null;
-        JSONArray array = marketAPIService.getInstrumentCandles("BTC-USDT-210326", start, end,"60");
-        toResultString(LOG, "Instrument-Candles", array);
+
+        JSONArray array = marketAPIService.getInstrumentCandles("BTC-USDT-210625", start, end, "180");
+
+        System.out.println(array);
+
     }
 
     /**
@@ -101,7 +110,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentIndex() {
-        Index index = marketAPIService.getInstrumentIndex("BTC-USD-210326");
+        Index index = marketAPIService.getInstrumentIndex("BTC-USD-210924");
         toResultString(LOG, "Instrument-Book", index);
     }
 
@@ -161,7 +170,7 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentLiquidation() {
-        List<Liquidation> liquidations = marketAPIService.getInstrumentLiquidation("BTC-USD-210326", "1", "10", null, null);
+        List<Liquidation> liquidations = marketAPIService.getInstrumentLiquidation("BTC-USDT-210326", "1", null, null, null);
         toResultString(LOG, "Instrument-Liquidation", liquidations);
     }
 
@@ -181,11 +190,11 @@ public class FuturesMarketAPITests extends FuturesAPIBaseTests {
      */
     @Test
     public void testGetInstrumentHistoryCandles() {
-       /* String start = "2020-06-26T09:00:00.000Z";
-        String end = "2020-06-26T08:00:00.000Z";*/
+//        String start = "2021-04-13T08:39:00.000Z";
+//        String end = "2021-04-13T08:36:00.000Z";
         String start = null;
         String end = null;
-        JSONArray array = marketAPIService.getHistoryCandels("BTC-USDT-201225",start,end, "900",null);
+        JSONArray array = marketAPIService.getHistoryCandels("BTC-USD-210625",start,end, "60",null);
         toResultString(LOG, "History-Candles", array);
     }
 

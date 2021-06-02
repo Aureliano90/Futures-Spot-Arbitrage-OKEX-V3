@@ -16,6 +16,7 @@ import com.okcoin.commons.okex.open.api.service.account.AccountAPIService;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 public class AccountAPIServiceImpl implements AccountAPIService {
 
@@ -45,6 +46,12 @@ public class AccountAPIServiceImpl implements AccountAPIService {
         return this.client.executeSync(this.api.transfer(JSONObject.parseObject(JSON.toJSONString(transfer))));
     }
 
+    //资金划转状态查询
+    @Override
+    public JSONObject getTransferState(String transfer_id) {
+        return this.client.executeSync(this.api.getTransferState(transfer_id));
+    }
+
     //提币
     @Override
     public JSONObject withdraw(Withdraw withdraw) {
@@ -69,9 +76,9 @@ public class AccountAPIServiceImpl implements AccountAPIService {
         return this.client.executeSync(this.api.getAllAccount(account_type,valuation_currency));
     }
 
-    //获取子账户余额
+    //获取子账户余额信息
     @Override
-    public String getSubAccount(String sub_account) {
+    public Map<String,Object> getSubAccount(String sub_account) {
         return this.client.executeSync(this.api.getSubAccount(sub_account));
     }
 
@@ -89,19 +96,19 @@ public class AccountAPIServiceImpl implements AccountAPIService {
 
     //获取所有币种充值记录
     @Override
-    public String getDepositHistory() {
+    public JSONArray getDepositHistory() {
         return this.client.executeSync(this.api.getDepositHistory());
     }
 
     //获取单个币种充值记录
     @Override
-    public String getDepositHistory(String currency) {
+    public JSONArray getDepositHistory(String currency) {
         return this.client.executeSync(this.api.getDepositHistory(currency));
     }
 
     //获取币种列表
     @Override
-    public List<Currency> getCurrencies() {
+    public JSONArray getCurrencies() {
         return this.client.executeSync(this.api.getCurrencies());
     }
 
@@ -111,10 +118,17 @@ public class AccountAPIServiceImpl implements AccountAPIService {
         return this.client.executeSync(this.api.getWithdrawFee(currency));
     }
 
+    //获取用户ID
+    @Override
+    public Map<String,String> getUid() {
+        return this.client.executeSync(this.api.getUid());
+    }
+
     //余币宝申购赎回
     @Override
     public JSONObject purchaseRedempt(PurchaseRedempt purchaseRedempt) {
         return this.client.executeSync(this.api.purchaseRedempt(JSONObject.parseObject(JSON.toJSONString(purchaseRedempt))));
     }
+
 
 }

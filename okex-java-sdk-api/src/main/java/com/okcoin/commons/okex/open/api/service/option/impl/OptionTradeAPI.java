@@ -104,4 +104,9 @@ public interface OptionTradeAPI {
     Call<JSONObject> getTradeFee(@Query("category") String category,
                                  @Query("underlying") String underlying);
 
+
+    //新增希腊字母PA/BS切换
+    @POST("/api/option/v3/set-greeks")
+    Call<JSONObject> setGreeks(@Body SetGreeks setGreeks);
+
 }

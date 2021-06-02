@@ -35,20 +35,20 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
     public void addOrder() {
         final PlaceOrderParam order = new PlaceOrderParam();
 
-        order.setClient_oid("1022testspot9");
+        order.setClient_oid("test060104");
         order.setType("limit");
         order.setSide("sell");
-        order.setInstrument_id("EOS-USDT");
+        order.setInstrument_id("MINA-USDT");
         order.setOrder_type("0");
 
         //限价单特殊参数
 
-        order.setPrice("2.7");
+        order.setPrice("7");
         order.setSize("1");
 
         //市价单特殊参数  买入必填notional（买入金额），卖出必填size（卖出数量）
-        //order.setSize("0.01");
-        order.setNotional("");
+//        order.setSize("10");
+//        order.setNotional("0.5");
 
 
         final OrderResult orderResult = this.spotOrderAPIServive.addOrder(order);
@@ -64,14 +64,14 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
         final List<PlaceOrderParam> list = new ArrayList<>();
 
         final PlaceOrderParam order = new PlaceOrderParam();
-        order.setClient_oid("1028testspot5");
+        order.setClient_oid("testspot052803");
         order.setType("limit");
-        order.setSide("sell");
-        order.setInstrument_id("EOS-USDT");
+        order.setSide("buy");
+        order.setInstrument_id("XRP-USDT");
         order.setOrder_type("0");
 
         //限价单特殊参数
-        order.setPrice("3.5");
+        order.setPrice("0.5");
         order.setSize("1");
 
         //市价单特殊参数
@@ -82,14 +82,14 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
 
 
         final PlaceOrderParam order1 = new PlaceOrderParam();
-        order1.setClient_oid("1028testspot6");
+        order1.setClient_oid("testspot052803");
         order1.setType("limit");
-        order1.setSide("sell");
-        order1.setInstrument_id("EOS-USDT");
+        order1.setSide("buy");
+        order1.setInstrument_id("XRP-USDT");
         order1.setOrder_type("0");
 
         //限价单特殊参数
-        order1.setPrice("3.4");
+        order1.setPrice("0.4");
         order1.setSize("1");
 
 
@@ -146,8 +146,8 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
     @Test
     public void cancleOrderByOrderId() {
         final PlaceOrderParam order = new PlaceOrderParam();
-        order.setInstrument_id("EOS-USDT");
-        final OrderResult orderResult = this.spotOrderAPIServive.cancleOrderByOrderId(order, "5802604883829760");
+        order.setInstrument_id("CHZ-USDT");
+        final OrderResult orderResult = this.spotOrderAPIServive.cancleOrderByOrderId(order, "7043269876670465");
         this.toResultString(SpotOrderAPITest.LOG, "cancleOrder", orderResult);
     }
 
@@ -158,8 +158,8 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
     @Test
     public void cancleOrderByClientOid() {
         final PlaceOrderParam order = new PlaceOrderParam();
-        order.setInstrument_id("EOS-USDT");
-        final OrderResult orderResult = this.spotOrderAPIServive.cancleOrderByClientOid(order, "1022testspot2");
+        order.setInstrument_id("MNEOS-MNUSDT");
+        final OrderResult orderResult = this.spotOrderAPIServive.cancleOrderByClientOid(order, "testspot5");
         this.toResultString(SpotOrderAPITest.LOG, "cancleOrder", orderResult);
     }
 
@@ -173,16 +173,16 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
 
         final OrderParamDto dto = new OrderParamDto();
 
-        dto.setInstrument_id("EOS-USDT");
+        dto.setInstrument_id("LTC-USDT");
 
         final List<String> order_ids = new ArrayList<>();
         order_ids.add("5802601851736064");
-        order_ids.add("5802601851736065");
+//        order_ids.add("5802601851736065");
 
         dto.setOrder_ids(order_ids);
         cancleOrders.add(dto);
 
-        /*final OrderParamDto dto1 = new OrderParamDto();
+        final OrderParamDto dto1 = new OrderParamDto();
 
         dto1.setInstrument_id("XRP-USDT");
 
@@ -191,7 +191,7 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
         order_ids1.add("4096139176250371");
 
         dto1.setOrder_ids(order_ids1);
-        cancleOrders.add(dto1);*/
+        cancleOrders.add(dto1);
 
         final Map<String, Object> orderResult = this.spotOrderAPIServive.batchCancleOrdersByOrderId(cancleOrders);
         this.toResultString(SpotOrderAPITest.LOG, "cancleOrders", orderResult);
@@ -207,10 +207,10 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
 
         OrderParamDto param1 = new OrderParamDto();
 
-        param1.setInstrument_id("EOS-USDT");
+        param1.setInstrument_id("MNEOS-MNUSDT");
         List<String> client_oid = new ArrayList<>();
-        client_oid.add("1022testspot3");
-        client_oid.add("1022testspot4");
+        client_oid.add("testspot5");
+//        client_oid.add("1022testspot4");
 
         param1.setClient_oids(client_oid);
         list.add(param1);
@@ -256,13 +256,13 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
     @Test
     public void testAmendOrderByClientOid(){
         AmendParam amendParam = new AmendParam();
-        amendParam.setClient_oid("1021testspot8");
+        amendParam.setClient_oid("testspot5");
         amendParam.setCancel_on_fail("0");
         amendParam.setRequest_id(null);
-        amendParam.setNew_size("1.2");
-        amendParam.setNew_price("2.72");
+        amendParam.setNew_size("2");
+        amendParam.setNew_price("2.36");
 
-        JSONObject result = this.spotOrderAPIServive.amendOrderByClientOid("EOS-USDT",amendParam);
+        JSONObject result = this.spotOrderAPIServive.amendOrderByClientOid("MNEOS-MNUSDT",amendParam);
         this.toResultString(SpotOrderAPITest.LOG, "amendOrder", result);
 
     }
@@ -282,17 +282,17 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
         amendParam.setNew_size("1.1");
         amendParam.setNew_price("2.732");
 
-        AmendParam amendParam1 = new AmendParam();
-        amendParam1.setInstrument_id("EOS-USDT");
-        amendParam1.setOrder_id("5801704821383169");
-        amendParam1.setCancel_on_fail("0");
-        amendParam1.setRequest_id(null);
-        amendParam1.setNew_size("1.3");
-        amendParam1.setNew_price("2.733");
+//        AmendParam amendParam1 = new AmendParam();
+//        amendParam1.setInstrument_id("EOS-USDT");
+//        amendParam1.setOrder_id("5801704821383169");
+//        amendParam1.setCancel_on_fail("0");
+//        amendParam1.setRequest_id(null);
+//        amendParam1.setNew_size("1.3");
+//        amendParam1.setNew_price("2.733");
 
 
         list.add(amendParam);
-        list.add(amendParam1);
+//        list.add(amendParam1);
 
         JSONObject result = this.spotOrderAPIServive.batchAmendOrderByOrderId(list);
         this.toResultString(SpotOrderAPITest.LOG, "batchAmendOrder", result);
@@ -307,25 +307,25 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
     public void testBatchAmendOrdersByClientOid(){
         List<AmendParam> list = new ArrayList<>();
         AmendParam amendParam = new AmendParam();
-        amendParam.setInstrument_id("EOS-USDT");
-        amendParam.setClient_oid("1021testspot8");
+        amendParam.setInstrument_id("MNEOS-MNUSDT");
+        amendParam.setClient_oid("testspot5");
         amendParam.setCancel_on_fail("0");
         amendParam.setRequest_id(null);
-        amendParam.setNew_size("1.2");
-        amendParam.setNew_price("2.74");
+        amendParam.setNew_size("3");
+        amendParam.setNew_price("2.24");
 
-        AmendParam amendParam1 = new AmendParam();
+       /* AmendParam amendParam1 = new AmendParam();
         amendParam1.setInstrument_id("EOS-USDT");
         amendParam1.setClient_oid("1021testspot9");
         amendParam1.setCancel_on_fail("0");
         amendParam1.setRequest_id(null);
         amendParam1.setNew_size("1.3");
-        amendParam1.setNew_price("2.74");
+        amendParam1.setNew_price("2.74");*/
 
 
         AmendDataParam amendDataParam = new AmendDataParam();
         list.add(amendParam);
-        list.add(amendParam1);
+//        list.add(amendParam1);
         amendDataParam.setAmend_data(list);
 
         JSONObject result = this.spotOrderAPIServive.batchAmendOrdersByClientOid(list);
@@ -359,7 +359,7 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getOrderByOrderId() {
-        final JSONObject orderInfo = this.spotOrderAPIServive.getOrderByOrderId("XRP-USDT", "5836570486258688");
+        final JSONObject orderInfo = this.spotOrderAPIServive.getOrderByOrderId("ZIL-USDT", "6268190400860162");
         this.toResultString(SpotOrderAPITest.LOG, "orderInfo", orderInfo);
     }
 
@@ -369,7 +369,7 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getOrderByClientOid() {
-        final JSONObject orderInfo = this.spotOrderAPIServive.getOrderByClientOid("EOS-USDT","1021testspot8");
+        final JSONObject orderInfo = this.spotOrderAPIServive.getOrderByClientOid("1INCH-USDT","1021testspot8");
         this.toResultString(SpotOrderAPITest.LOG, "orderInfo", orderInfo);
     }
 
@@ -379,7 +379,7 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getFills() {
-        final List<Fills> fillsList = this.spotOrderAPIServive.getFills(null, "OKB-USDT", null, null, null);
+        final List<Fills> fillsList = this.spotOrderAPIServive.getFills(null, null, null, null, null);
         this.toResultString(SpotOrderAPITest.LOG, "fillsList", fillsList);
     }
 
@@ -391,16 +391,16 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
     public void addorder_algo(){
         final OrderAlgoParam order = new OrderAlgoParam();
        //公共参数
-        order.setInstrument_id("EOS-USDT");
+        order.setInstrument_id("TRX-MNUSDT");
         order.setMode("1");
         order.setOrder_type("1");
-        order.setSize("1");
-        order.setSide("buy");
+        order.setSize("0.002587");
+        order.setSide("sell");
 
         //计划委托参数
-        order.setTrigger_price("2.45");
-        order.setAlgo_price("2.32");
-        order.setAlgo_type("1");
+        order.setTrigger_price("19400");
+        order.setAlgo_price("19400");
+//        order.setAlgo_type("1");
 
        //跟踪委托
         /*order.setCallback_rate("0.01");
@@ -439,9 +439,9 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
     public void cancelOrder_algo(){
         final CancelAlgoParam cancelAlgoParam = new CancelAlgoParam();
         List<String> ids = new ArrayList<>();
-        ids.add("3302565");
-        ids.add("3302570");
-        cancelAlgoParam.setInstrument_id("EOS-USDT");
+        ids.add("3330140");
+//        ids.add("3302570");
+        cancelAlgoParam.setInstrument_id("MNEOS-MNUSDT");
         cancelAlgoParam.setOrder_type("1");
         cancelAlgoParam.setAlgo_ids(ids);
         final CancelAlgoResult cancelAlgoResult = this.spotOrderAPIServive.cancelOrder_algo(cancelAlgoParam);
@@ -455,9 +455,9 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
      */
     @Test
     public void getAlgOrder(){
-        final String findAlgOrderResults=this.spotOrderAPIServive.getAlgoOrder("EOS-USDT","1","3",
-                null,null,null,null);
-                this.toResultString(SpotOrderAPITest.LOG, "findAlgOrderResults", findAlgOrderResults);
+        final Map<String, Object> findAlgOrderResults=this.spotOrderAPIServive.getAlgoOrder("TRX-USDT","5","3",
+                "6707662755215360",null,null,null);
+        this.toResultString(SpotOrderAPITest.LOG, "findAlgOrderResults", findAlgOrderResults);
     }
 
 }

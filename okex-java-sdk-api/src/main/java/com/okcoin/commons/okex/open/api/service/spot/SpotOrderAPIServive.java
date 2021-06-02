@@ -63,6 +63,6 @@ public interface SpotOrderAPIServive {
     CancelAlgoResult cancelOrder_algo(@Body CancelAlgoParam cancelAlgoParam);
 
     //获取委托单列表
-    String  getAlgoOrder(String instrument_id, String order_type, String status, String algo_ids, String before, String after, String limit);
+    Map<String, Object>  getAlgoOrder(String instrument_id, String order_type, String status, String algo_id, String before, String after, String limit);
 
 }

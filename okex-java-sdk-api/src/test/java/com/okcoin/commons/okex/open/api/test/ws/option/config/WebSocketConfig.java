@@ -11,11 +11,6 @@ public class WebSocketConfig {
     // okex webSocket url
     private static final String SERVICE_URL = "wss://real.okex.com:8443/ws/v3";
 
-    /* 模拟盘ws域名
-    private static final String SERVICE_URL = "wss://real.okex.com:8443/ws/v3?brokerId=9999";
-    */
-
-    // api key
     private static final String API_KEY = "";
     private static final String SECRET_KEY = "";
     private static final String PASSPHRASE = "";

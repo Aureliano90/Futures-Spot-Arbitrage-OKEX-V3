@@ -24,7 +24,7 @@ public class BaseTests {
 
     public void toResultString(Logger log, String flag, Object object) {
         StringBuilder su = new StringBuilder();
-        su.append("\n").append("=====>").append(flag).append(":\n").append(JSON.toJSONString(object));
+        su.append("\n").append("\t").append("ResponseBody").append(":").append(JSON.toJSONString(object));
         log.info(su.toString());
     }
 }
