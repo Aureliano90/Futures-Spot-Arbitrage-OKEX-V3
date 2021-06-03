@@ -22,6 +22,8 @@ class MarginApi extends Utils {
     const MARGIN_BORROW = '/api/margin/v3/accounts/borrow/';
     const MARGIN_RETURN = '/api/margin/v3/accounts/repayment';
     const MARGIN_ORDER = '/api/margin/v3/orders';
+    const UPDATE_ORDER = '/api/margin/v3/amend_order/';
+    const UPDATES_ORDER = '/api/margin/v3/amend_batch_orders';
     const MARGIN_CANCEL_ORDER = '/api/margin/v3/cancel_orders/';
     const MARGIN_ORDERS_LIST = '/api/margin/v3/orders';
     const MARGIN_ORDER_INFO = '/api/margin/v3/orders/';
@@ -133,6 +135,39 @@ class MarginApi extends Utils {
         if ($order_type) $params['order_type'] = $order_type;
 
         return $this->request(self::MARGIN_ORDER, $params, 'POST');
+    }
+    //改单
+    public function updateSOrder($data)
+    {
+        foreach ($data as $k => $v){
+            $params[] = [
+                'instrument_id' => $data[$k][0],
+                'cancel_on_fail' => $data[$k][1],
+                'order_id' => $data[$k][2],
+                'client_oid' => $data[$k][3],
+                'request_id' => $data[$k][4],
+                'new_size' => $data[$k][5],
+                'new_price' => $data[$k][6],
+            ];
+        }
+
+        return $this->request(self::UPDATES_ORDER, $params, 'POST');
+    }
+    //批量改单
+    public function updateOrder($instrument_id,$cancel_on_fail,$order_id='',$client_oid='',$request_id='',$new_size='',$new_price='')
+    {
+        $params = [
+            'instrument_id' => $instrument_id,
+            'cancel_on_fail' => $cancel_on_fail
+        ];
+
+        if ($order_id) $params['order_id'] = $order_id;
+        if ($request_id) $params['request_id'] = $request_id;
+        if ($client_oid) $params['client_oid'] = $client_oid;
+        if ($new_size) $params['new_size'] = $new_size;
+        if ($new_price) $params['new_price'] = $new_price;
+
+        return $this->request(self::UPDATE_ORDER, $params, 'POST');
     }
 
     //撤销指定订单

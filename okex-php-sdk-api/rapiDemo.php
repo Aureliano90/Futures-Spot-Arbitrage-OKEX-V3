@@ -32,7 +32,7 @@ $coin = "XMR";
 // 单一币种账户信息
 //$res = $obj -> getSpecialWalletInfo($coin);
 // 资金划转
-//$res = $obj -> transfer($coin,"0.1","6","1","","");
+//$res = $obj -> transfer("USDT","4","6","1","","",'');
 // 提币
 //$res = $obj -> withdrawal($coin,"1","4","eostoliuheng:OKEx","123456","0.1");
 // 账单流水
@@ -46,9 +46,9 @@ $coin = "XMR";
 // 获取账户资产估值
 //$res = $obj -> getAssetValuation();
 // 获取子账户余额信息
-//$res = $obj -> getSubAccount("liuheng");
+//$res = $obj -> getSubAccount("shangguanlin");
 // 查询单个币种的充值记录
-//$res = $obj -> getCoinDepositHistory($coin);
+//$res = $obj -> getCoinDepositHistory("BTT");
 // 获取币种列表
 //$res = $obj -> getCurrencies();
 // 提币手续费
@@ -68,7 +68,7 @@ $obj = new SpotApi(Config::$config);
 // 账单流水查询
 //$res = $obj -> getLedgerRecord($currency);
 // 下单
-//$res = $obj -> takeOrder($instrumentId,"buy","0.1","2");
+//$res = $obj -> takeOrder($instrumentId,"buy","","",'','','market','0');
 // 撤销指定订单
 //$res = $obj -> revokeOrder($instrumentId,"3452612358987776");
 // 获取订单列表
@@ -76,13 +76,13 @@ $obj = new SpotApi(Config::$config);
 // 获取订单信息
 //$res = $obj -> getOrderInfo($instrumentId,"3271189018971137");
 // 获取成交明细
-//$res = $obj -> getFills($instrumentId,"3230072570268672");
+//$res = $obj -> getFills('',"");
 // 策略委托下单-止盈止损- mode为1是币币， mode为1是币币杠杆，
 //$res = $obj -> takeAlgoOrderStop($instrumentId,"1","1", "1", "buy", "1","1");
 // 委托策略撤单-止盈止损
-//$res = $obj -> revokeAlgoOrders($instrumentId,["401671"], "1");
+//$res = $obj -> revokeAlgoOrders("OKB-USDT",["6966946986345472"], "5");
 // 获取委托单列表-止盈止损
-//$res = $obj -> getAlgoList($instrumentId, "1", '','401671','','','');
+//$res = $obj -> getAlgoList("OKB-USDT", "5", '1','','','','');
 // 获取当前账户交易手续费费率
 //$res = $obj -> getTradeFee();
 // 获取币对信息
@@ -92,13 +92,16 @@ $obj = new SpotApi(Config::$config);
 // 获取全部ticker信息
 //$res = $obj -> getTicker();
 // 获取某个ticker信息
-$res = $obj -> getSpecificTicker($instrumentId);
+//$res = $obj -> getSpecificTicker($instrumentId);
 // 获取成交数据
-//$res = $obj -> getDeal($instrumentId);
+//$res = $obj -> getDeal('KONO-USDT');
 // 获取K线
-//$res = $obj -> getKine($instrumentId,3600);
+//$res = $obj -> getKine("BTT-USDT",900,'','');
 //公共-获取历史K线数据
-//$res = $obj -> getHistoryKine($instrumentId,3600);
+//for($i=1;$i<10;$i++){
+//    $res = $obj -> getHistoryKine("BTC-USDT",900,'','','1');
+//    sleep(1);
+//}
 
 // 币币杠杆账户信息
 $instrumentId = "EOS-USDT";
@@ -112,7 +115,7 @@ $obj = new MarginApi(Config::$config);
 // 杠杆配置信息
 //$res = $obj -> getMarginConf();
 // 某个杠杆配置信息
-//$res = $obj -> getMarginSpecialConf($instrumentId);
+//$res = $obj -> getMarginSpecialConf("BTT-USDT");
 // 获取借币记录
 //$res = $obj -> getBorrowedRecord();
 // 某账户借币记录
@@ -122,11 +125,15 @@ $obj = new MarginApi(Config::$config);
 // 还币
 //$res = $obj -> returnCoin($instrumentId, $currency, 0.1, "");
 // 下单
-//$res = $obj -> takeOrder($instrumentId,"sell","0.1","2","10");
+//$res = $obj -> takeOrder("OKB-USDT","sell","1","2","10");
 // 撤销指定订单
 //$res = $obj -> revokeOrder($instrumentId,"3292706588398592");
+//改单
+//$res = $obj -> updateOrder($instrumentId,0,'','','','','');
+//批量改单
+$res = $obj -> updatesOrder([['OKB-USDT','0','7041774328100864','','GAI1','','15.1'],['OKB-USDT','0','7041772849885184','','GAI1','','15.2'],['OKB-USDT','0','7041772512560128','','GAI1','','15.3']]);
 // 获取订单列表
-//$res = $obj -> getOrdersList($instrumentId,"-1","","",1);
+//$res = $obj -> getOrdersList("OKB-USDT","0","","",3);
 // 获取订单信息
 //$res = $obj -> getOrderInfo($instrumentId,"3292706588398592");
 // 获取成交明细
@@ -139,7 +146,7 @@ $obj = new MarginApi(Config::$config);
 //$res = $obj -> getMarkPrice($instrumentId);
 
 // 交割合约-Ticker
-$instrumentId = "ETH-USD-200925";
+$instrumentId = "TRX-USDT-210625";
 $coin = "EOS";
 $obj = new FuturesApi(Config::$config);
 // 合约持仓信息
@@ -157,13 +164,13 @@ $obj = new FuturesApi(Config::$config);
 // 账单流水查询
 //$res = $obj->getLedger($coin);
 // 下单
-//$res = $obj->takeOrder("abc",$instrumentId,"1","4.2", "1","0","10","");
+//$res = $obj->takeOrder("abc",$instrumentId,"1","", "1","0","10","4");
 // 撤销指定订单
 //$res = $obj->revokeOrder($instrumentId,"3298735645477888");
 // 获取订单列表
-//$res = $obj->getOrderList(-1,$instrumentId);
+//$res = $obj->getOrderList("7","DOT-USDT-210625");
 // 获取订单信息
-//$res = $obj->getOrderInfo("3298735645477888",$instrumentId);
+//$res = $obj->getOrderInfo("6794005733049343","DOT-USDT-210625");
 // 获取成交明细
 //$res = $obj->getFills("3298735645477888",$instrumentId);
 // 获取合约信息
@@ -198,7 +205,7 @@ $obj = new FuturesApi(Config::$config);
 //$res = $obj->getHoldsAmount($instrumentId);
 
 // 策略委托下单-止盈止损- mode为1是币币， mode为1是币币杠杆，
-//$res = $obj -> takeAlgoOrderStop($instrumentId,"1","1", "1", "1", "1");
+//$res = $obj -> takeAlgoOrderStop("BCH-USDT-210625","4","5", "1", "800", "805",'1','1','815.86','815.86');
 // 委托策略撤单-止盈止损
 //$res = $obj -> revokeAlgoOrders($instrumentId,["3121188"], "1");
 // 获取委托单列表-止盈止损
@@ -234,9 +241,9 @@ $obj = new SwapApi(Config::$config);
 // 账单流水查询
 //$res = $obj->getLedger($instrumentId);
 // 下单
-//$res = $obj->takeOrder("abc",$instrumentId,"1","4.2", "1","0","10","");
+//$res = $obj->takeOrder("abc3","ETH-USDT-SWAP","1","", "1","1","10","");
 // 撤销指定订单
-//$res = $obj->revokeOrder($instrumentId,"294683725542936576");
+//$res = $obj->revokeOrder("DOGE-USDT-SWAP","744832593704161280");
 // 获取订单列表
 //$res = $obj->getOrderList(-1,$instrumentId);
 // 获取订单信息
@@ -246,7 +253,7 @@ $obj = new SwapApi(Config::$config);
 // 获取合约信息
 //$res = $obj->getProducts();
 // 获取深度
-//$res = $obj->getDepth($instrumentId,1);
+//$res = $obj->getDepth($instrumentId,0.1);
 // 公共-获取全部ticker信息
 //$res = $obj->getTicker();
 // 公共-获取某个ticker信息
@@ -254,7 +261,7 @@ $obj = new SwapApi(Config::$config);
 // 公共-获取成交数据
 //$res = $obj->getTrades($instrumentId);
 // 公共-获取K线数据
-//$res = $obj->getKline($instrumentId,"60");
+//$res = $obj->getKline("XMR-USD-SWAP","60");
 //公共-获取历史K线数据
 //$res = $obj->getHistoryKline($instrumentId,"60");
 // 公共-获取指数信息
@@ -276,7 +283,7 @@ $obj = new SwapApi(Config::$config);
 // 公共-获取合约标记价格
 //$res = $obj->getMarkPrice($instrumentId);
 // 公共-获取合约历史资金费率
-//$res = $obj->getHistoricalFundingRate($instrumentId);
+//$res = $obj->getHistoricalFundingRate("BTC-USD-SWAP");
 
 // 策略委托下单-止盈止损- mode为1是币币， mode为1是币币杠杆，
 //$res = $obj -> takeAlgoOrderStop($instrumentId,"1","1", "1", "1", "1");
