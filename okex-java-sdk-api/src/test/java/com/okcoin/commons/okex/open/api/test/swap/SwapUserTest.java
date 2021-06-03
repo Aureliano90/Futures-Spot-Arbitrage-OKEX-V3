@@ -8,14 +8,17 @@ import com.okcoin.commons.okex.open.api.service.swap.SwapUserAPIServive;
 import com.okcoin.commons.okex.open.api.service.swap.impl.SwapUserAPIServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SwapUserTest extends SwapBaseTest {
     private SwapUserAPIServive swapUserAPIServive;
-    private String jsonObject;
+    private static final Logger LOG = LoggerFactory.getLogger(SwapUserTest.class);
 
     @Before
     public void before() {
@@ -29,8 +32,8 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void testGetPositions(){
-        String result = this.swapUserAPIServive.getPositions();
-        System.out.println(result);
+        JSONArray result = this.swapUserAPIServive.getPositions();
+        this.toResultString(SwapUserTest.LOG, "orders", result);
     }
 
     /**
@@ -39,8 +42,8 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void getPosition() {
-        String jsonObject = swapUserAPIServive.getPosition("XRP-USDT-SWAP");
-        System.out.println(jsonObject);
+        Map<String,Object> result = swapUserAPIServive.getPosition("BTC-USDT-SWAP");
+        this.toResultString(SwapUserTest.LOG, "orders", result);
 }
 
     /**
@@ -49,8 +52,8 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void getAccounts() {
-        String jsonObject = swapUserAPIServive.getAccounts();
-        System.out.println(jsonObject);
+        Map<String,Object> result = swapUserAPIServive.getAccounts();
+        this.toResultString(SwapUserTest.LOG, "orders", result);
 }
 
     /**
@@ -59,9 +62,8 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void selectAccount() {
-        String jsonObject = swapUserAPIServive.selectAccount("XRP-USDT-SWAP");
-        System.out.println(jsonObject);
-
+        JSONObject result = swapUserAPIServive.selectAccount("XRP-USDT-SWAP");
+        this.toResultString(SwapUserTest.LOG, "orders", result);
     }
 
     /**
@@ -70,8 +72,8 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void selectContractSettings() {
-        String jsonObject = swapUserAPIServive.selectContractSettings("BTC-USDT-SWAP");
-        System.out.println(jsonObject);
+        JSONObject result = swapUserAPIServive.selectContractSettings("BTC-USDT-SWAP");
+        this.toResultString(SwapUserTest.LOG, "orders", result);
     }
 
     /**
@@ -83,8 +85,8 @@ public class SwapUserTest extends SwapBaseTest {
         LevelRateParam levelRateParam = new LevelRateParam();
         levelRateParam.setLeverage("5");
         levelRateParam.setSide("1");
-        String jsonObject = swapUserAPIServive.updateLevelRate("BTC-USDT-SWAP", levelRateParam);
-        System.out.println(jsonObject);
+        JSONObject result = swapUserAPIServive.updateLevelRate("BTC-USDT-SWAP", levelRateParam);
+        this.toResultString(SwapUserTest.LOG, "orders", result);
 
     }
 
@@ -94,11 +96,9 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void getLedger() {
-        String jsonArray = swapUserAPIServive.getLedger("XRP-USDT-SWAP", null, null, null,null);
-        System.out.println(jsonArray);
+        JSONArray result = swapUserAPIServive.getLedger("XRP-USDT-SWAP", null, null, null,null);
+        this.toResultString(SwapUserTest.LOG, "orders", result);
     }
-
-
 
     /**
      * 获取所有订单列表
@@ -106,8 +106,8 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void selectOrders() {
-        String jsonObject = swapUserAPIServive.selectOrders("XRP-USDT-SWAP", null, null, null, "0");
-        System.out.println(jsonObject);
+        Map<String,Object> result = swapUserAPIServive.selectOrders("XRP-USDT-SWAP", null, null, null, "0");
+        this.toResultString(SwapUserTest.LOG, "orders", result);
     }
 
     /**
@@ -116,8 +116,8 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void selectOrderByOrderId() {
-        String jsonObject = swapUserAPIServive.selectOrderByOrderId("XRP-USDT-SWAP", "771515013530292224");
-        System.out.println(jsonObject);
+        JSONObject result = swapUserAPIServive.selectOrderByOrderId("XRP-USDT-SWAP", "771515013530292224");
+        this.toResultString(SwapUserTest.LOG, "orders", result);
     }
 
     /**
@@ -126,9 +126,8 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void selectOrderByClientOid() {
-        String jsonObject = swapUserAPIServive.selectOrderByClientOid("XRP-USDT-SWAP", "testswap052501");
-        System.out.println("success");
-        System.out.println(jsonObject);
+        JSONObject result = swapUserAPIServive.selectOrderByClientOid("XRP-USDT-SWAP", "testswap052501");
+        this.toResultString(SwapUserTest.LOG, "orders", result);
     }
 
     /**
@@ -137,8 +136,8 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void selectDealDetail(){
-        String jsonArray = swapUserAPIServive.selectDealDetail("XRP-USDT-SWAP",null,null,null,"10");
-        System.out.println(jsonArray);
+        JSONArray result = swapUserAPIServive.selectDealDetail("XRP-USDT-SWAP",null,null,null,"10");
+        this.toResultString(SwapUserTest.LOG, "orders", result);
 
     }
 
@@ -148,8 +147,8 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void getHolds() {
-        String jsonObject = swapUserAPIServive.getHolds("XRP-USDT-SWAP");
-        System.out.println(jsonObject);
+        JSONObject result = swapUserAPIServive.getHolds("XRP-USDT-SWAP");
+        this.toResultString(SwapUserTest.LOG, "orders", result);
     }
 
     /**
@@ -158,8 +157,8 @@ public class SwapUserTest extends SwapBaseTest {
      */
     @Test
     public void TestGetTradeFee(){
-        String result = swapUserAPIServive.getTradeFee("1","XRP-USDT-SWAP");
-        System.out.println(result);
+        JSONObject result = swapUserAPIServive.getTradeFee("1","XRP-USDT-SWAP");
+        this.toResultString(SwapUserTest.LOG, "orders", result);
     }
 
 }
