@@ -65,7 +65,7 @@ public class SwapTradeTest extends SwapBaseTest {
 
     /**
      * 撤单
-     * POST /api/swap/v3/cancel_order/<instrument_id>/<order_id> or <client_oid>
+     * POST /api/swap/v3/cancel_order/<instrument_id>/<order_id>
      */
     @Test
     public void cancelOrderByOrderId() {

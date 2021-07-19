@@ -48,7 +48,7 @@ public class AccountAPITests extends  AccountAPIBaseTests {
 //        this.toResultString(AccountAPITests.LOG, "：", result);
 
         //单一币种账户信息
-        List<Wallet> result2 = this.accountAPIService.getWallet("EOS");
+        List<Wallet> result2 = this.accountAPIService.getWallet("BTC");
         this.toResultString(AccountAPITests.LOG, "：", result2);
     }
 

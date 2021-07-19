@@ -218,7 +218,7 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
     @Test
     public void cancleOrdersByOrderId() {
         PlaceOrderParam orderParam = new PlaceOrderParam();
-        orderParam.setInstrument_id("MNBTC-MNUSDT");
+        orderParam.setInstrument_id("BTC-USDT");
         final OrderResult orderResult = this.marginOrderAPIService.cancleOrdersByOrderId(orderParam,"5915531078819840" );
         this.toResultString(MarginOrderAPITest.LOG, "cancleOrder", orderResult);
     }
@@ -244,7 +244,7 @@ public class MarginOrderAPITest extends SpotAPIBaseTests {
         final List<OrderParamDto> cancleOrders = new ArrayList<>();
 
         final OrderParamDto dto = new OrderParamDto();
-        dto.setInstrument_id("MNBTC-MNUSDT");
+        dto.setInstrument_id("BTC-USDT");
         final List<String> order_ids = new ArrayList<>();
         order_ids.add("5915541774950400");
         order_ids.add("5915541775015936");

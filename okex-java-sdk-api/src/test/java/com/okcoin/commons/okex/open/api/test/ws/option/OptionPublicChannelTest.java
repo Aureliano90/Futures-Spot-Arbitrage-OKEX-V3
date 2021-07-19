@@ -94,7 +94,7 @@ public class OptionPublicChannelTest {
     public void klineChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("option/candle60s:BTC-USD-201225-7000-C");
+        channel.add("option/candle60s:BTC-USD-211231-7000-C");
         //调用订阅方法
         WebSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -113,7 +113,7 @@ public class OptionPublicChannelTest {
     public void tradeChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("option/trade:BTC-USD-201225-7000-C");
+        channel.add("option/trade:BTC-USD-211231-7000-C");
         //调用订阅方法
         WebSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -132,7 +132,7 @@ public class OptionPublicChannelTest {
     public void tickerChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("option/ticker:BTC-USD-201225-7000-C");
+        channel.add("option/ticker:BTC-USD-211231-7000-C");
         //调用订阅方法
         WebSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -151,7 +151,7 @@ public class OptionPublicChannelTest {
     public void depth5Channel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("option/depth5:BTC-USD-201225-6000-C");
+        channel.add("option/depth5:BTC-USD-211231-6000-C");
         //调用订阅方法
         WebSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -171,7 +171,7 @@ public class OptionPublicChannelTest {
     public void depthChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("option/depth:BTC-USD-201225-7000-C");
+        channel.add("option/depth:BTC-USD-211231-7000-C");
         //调用订阅方法
         WebSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -191,7 +191,7 @@ public class OptionPublicChannelTest {
     public void allDepthChannel() {
         //添加订阅频道
         ArrayList<String> channel = Lists.newArrayList();
-        channel.add("option/depth_l2_tbt:BTC-USD-201225-7000-C");
+        channel.add("option/depth_l2_tbt:BTC-USD-211231-7000-C");
         //调用订阅方法
         WebSocketClient.subscribe(channel);
         //为保证测试方法不停，需要让线程延迟
@@ -207,7 +207,7 @@ public class OptionPublicChannelTest {
     public void unsubscribeChannel() {
         ArrayList<String> list = Lists.newArrayList();
         //添加要取消订阅的频道名
-        list.add("option/depth_l2_tbt:BTC-USD-201225-7000-C");
+        list.add("option/depth_l2_tbt:BTC-USD-211231-7000-C");
         //订阅
         WebSocketClient.subscribe(list);
         //取消订阅

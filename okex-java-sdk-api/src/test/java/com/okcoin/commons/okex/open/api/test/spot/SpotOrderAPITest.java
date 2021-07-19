@@ -158,7 +158,7 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
     @Test
     public void cancleOrderByClientOid() {
         final PlaceOrderParam order = new PlaceOrderParam();
-        order.setInstrument_id("MNEOS-MNUSDT");
+        order.setInstrument_id("EOS-USDT");
         final OrderResult orderResult = this.spotOrderAPIServive.cancleOrderByClientOid(order, "testspot5");
         this.toResultString(SpotOrderAPITest.LOG, "cancleOrder", orderResult);
     }
@@ -207,7 +207,7 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
 
         OrderParamDto param1 = new OrderParamDto();
 
-        param1.setInstrument_id("MNEOS-MNUSDT");
+        param1.setInstrument_id("EOS-USDT");
         List<String> client_oid = new ArrayList<>();
         client_oid.add("testspot5");
 //        client_oid.add("1022testspot4");
@@ -307,7 +307,7 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
     public void testBatchAmendOrdersByClientOid(){
         List<AmendParam> list = new ArrayList<>();
         AmendParam amendParam = new AmendParam();
-        amendParam.setInstrument_id("MNEOS-MNUSDT");
+        amendParam.setInstrument_id("EOS-USDT");
         amendParam.setClient_oid("testspot5");
         amendParam.setCancel_on_fail("0");
         amendParam.setRequest_id(null);
@@ -391,7 +391,7 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
     public void addorder_algo(){
         final OrderAlgoParam order = new OrderAlgoParam();
        //公共参数
-        order.setInstrument_id("TRX-MNUSDT");
+        order.setInstrument_id("TRX-USDT");
         order.setMode("1");
         order.setOrder_type("1");
         order.setSize("0.002587");
@@ -441,7 +441,7 @@ public class SpotOrderAPITest extends SpotAPIBaseTests {
         List<String> ids = new ArrayList<>();
         ids.add("3330140");
 //        ids.add("3302570");
-        cancelAlgoParam.setInstrument_id("MNEOS-MNUSDT");
+        cancelAlgoParam.setInstrument_id("EOS-USDT");
         cancelAlgoParam.setOrder_type("1");
         cancelAlgoParam.setAlgo_ids(ids);
         final CancelAlgoResult cancelAlgoResult = this.spotOrderAPIServive.cancelOrder_algo(cancelAlgoParam);
