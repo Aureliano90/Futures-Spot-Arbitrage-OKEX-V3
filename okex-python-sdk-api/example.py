@@ -7,6 +7,7 @@ import okex.index_api as index
 import okex.option_api as option
 import okex.system_api as system
 import okex.information_api as information
+import okex.oracle_api as oracle
 import json
 import datetime
 
@@ -34,7 +35,9 @@ if __name__ == '__main__':
     # 单一币种账户信息
     # result = accountAPI.get_currency('')
     # 资金划转
-    # result = accountAPI.coin_transfer(currency='', amount='', account_from='', account_to='', type='', sub_account='', instrument_id='', to_instrument_id='')
+    # result = accountAPI.coin_transfer(currency='', amount='', account_from='', account_to='', type='',to_instrument_id='')
+    # 资金划转状态查询
+    # result = accountAPI.get_state(transfer_id='')
     # 提币
     # result = accountAPI.coin_withdraw(currency='', amount='', destination='', to_address='', trade_pwd='', fee='')
     # 账单流水查询
@@ -57,6 +60,10 @@ if __name__ == '__main__':
     # result = accountAPI.get_currencies()
     # 提币手续费
     # result = accountAPI.get_coin_fee('')
+    # 获取用户ID
+    # result = accountAPI.get_uid('')
+    # 余币宝申购赎回
+    # result = accountAPI.purchase_redempt(currency='',amount='',side='')
 
 # spot api test
 # 币币API
@@ -64,7 +71,7 @@ if __name__ == '__main__':
     # 币币账户信息
     # result = spotAPI.get_account_info()
     # 单一币种账户信息
-    # result = spotAPI.get_coin_account_info('')
+    # result = spotAPI.get_coin_account_info('BTC')
     # 账单流水查询
     # result = spotAPI.get_ledger_record(currency='', after='', before='', limit='', type='')
     # 下单
@@ -80,6 +87,13 @@ if __name__ == '__main__':
     # result = spotAPI.revoke_orders([
     #     {'instrument_id': '', 'order_ids': ['', '']},
     #     {'instrument_id': '', 'order_ids': ['', '']}
+    # ])
+    #修改订单
+    # result = spotAPI.amend_order(instrument_id='', cancel_on_fail='')
+    #批量修改订单
+    # result = spotAPI.amend_batch_orders([
+    #     {'instrument_id': '', 'cancel_on_fail': '','order_id':'','new_size':''},
+    #     {'instrument_id': '', 'cancel_on_fail': '','order_id':'','new_size':''}
     # ])
     # 获取订单列表
     # result = spotAPI.get_orders_list(instrument_id='', state='', after='', before='', limit='')
@@ -107,10 +121,10 @@ if __name__ == '__main__':
     # result = spotAPI.get_specific_ticker('')
     # 公共-获取成交数据
     # result = spotAPI.get_deal(instrument_id='', limit='')
-    # 公共-获取K线数据
+    # 公共-获取K线数据q
     # result = spotAPI.get_kline(instrument_id='', start='', end='', granularity='')
     # 公共-获取历史K线数据
-    # result = spotAPI.get_history_kline(instrument_id='', start='', end='', granularity='')
+    # result = spotAPI.get_history_kline(instrument_id='')
 
 # level api test
 # 币币杠杆API
@@ -120,7 +134,7 @@ if __name__ == '__main__':
     # 单一币对账户信息
     # result = levelAPI.get_specific_account('')
     # 账单流水查询
-    # result = levelAPI.get_ledger_record(instrument_id='', after='', before='', limit='', type='')
+    # result = levelAPI.get_ledger_record(instrument_id='',type='')
     # 杠杆配置信息
     # result = levelAPI.get_config_info()
     # 某个杠杆配置信息
@@ -134,11 +148,18 @@ if __name__ == '__main__':
     # 还币
     # result = levelAPI.repayment_coin(instrument_id='', currency='', amount='', borrow_id='', client_oid='')
     # 下单
-    # result = levelAPI.take_order(instrument_id='', side='', margin_trading='', client_oid='', type='', order_type='0', price='', size='', notional='')
+    # result = levelAPI.take_order(instrument_id='', side='', margin_trading='2', type='', order_type='', price='', size='')
     # 批量下单
     # result = levelAPI.take_orders([
     #     {'instrument_id': '', 'side': '', 'price': '', 'size': '', 'margin_trading': '2'},
     #     {'instrument_id': '', 'side': '', 'price': '', 'size': '', 'margin_trading': '2'}
+    # ])
+    #改单
+    # result=levelAPI.amend_order(instrument_id='',cancel_on_fail='',order_id='',client_oid='',request_id='',new_size='',new_price='')
+    #批量改
+    # result = levelAPI.amend_batch_orders(instrument_id='DOGE-USDT', amend_data=[
+    #     {'cancel_on_fail': '', 'order_id': '',  'new_size': '',},
+    #     {'cancel_on_fail': '', 'order_id': '', 'new_size': '',}
     # ])
     # 撤销指定订单
     # result = levelAPI.revoke_order(instrument_id='', order_id='', client_oid='')
@@ -158,6 +179,8 @@ if __name__ == '__main__':
     # 获取杠杆倍数
     # result = levelAPI.get_leverage('')
     # 设置杠杆倍数
+    # result = levelAPI.set_leverage(instrument_id='', leverage='')
+    # 币币杠杆行情
     # result = levelAPI.set_leverage(instrument_id='', leverage='')
     # 公共-获取标记价格
     # result = levelAPI.get_mark_price('')
@@ -183,18 +206,18 @@ if __name__ == '__main__':
     # 账单流水查询
     # result = futureAPI.get_ledger(underlying='', after='', before='', limit='', type='')
     # 下单
-    # result = futureAPI.take_order(instrument_id='', type='', price='', size='', client_oid='', order_type='0', match_price='0')
+    # result = futureAPI.take_order(instrument_id='', type='', price='', size='',order_type='')
     # 批量下单
     # result = futureAPI.take_orders('', [
     #     {'client_oid': '', 'type': '', 'price': '', 'size': '', 'match_price': '0'},
     #     {'client_oid': '', 'type': '', 'price': '', 'size': '', 'match_price': '0'}
     # ])
     # 撤销指定订单
-    # result = futureAPI.revoke_order(instrument_id='', order_id='', client_oid='')
+    # result = futureAPI.revoke_order(instrument_id='', order_id='')
     # 批量撤销订单
     # result = futureAPI.revoke_orders(instrument_id='', order_ids=['', ''])
     # 修改订单
-    # result = futureAPI.amend_order(instrument_id='', cancel_on_fail='', order_id='', client_oid='', request_id='', new_size='', new_price='')
+    # result = futureAPI.amend_order(instrument_id='', cancel_on_fail='',order_id='',new_size='')
     # 批量修改订单
     # result = futureAPI.amend_batch_orders(instrument_id='', amend_data=[
     #     {'cancel_on_fail': '', 'order_id': '', 'client_oid': '', 'request_id': '', 'new_size': '', 'new_price': ''},
@@ -203,11 +226,11 @@ if __name__ == '__main__':
     # 获取订单列表
     # result = futureAPI.get_order_list(instrument_id='', state='', after='', before='', limit='')
     # 获取订单信息
-    # result = futureAPI.get_order_info(instrument_id='', order_id='', client_oid='')
+    # result = futureAPI.get_order_info(instrument_id='', order_id='')
     # 获取成交明细
     # result = futureAPI.get_fills(instrument_id='', order_id='', after='', before='', limit='')
     # 设置合约币种账户模式
-    # result = futureAPI.set_margin_mode(underlying='', margin_mode='')
+    # result = futureAPI.set_margin_mode(margin_mode='crossed',underlying='DOT-USDT',)
     # 市价全平
     # result = futureAPI.close_position(instrument_id='', direction='')
     # 撤销所有平仓挂单
@@ -237,7 +260,7 @@ if __name__ == '__main__':
     # 公共-获取成交数据
     # result = futureAPI.get_trades(instrument_id='', after='', before='', limit='')
     # 公共-获取K线数据
-    # result = futureAPI.get_kline(instrument_id='', start='', end='', granularity='')
+    # result = futureAPI.get_kline(instrument_id='', start='', granularity='')
     # 公共-获取指数信息
     # result = futureAPI.get_index('')
     # 公共-获取法币汇率
@@ -267,15 +290,15 @@ if __name__ == '__main__':
     # 所有币种合约账户信息
     # result = swapAPI.get_accounts()
     # 单个币种合约账户信息
-    # result = swapAPI.get_coin_account('')
+    # result = swapAPI.get_coin_account('LEND-USDT-SWAP')
     # 获取某个合约的用户配置
     # result = swapAPI.get_settings('')
     # 设定某个合约的杠杆
-    # result = swapAPI.set_leverage(instrument_id='', leverage='', side='')
+    # result = swapAPI.set_leverage(instrument_id='DOT-USDT-SWAP', leverage='2', side='1')
     # 账单流水查询
     # result = swapAPI.get_ledger(instrument_id='', after='', before='', limit='', type='')
     # 下单
-    # result = swapAPI.take_order(instrument_id='', type='', price='', size='', client_oid='', order_type='0', match_price='0')
+    # result = swapAPI.take_order(instrument_id='', type='', price='', size='',order_type='', match_price='')
     # 批量下单
     # result = swapAPI.take_orders('', [
     #     {'client_oid': '', 'type': '', 'price': '', 'size': ''},
@@ -293,7 +316,7 @@ if __name__ == '__main__':
     #     {'cancel_on_fail': '', 'order_id': '', 'client_oid': '', 'request_id': '', 'new_size': '', 'new_price': ''}
     # ])
     # 获取所有订单列表
-    # result = swapAPI.get_order_list(instrument_id='', state='', after='', before='', limit='')
+    # result = swapAPI.get_order_list(instrument_id='TRX-USDT', state='1', after='', before='', limit='')
     # 获取订单信息
     # result = swapAPI.get_order_info(instrument_id='', order_id='', client_oid='')
     # 获取成交明细
@@ -301,13 +324,13 @@ if __name__ == '__main__':
     # 获取合约挂单冻结数量
     # result = swapAPI.get_holds_amount('')
     # 委托策略下单
-    # result = swapAPI.take_order_algo(instrument_id='', type='', order_type='', size='', trigger_price='', algo_price='', algo_type='')
+    # result = swapAPI.take_order_algo(instrument_id='', type='', order_type='', size='',tp_trigger_type='',tp_trigger_price='',sl_trigger_price='',sl_trigger_type='')
     # 委托策略撤单
     # result = swapAPI.cancel_algos(instrument_id='', algo_ids=[''], order_type='')
     # 获取委托单列表
     # result = swapAPI.get_order_algos(instrument_id='', order_type='', status='', algo_id='', before='', after='', limit='')
     # 获取账户手续费费率
-    # result = swapAPI.get_trade_fee()
+    # result = swapAPI.get_trade_fee(category='1')
     # 市价全平
     # result = swapAPI.close_position(instrument_id='', direction='')
     # 撤销所有平仓挂单
@@ -323,7 +346,7 @@ if __name__ == '__main__':
     # 公共-获取成交数据
     # result = swapAPI.get_trades(instrument_id='', after='', before='', limit='')
     # 公共-获取K线数据
-    # result = swapAPI.get_kline(instrument_id='', start='', end='', granularity='')
+    # result = swapAPI.get_kline(instrument_id='')
     # 公共-获取指数信息
     # result = swapAPI.get_index('')
     # 公共-获取法币汇率
@@ -335,7 +358,7 @@ if __name__ == '__main__':
     # 公共-获取强平单
     # result = swapAPI.get_liquidation(instrument_id='', status='', froms='', to='', limit='')
     # 公共-获取合约资金费率
-    # result = swapAPI.get_funding_time('')
+    # result = swapAPI.get_funding_time('BTC-USD-SWAP')
     # 公共-获取合约标记价格
     # result = swapAPI.get_mark_price('')
     # 公共-获取合约历史资金费率
@@ -359,6 +382,8 @@ if __name__ == '__main__':
     # ])
     # 撤单
     # result = optionAPI.revoke_order(underlying='', order_id='', client_oid='')
+    # 撤销全部订单
+    # result = optionAPI.cancel_all(underlying='')
     # 批量撤单
     # result = optionAPI.revoke_orders(underlying='', order_ids=['', ''], client_oids=['', ''])
     # 修改订单
@@ -378,6 +403,8 @@ if __name__ == '__main__':
     # result = optionAPI.get_ledger(underlying='', after='', before='', limit='')
     # 获取手续费费率
     # result = optionAPI.get_trade_fee()
+    # 设置希腊字母
+    # result = optionAPI.set_greeks(greeks_type='')
     # 公共-获取标的指数
     # result = optionAPI.get_index()
     # 公共-获取期权合约
@@ -401,7 +428,7 @@ if __name__ == '__main__':
 # 合约交易数据API
     informationAPI = information.InformationAPI(api_key, secret_key, passphrase, False)
     # 公共-多空持仓人数比
-    # result = informationAPI.get_long_short_ratio(currency='', start='', end='', granularity='')
+    # result = informationAPI.get_long_short_ratio(currency='',start='',end='',granularity='')
     # 公共-持仓总量及交易量
     # result = informationAPI.get_volume(currency='', start='', end='', granularity='')
     # 公共-主动买入卖出情况
@@ -421,7 +448,11 @@ if __name__ == '__main__':
 # 获取系统升级状态
     system = system.SystemAPI(api_key, secret_key, passphrase, False)
     # 公共-获取系统升级状态
-    # result = system.get_system_status('')
+    result = system.get_system_status('')
 
+#oracle
+#公共-Oracle
+    oracle = oracle.OracleAPI(api_key, secret_key, passphrase, False)
+    # result = oracle.oracle()
 
     print(time + json.dumps(result))

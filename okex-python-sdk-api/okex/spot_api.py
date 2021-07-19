@@ -47,6 +47,27 @@ class SpotAPI(Client):
     def revoke_orders(self, params):
         return self._request_with_params(POST, SPOT_REVOKE_ORDERS, params)
 
+    # amend order
+    def amend_order(self, instrument_id, cancel_on_fail, order_id='',client_oid='',request_id='',new_size='',new_price=''):
+        params = {'instrument_id': instrument_id,'cancel_on_fail':cancel_on_fail}
+        if order_id:
+            params['order_id'] = order_id
+        if client_oid:
+            params['client_oid'] = client_oid
+        if request_id:
+            params['request_id'] = request_id
+        if order_id:
+            params['order_id'] = order_id
+        if new_size:
+            params['new_size'] = new_size
+        if new_price:
+            params['new_price'] = new_price
+        return self._request_with_params(POST, SPOT_RAMEND_ORDER + str(instrument_id), params)
+
+    # amend batch orders
+    def amend_batch_orders(self, params):
+        return self._request_with_params(POST, SPOT_AMEND_BATCH_ORDERS, params)
+
     # query orders list v3
     def get_orders_list(self, instrument_id, state, after='', before='', limit=''):
         params = {'instrument_id': instrument_id, 'state': state}
@@ -91,9 +112,10 @@ class SpotAPI(Client):
     # take order_algo
     def take_order_algo(self, instrument_id, mode, order_type, size, side, trigger_price='', algo_price='', algo_type='',
                         callback_rate='', algo_variance='', avg_amount='', limit_price='', sweep_range='',
-                        sweep_ratio='', single_limit='', time_interval=''):
+                        sweep_ratio='', single_limit='', time_interval='',tp_trigger_price='',tp_price='',
+                        tp_trigger_type='',sl_trigger_type='',sl_trigger_price='',sl_price='',):
         params = {'instrument_id': instrument_id, 'mode': mode, 'order_type': order_type, 'size': size, 'side': side}
-        if order_type == '1':  # 止盈止损参数
+        if order_type == '1':  # 计划委托参数
             params['trigger_price'] = trigger_price
             params['algo_price'] = algo_price
             if algo_type:
@@ -111,6 +133,19 @@ class SpotAPI(Client):
             params['single_limit'] = single_limit
             params['limit_price'] = limit_price
             params['time_interval'] = time_interval
+        elif order_type == '5':  # 止盈止损参数（最多同时存在6单）
+            if tp_trigger_type:
+                params['tp_trigger_type'] = tp_trigger_type
+            if tp_trigger_price:
+                params['tp_trigger_price'] = tp_trigger_price
+            if tp_price:
+                params['tp_price'] = tp_price
+            if sl_price:
+                params['sl_price'] = sl_price
+            if sl_trigger_price:
+                params['sl_trigger_price'] = sl_trigger_price
+            if sl_trigger_type:
+                params['sl_trigger_type'] = sl_trigger_type
         return self._request_with_params(POST, SPOT_ORDER_ALGO, params)
 
     # cancel_algos

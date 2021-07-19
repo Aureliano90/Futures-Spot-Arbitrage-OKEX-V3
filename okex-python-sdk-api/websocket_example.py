@@ -2,7 +2,8 @@ import asyncio
 import websockets
 import json
 import requests
-import dateutil.parser as dp
+from dateutil import parser as dp
+# import dateutil.parser as dp
 import hmac
 import base64
 import zlib
@@ -378,7 +379,6 @@ async def unsubscribe_without_login(url, channels, timestamp):
         res = inflate(res_1).decode('utf-8')
         print(timestamp + f"recv: {res}")
 
-
 api_key = ""
 secret_key = ""
 passphrase = ""
@@ -410,7 +410,7 @@ url = 'wss://real.okex.com:8443/ws/v3'
 
 # 交割合约
 # 用户持仓频道
-# channels = ["futures/position:BTC-USD-200327"]
+# channels = ["futures/position:DOT-USDT-210625"]
 # 用户账户频道
 # channels = ["futures/account:BTC"]
 # 用户交易频道
@@ -502,9 +502,9 @@ url = 'wss://real.okex.com:8443/ws/v3'
 loop = asyncio.get_event_loop()
 
 # 公共数据 不需要登录（行情，K线，交易数据，资金费率，限价范围，深度数据，标记价格等频道）
-loop.run_until_complete(subscribe_without_login(url, channels))
+# loop.run_until_complete(subscribe_without_login(url, channels))
 
 # 个人数据 需要登录（用户账户，用户交易，用户持仓等频道）
-# loop.run_until_complete(subscribe(url, api_key, passphrase, secret_key, channels))
+loop.run_until_complete(subscribe(url, api_key, passphrase, secret_key, channels))
 
 loop.close()

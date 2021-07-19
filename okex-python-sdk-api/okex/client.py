@@ -39,7 +39,7 @@ class Client(object):
             self.first = False
 
         print("url:", url)
-        # print("headers:", header)
+        print("headers:", header)
         print("body:", body)
 
         # send request

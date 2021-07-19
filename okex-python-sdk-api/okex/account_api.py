@@ -22,7 +22,7 @@ class AccountAPI(Client):
     # coin withdraw
     def coin_withdraw(self, currency, amount, destination, to_address, trade_pwd, fee):
         params = {'currency': currency, 'amount': amount, 'destination': destination, 'to_address': to_address, 'trade_pwd': trade_pwd, 'fee': fee}
-        return self._request_with_params(POST, COIN_WITHDRAW, params)
+        return self._request_with_params('POST', COIN_WITHDRAW, params)
 
     # query the fee of coin withdraw
     def get_coin_fee(self, currency=''):
@@ -30,6 +30,16 @@ class AccountAPI(Client):
         if currency:
             params['currency'] = currency
         return self._request_with_params(GET, COIN_FEE, params)
+
+    # get uid
+    def get_uid(self, uid=''):
+        params = {'uid':uid}
+        return self._request_with_params(GET, GET_UID, params)
+
+    # purchase redempt
+    def purchase_redempt(self,currency,amount,side):
+        params = {'currency': currency, 'amount': amount, 'side': side}
+        return self._request_with_params('POST', PURCHASE_REDEMPT,params)
 
     # query all recently coin withdraw record
     def get_coins_withdraw_record(self):
@@ -87,7 +97,7 @@ class AccountAPI(Client):
         return self._request_without_params(GET, COIN_TOP_UP_RECORD + str(currency))
 
     # coin transfer
-    def coin_transfer(self, currency, amount, account_from, account_to, type='', sub_account='', instrument_id='', to_instrument_id=''):
+    def coin_transfer(self, currency, amount,account_from, account_to, type='', sub_account='', instrument_id='', to_instrument_id=''):
         params = {'currency': currency, 'amount': amount, 'from': account_from, 'to': account_to}
         if type:
             params['type'] = type
@@ -98,3 +108,9 @@ class AccountAPI(Client):
         if to_instrument_id:
             params['to_instrument_id'] = to_instrument_id
         return self._request_with_params('POST', COIN_TRANSFER, params)
+
+    # state
+    def get_state(self, transfer_id):
+        params = {'transfer_id':transfer_id}
+        return self._request_with_params('GET', GET_STATE, params)
+
