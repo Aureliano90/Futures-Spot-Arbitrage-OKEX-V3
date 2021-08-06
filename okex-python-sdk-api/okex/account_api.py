@@ -20,8 +20,8 @@ class AccountAPI(Client):
         return self._request_without_params(GET, CURRENCY_INFO + str(currency))
 
     # coin withdraw
-    def coin_withdraw(self, currency, amount, destination, to_address, trade_pwd, fee):
-        params = {'currency': currency, 'amount': amount, 'destination': destination, 'to_address': to_address, 'trade_pwd': trade_pwd, 'fee': fee}
+    def coin_withdraw(self, currency, amount, destination, to_address, trade_pwd, fee,chain=''):
+        params = {'currency': currency, 'amount': amount, 'destination': destination, 'to_address': to_address, 'trade_pwd': trade_pwd, 'fee': fee,'chain': chain}
         return self._request_with_params('POST', COIN_WITHDRAW, params)
 
     # query the fee of coin withdraw

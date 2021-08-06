@@ -39,7 +39,7 @@ if __name__ == '__main__':
     # 资金划转状态查询
     # result = accountAPI.get_state(transfer_id='')
     # 提币
-    # result = accountAPI.coin_withdraw(currency='', amount='', destination='', to_address='', trade_pwd='', fee='')
+    result = accountAPI.coin_withdraw(currency='', amount='', destination='', to_address='', trade_pwd='', fee='',chain='')
     # 账单流水查询
     # result = accountAPI.get_ledger_record(currency='', after='', before='', limit='', type='')
     # 获取充值地址
