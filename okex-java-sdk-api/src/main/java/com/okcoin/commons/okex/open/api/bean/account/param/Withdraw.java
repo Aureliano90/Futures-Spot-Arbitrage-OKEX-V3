@@ -7,6 +7,8 @@ public class Withdraw {
 
     private String currency;
 
+    private String chain;
+
     public String getAmount() {
         return amount;
     }
@@ -75,5 +77,13 @@ public class Withdraw {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public String getChain() {
+        return chain;
+    }
+
+    public void setChain(String chain) {
+        this.chain = chain;
     }
 }

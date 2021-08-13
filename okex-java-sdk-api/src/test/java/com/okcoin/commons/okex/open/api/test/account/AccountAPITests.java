@@ -95,6 +95,7 @@ public class AccountAPITests extends  AccountAPIBaseTests {
         withdraw.setTo_address("");
         withdraw.setTrade_pwd("");
         withdraw.setFee("0");
+        withdraw.setChain("0");
 
         JSONObject result = this.accountAPIService.withdraw(withdraw);
         this.toResultString(AccountAPITests.LOG, "result", result);
