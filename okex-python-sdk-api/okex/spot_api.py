@@ -1,11 +1,24 @@
 from .client import Client
 from .consts import *
+from .exceptions import OkexAPIException
+import time
 
 
 class SpotAPI(Client):
 
     def __init__(self, api_key, api_secret_key, passphrase, use_server_time=False, test=False, first=False):
         Client.__init__(self, api_key, api_secret_key, passphrase, use_server_time, test, first)
+
+    def get_instruments(self):
+        return self._request_without_params(GET, SPOT_INSTRUMENTS)
+
+    def get_instrument(self, spot_id):
+        spot_info = {}
+        spot_instruments = self.get_instruments()
+        for n in spot_instruments:
+            if n['instrument_id'] == spot_id:
+                spot_info = n
+        return spot_info
 
     # query spot account info
     def get_account_info(self):
@@ -30,7 +43,8 @@ class SpotAPI(Client):
 
     # take order
     def take_order(self, instrument_id, side, client_oid='', type='', size='', price='', order_type='0', notional=''):
-        params = {'instrument_id': instrument_id, 'side': side, 'client_oid': client_oid, 'type': type, 'size': size, 'price': price, 'order_type': order_type, 'notional': notional}
+        params = {'instrument_id': instrument_id, 'side': side, 'client_oid': client_oid, 'type': type, 'size': size,
+                  'price': price, 'order_type': order_type, 'notional': notional}
         return self._request_with_params(POST, SPOT_ORDER, params)
 
     def take_orders(self, params):
@@ -47,27 +61,6 @@ class SpotAPI(Client):
     def revoke_orders(self, params):
         return self._request_with_params(POST, SPOT_REVOKE_ORDERS, params)
 
-    # amend order
-    def amend_order(self, instrument_id, cancel_on_fail, order_id='',client_oid='',request_id='',new_size='',new_price=''):
-        params = {'instrument_id': instrument_id,'cancel_on_fail':cancel_on_fail}
-        if order_id:
-            params['order_id'] = order_id
-        if client_oid:
-            params['client_oid'] = client_oid
-        if request_id:
-            params['request_id'] = request_id
-        if order_id:
-            params['order_id'] = order_id
-        if new_size:
-            params['new_size'] = new_size
-        if new_price:
-            params['new_price'] = new_price
-        return self._request_with_params(POST, SPOT_RAMEND_ORDER + str(instrument_id), params)
-
-    # amend batch orders
-    def amend_batch_orders(self, params):
-        return self._request_with_params(POST, SPOT_AMEND_BATCH_ORDERS, params)
-
     # query orders list v3
     def get_orders_list(self, instrument_id, state, after='', before='', limit=''):
         params = {'instrument_id': instrument_id, 'state': state}
@@ -78,6 +71,14 @@ class SpotAPI(Client):
         if limit:
             params['limit'] = limit
         return self._request_with_params(GET, SPOT_ORDERS_LIST, params, cursor=True)
+
+    def get_trade_fee(self, category='', instrument_id=''):
+        if category:
+            params = {'category': category}
+            return self._request_with_params(GET, SPOT_TRADE_FEE, params)
+        elif instrument_id:
+            params = {'instrument_id': instrument_id}
+            return self._request_with_params(GET, SPOT_TRADE_FEE, params)
 
     # query order info
     def get_order_info(self, instrument_id, order_id='', client_oid=''):
@@ -110,12 +111,11 @@ class SpotAPI(Client):
         return self._request_with_params(GET, SPOT_FILLS, params, cursor=True)
 
     # take order_algo
-    def take_order_algo(self, instrument_id, mode, order_type, size, side, trigger_price='', algo_price='', algo_type='',
-                        callback_rate='', algo_variance='', avg_amount='', limit_price='', sweep_range='',
-                        sweep_ratio='', single_limit='', time_interval='',tp_trigger_price='',tp_price='',
-                        tp_trigger_type='',sl_trigger_type='',sl_trigger_price='',sl_price='',):
+    def take_order_algo(self, instrument_id, mode, order_type, size, side, trigger_price='', algo_price='',
+                        algo_type='', callback_rate='', algo_variance='', avg_amount='', limit_price='', sweep_range='',
+                        sweep_ratio='', single_limit='', time_interval=''):
         params = {'instrument_id': instrument_id, 'mode': mode, 'order_type': order_type, 'size': size, 'side': side}
-        if order_type == '1':  # 计划委托参数
+        if order_type == '1':  # 止盈止损参数
             params['trigger_price'] = trigger_price
             params['algo_price'] = algo_price
             if algo_type:
@@ -133,28 +133,12 @@ class SpotAPI(Client):
             params['single_limit'] = single_limit
             params['limit_price'] = limit_price
             params['time_interval'] = time_interval
-        elif order_type == '5':  # 止盈止损参数（最多同时存在6单）
-            if tp_trigger_type:
-                params['tp_trigger_type'] = tp_trigger_type
-            if tp_trigger_price:
-                params['tp_trigger_price'] = tp_trigger_price
-            if tp_price:
-                params['tp_price'] = tp_price
-            if sl_price:
-                params['sl_price'] = sl_price
-            if sl_trigger_price:
-                params['sl_trigger_price'] = sl_trigger_price
-            if sl_trigger_type:
-                params['sl_trigger_type'] = sl_trigger_type
         return self._request_with_params(POST, SPOT_ORDER_ALGO, params)
 
     # cancel_algos
     def cancel_algos(self, instrument_id, algo_ids, order_type):
         params = {'instrument_id': instrument_id, 'algo_ids': algo_ids, 'order_type': order_type}
         return self._request_with_params(POST, SPOT_CANCEL_ALGOS, params)
-
-    def get_trade_fee(self):
-        return self._request_without_params(GET, SPOT_TRADE_FEE)
 
     # get order_algos
     def get_order_algos(self, instrument_id, order_type, status='', algo_id='', before='', after='', limit=''):
@@ -190,7 +174,18 @@ class SpotAPI(Client):
 
     # query specific ticker
     def get_specific_ticker(self, instrument_id):
-        return self._request_without_params(GET, SPOT_SPECIFIC_TICKER + str(instrument_id) + '/ticker')
+        try:
+            # 最小延时0.33
+            # send = time.time()
+            data = self._request_without_params(GET, SPOT_SPECIFIC_TICKER + str(instrument_id) + '/ticker')
+            # receive = time.time()
+            # if receive - send > 0.2:
+            #     print("timeout", receive - send)
+            return data
+        except Exception as e:
+            time.sleep(60)
+            print("get_ticker exception: ", e)
+            return self._request_without_params(GET, SPOT_SPECIFIC_TICKER + str(instrument_id) + '/ticker')
 
     def get_deal(self, instrument_id, limit=''):
         params = {}

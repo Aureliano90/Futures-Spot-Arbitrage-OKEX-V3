@@ -11,7 +11,6 @@ def sign(message, secret_key):
 
 
 def pre_hash(timestamp, method, request_path, body):
-    print('pre_hash:',str(timestamp) + str.upper(method) + request_path + body)
     return str(timestamp) + str.upper(method) + request_path + body
 
 

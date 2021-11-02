@@ -27,10 +27,6 @@ class OptionAPI(Client):
         elif client_oid:
             return self._request_without_params(POST, OPTION_CANCEL_ORDER + str(underlying) + '/' + str(client_oid))
 
-    def cancel_all(self,underlying):
-        params = {'underlying':underlying}
-        return self._request_with_params(POST, CANCEL_ALL + str(underlying),params)
-
     def revoke_orders(self, underlying, order_ids='', client_oids=''):
         params = {}
         if order_ids:
@@ -108,12 +104,13 @@ class OptionAPI(Client):
             params['limit'] = limit
         return self._request_with_params(GET, OPTION_ACCOUNT + str(underlying) + '/ledger', params, cursor=True)
 
-    def get_trade_fee(self):
-        return self._request_without_params(GET, OPTION_TRADE_FEE)
-
-    def set_greeks(self,greeks_type):
-        paramas = {'greeks_type':greeks_type}
-        return self._request_with_params(POST, SET_GREEKS,paramas)
+    def get_trade_fee(self, category='', underlying=''):
+        if category:
+            params = {'category': category}
+            return self._request_with_params(GET, OPTION_TRADE_FEE, params)
+        elif instrument_id:
+            params = {'underlying': underlying}
+            return self._request_with_params(GET, OPTION_TRADE_FEE, params)
 
     def get_index(self):
         return self._request_without_params(GET, OPTION_INDEX)

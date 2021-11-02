@@ -1,6 +1,7 @@
 import requests
 import json
 from . import consts as c, utils, exceptions
+import time
 
 
 class Client(object):
@@ -20,40 +21,59 @@ class Client(object):
         # url
         url = c.API_URL + request_path
 
-        # 获取本地时间
-        timestamp = utils.get_timestamp()
+        success = False
+        retry = 0
+        # 处理网络异常
+        while not success and retry < 120:
+            try:
+                # 获取本地时间
+                timestamp = utils.get_timestamp()
 
-        # sign & header
-        if self.use_server_time:
-            # 获取服务器时间
-            timestamp = self._get_timestamp()
+                # sign & header
+                if self.use_server_time:
+                    # 获取服务器时间
+                    timestamp = self._get_timestamp()
 
-        body = json.dumps(params) if method == c.POST else ""
-        sign = utils.sign(utils.pre_hash(timestamp, method, request_path, str(body)), self.API_SECRET_KEY)
-        header = utils.get_header(self.API_KEY, sign, timestamp, self.PASSPHRASE)
+                body = json.dumps(params) if method == c.POST else ""
+                sign = utils.sign(utils.pre_hash(timestamp, method, request_path, str(body)), self.API_SECRET_KEY)
+                header = utils.get_header(self.API_KEY, sign, timestamp, self.PASSPHRASE)
 
-        if self.test:
-            header['x-simulated-trading'] = '1'
-        if self.first:
-            print("url:", url)
-            self.first = False
+                if self.test:
+                    header['x-simulated-trading'] = '1'
+                if self.first:
+                    print("url:", url)
+                    self.first = False
 
-        print("url:", url)
-        print("headers:", header)
-        print("body:", body)
+                # print("url:", url)
+                # print("headers:", header)
+                # print("body:", body)
 
-        # send request
-        response = None
-        if method == c.GET:
-            response = requests.get(url, headers=header)
-        elif method == c.POST:
-            response = requests.post(url, data=body, headers=header)
-        elif method == c.DELETE:
-            response = requests.delete(url, headers=header)
+                # send request
+                response = None
+                if method == c.GET:
+                    response = requests.get(url, headers=header)
+                elif method == c.POST:
+                    response = requests.post(url, data=body, headers=header)
+                elif method == c.DELETE:
+                    response = requests.delete(url, headers=header)
+
+                # Cloudflare error
+                if str(response.status_code).startswith('5'):
+                    retry += 1
+                    time.sleep(30)
+                else:
+                    success = True
+            except requests.exceptions.RequestException as e:
+                # print(e)
+                retry += 1
+                time.sleep(30)
 
         # exception handle
         if not str(response.status_code).startswith('2'):
+            print("client.py出错")
+            print("response.status_code: ", response.status_code)
             raise exceptions.OkexAPIException(response)
+
         try:
             res_header = response.headers
             if cursor:

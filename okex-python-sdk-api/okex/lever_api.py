@@ -68,26 +68,6 @@ class LeverAPI(Client):
     def take_orders(self, params):
         return self._request_with_params(POST, LEVER_ORDERS, params)
 
-    #amend_order
-    def amend_order(self,instrument_id,cancel_on_fail,order_id='',client_oid='',request_id='',new_size='',new_price=''):
-        params = {'instrument_id':instrument_id,'cancel_on_fail':cancel_on_fail}
-        if request_id:
-            params['request_id'] = request_id
-        if new_size:
-            params['new_size'] = new_size
-        if new_price:
-            params['new_price'] = new_price
-        if order_id:
-            params['order_id'] = order_id
-            return self._request_with_params(POST, LEVEL_AMEND_ORDER + str(order_id), params)
-        elif client_oid:
-            params['client_oid'] = client_oid
-            return self._request_with_params(POST, LEVEL_AMEND_ORDER + str(client_oid), params)
-    #amend_batch_orders
-    def amend_batch_orders(self, instrument_id, amend_data):
-        params = {'amend_data': amend_data}
-        return self._request_with_params(POST, LEVEL_AMEND_BATCH_ORDERS + str(instrument_id), params)
-
     # revoke order
     def revoke_order(self, instrument_id, order_id='', client_oid=''):
         params = {'instrument_id': instrument_id}
@@ -139,7 +119,7 @@ class LeverAPI(Client):
 
     def set_leverage(self, instrument_id, leverage):
         params = {'leverage': leverage}
-        return self._request_with_params(GET, LEVER_SET_LEVERAGE + str(instrument_id) + '/mark_price', params)
+        return self._request_with_params(POST, LEVER_LEDGER_RECORD + str(instrument_id) + '/leverage', params)
 
     def get_mark_price(self, instrument_id):
         return self._request_without_params(GET, LEVER_MARK_PRICE + str(instrument_id) + '/mark_price')

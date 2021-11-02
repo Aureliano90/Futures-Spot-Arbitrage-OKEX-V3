@@ -1,5 +1,7 @@
 from .client import Client
 from .consts import *
+from .exceptions import OkexAPIException
+import time
 
 
 class SwapAPI(Client):
@@ -38,7 +40,7 @@ class SwapAPI(Client):
             params['type'] = type
         return self._request_with_params(GET, SWAP_ACCOUNTS + '/' + str(instrument_id) + '/ledger', params, cursor=True)
 
-    def take_order(self, instrument_id, type, size, price='', client_oid='', order_type='0', match_price='0'):
+    def take_order(self, instrument_id, type, price, size, client_oid='', order_type='0', match_price='0'):
         params = {'instrument_id': instrument_id, 'type': type, 'size': size, 'price': price}
         if client_oid:
             params['client_oid'] = client_oid
@@ -123,6 +125,14 @@ class SwapAPI(Client):
     def get_instruments(self):
         return self._request_without_params(GET, SWAP_INSTRUMENTS)
 
+    def get_instrument(self, swap_id):
+        swap_info = {}
+        swap_instruments = self.get_instruments()
+        for n in swap_instruments:
+            if n['instrument_id'] == swap_id:
+                swap_info = n
+        return swap_info
+
     def get_depth(self, instrument_id, size='', depth=''):
         params = {}
         if size:
@@ -135,7 +145,12 @@ class SwapAPI(Client):
         return self._request_without_params(GET, SWAP_TICKETS)
 
     def get_specific_ticker(self, instrument_id):
-        return self._request_without_params(GET, SWAP_INSTRUMENTS + '/' + str(instrument_id) + '/ticker')
+        try:
+            return self._request_without_params(GET, SWAP_INSTRUMENTS + '/' + str(instrument_id) + '/ticker')
+        except Exception as e:
+            time.sleep(60)
+            print("get_ticker exception: ", e)
+            return self._request_without_params(GET, SWAP_INSTRUMENTS + '/' + str(instrument_id) + '/ticker')
 
     def get_trades(self, instrument_id, after='', before='', limit=''):
         params = {}
@@ -190,10 +205,9 @@ class SwapAPI(Client):
     # take order_algo
     def take_order_algo(self, instrument_id, type, order_type, size, trigger_price='', algo_price='', algo_type='',
                         callback_rate='', algo_variance='', avg_amount='', price_limit='', sweep_range='',
-                        sweep_ratio='', single_limit='', time_interval='',tp_trigger_price='',tp_price='',
-                        tp_trigger_type='',sl_trigger_type='',sl_trigger_price='',sl_price='',):
+                        sweep_ratio='', single_limit='', time_interval=''):
         params = {'instrument_id': instrument_id, 'type': type, 'order_type': order_type, 'size': size}
-        if order_type == '1':  # 计划委托参数（最多同时存在10单）
+        if order_type == '1':  # 止盈止损参数（最多同时存在10单）
             params['trigger_price'] = trigger_price
             params['algo_price'] = algo_price
             if algo_type:
@@ -211,19 +225,6 @@ class SwapAPI(Client):
             params['single_limit'] = single_limit
             params['price_limit'] = price_limit
             params['time_interval'] = time_interval
-        elif order_type == '5':  # 止盈止损参数（最多同时存在6单）
-            if tp_trigger_type:
-                params['tp_trigger_type'] = tp_trigger_type
-            if tp_trigger_price:
-                params['tp_trigger_price'] = tp_trigger_price
-            if tp_price:
-                params['tp_price'] = tp_price
-            if sl_price:
-                params['sl_price'] = sl_price
-            if sl_trigger_price:
-                params['sl_trigger_price'] = sl_trigger_price
-            if sl_trigger_type:
-                params['sl_trigger_type'] = sl_trigger_type
         return self._request_with_params(POST, SWAP_ORDER_ALGO, params)
 
     # cancel_algos
@@ -247,14 +248,13 @@ class SwapAPI(Client):
         return self._request_with_params(GET, SWAP_GET_ORDER_ALGOS + str(instrument_id), params)
 
     # get_trade_fee
-    def get_trade_fee(self,category='',instrument_id=''):
-        # return self._request_without_params(GET, SWAP_GET_TRADE_FEE)
-        params = {}
+    def get_trade_fee(self, category='', instrument_id=''):
         if category:
-            params['category'] = category
-        if instrument_id:
-            params['instrument_id'] = instrument_id
-        return self._request_with_params(GET, SWAP_GET_TRADE_FEE,params)
+            params = {'category': category}
+            return self._request_with_params(GET, SWAP_GET_TRADE_FEE, params)
+        elif instrument_id:
+            params = {'instrument_id': instrument_id}
+            return self._request_with_params(GET, SWAP_GET_TRADE_FEE, params)
 
     def get_funding_time(self, instrument_id):
         return self._request_without_params(GET, SWAP_INSTRUMENTS + '/' + str(instrument_id) + '/funding_time')
