@@ -17,6 +17,7 @@ Printouts and annotations are in Chinese. May or may not translate to English.
   * Use historical tickers and statistics to close position when futures have max discount
   * Accelerate when a desired discount does not appear by given time
   * Automatically close a position when the predicted funding rate is low enough such that it is better off to reopen later
+* Calculate PnL, APR and APY
 * Sort and output historical funding rates over given period
 * Analyze historical average funding rates and volatility to find most profitable underlyings for arbitrage
 
