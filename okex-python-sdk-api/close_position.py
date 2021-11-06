@@ -43,7 +43,7 @@ class ReducePosition(OKExAPI):
         if target_position > spot_position or target_position > swap_position:
             self.close(price_diff, accelerate_after)
         else:
-            fprint(self.coin, '减仓数量:', target_position)
+            fprint(self.coin, amount_to_reduce, target_position)
             OP = record.Record('OP')
             mydict = {'account': self.accountid, 'instrument': self.coin, 'op': 'reduce'}
             OP.mycol.insert_one(mydict)
@@ -88,10 +88,10 @@ class ReducePosition(OKExAPI):
                         time.sleep(SLEEP)
                     else:
                         if target_position > spot_position:
-                            fprint('现货仓位不足')
+                            fprint(insufficient_spot)
                             break
                         elif target_position > swap_position:
-                            fprint('合约仓位不足')
+                            fprint(insufficient_margin)
                             break
                         else:
                             # 计算下单数量
@@ -126,7 +126,7 @@ class ReducePosition(OKExAPI):
                                     swap_order = thread2.get_result()
                                 except OkexAPIException as e:
                                     if e.message == "System error" or e.code == "35003":
-                                        fprint("合约系统出错")
+                                        fprint(futures_market_down)
                                         spot_order = thread1.get_result()
                                         spot_order_info = self.spotAPI.get_order_info(instrument_id=self.spot_ID,
                                                                                       order_id=spot_order['order_id'])
@@ -143,10 +143,10 @@ class ReducePosition(OKExAPI):
                                     swap_order_state = swap_order_info['state']
                                 else:
                                     if spot_order['order_id'] == '-1':
-                                        fprint("现货下单失败")
+                                        fprint(spot_order_failed)
                                         fprint(spot_order)
                                     else:
-                                        fprint("合约下单失败")
+                                        fprint(swap_order_failed)
                                         fprint(swap_order)
                                     break
 
@@ -154,7 +154,7 @@ class ReducePosition(OKExAPI):
                                     # print(spot_order_state+','+swap_order_state)
                                     if spot_order_state == '2':
                                         if swap_order_state in ['-1', '-2']:
-                                            fprint("合约撤单:", swap_order_state)
+                                            fprint(swap_order_retract, swap_order_state)
                                             try:
                                                 # 市价平空合约
                                                 swap_order = self.swapAPI.take_order(instrument_id=self.swap_ID,
@@ -166,10 +166,10 @@ class ReducePosition(OKExAPI):
                                                 return 0
                                         else:
                                             fprint("swap_order_state", swap_order_state)
-                                            fprint("等待状态更新")
+                                            fprint(await_status_update)
                                     elif swap_order_state == '2':
                                         if spot_order_state in ['-1', '-2']:
-                                            fprint("现货撤单:", spot_order_state)
+                                            fprint(spot_order_retract, spot_order_state)
                                             try:
                                                 # 市价卖出现货
                                                 spot_order = self.spotAPI.take_order(instrument_id=self.spot_ID,
@@ -180,12 +180,12 @@ class ReducePosition(OKExAPI):
                                                 return 0
                                         else:
                                             fprint("spot_order_state", spot_order_state)
-                                            fprint("等待状态更新")
+                                            fprint(await_status_update)
                                     elif spot_order_state in ['-1', '-2'] and swap_order_state in ['-1', '-2']:
                                         # print("下单失败")
                                         break
                                     else:
-                                        fprint("等待状态更新")
+                                        fprint(await_status_update)
 
                                     if spot_order['order_id'] != '-1' and swap_order['order_id'] != '-1':
                                         spot_order_info = self.spotAPI.get_order_info(instrument_id=self.spot_ID,
@@ -197,15 +197,15 @@ class ReducePosition(OKExAPI):
                                         time.sleep(SLEEP)
                                     else:
                                         if spot_order['order_id'] == '-1':
-                                            fprint("现货下单失败")
+                                            fprint(spot_order_failed)
                                             fprint(spot_order)
                                         else:
-                                            fprint("合约下单失败")
+                                            fprint(swap_order_failed)
                                             fprint(swap_order)
-                                        fprint("减仓", filled_sum, self.coin)
+                                        fprint(reduced_amount, filled_sum, self.coin)
                                         if usdt_release != 0:
                                             if self.transfer_from_spot(usdt_release):
-                                                fprint("现货回收", usdt_release, "USDT")
+                                                fprint(spot_recoup, usdt_release, "USDT")
                                         return usdt_release
 
                                 if spot_order_state == '2' and swap_order_state == '2':
@@ -221,9 +221,9 @@ class ReducePosition(OKExAPI):
                                     swap_notional -= swap_filled * swap_price
                                     if abs(spot_filled - swap_filled) < contract_val:
                                         target_position -= swap_filled
-                                        fprint("成功对冲", swap_filled, "，剩余" + str(target_position))
+                                        fprint(hedge_success, swap_filled, remaining + str(target_position))
                                     else:
-                                        fprint("对冲失败")
+                                        fprint(hedge_fail)
                                         break
 
                                 spot_position = self.spot_position()
@@ -247,10 +247,10 @@ class ReducePosition(OKExAPI):
                           'fee': fee_total}
                 mylist.append(mydict)
                 Ledger.mycol.insert_many(mylist)
-            fprint("减仓", filled_sum, self.coin)
+            fprint(reduced_amount, filled_sum, self.coin)
             if usdt_release != 0:
                 if self.transfer_from_spot(usdt_release):
-                    fprint("现货回收", usdt_release, "USDT")
+                    fprint(spot_recoup, usdt_release, "USDT")
             mydict = {'account': self.accountid, 'instrument': self.coin, 'op': 'reduce'}
             OP.mycol.delete_one(mydict)
             return usdt_release
@@ -271,7 +271,7 @@ class ReducePosition(OKExAPI):
         swap_position = self.swap_position()
         target_position = min(spot_position, swap_position)
 
-        fprint(self.coin, '平仓数量:', target_position)
+        fprint(self.coin, amount_to_close, target_position)
         OP = record.Record('OP')
         mydict = {'account': self.accountid, 'instrument': self.coin, 'op': 'close'}
         OP.mycol.insert_one(mydict)
@@ -316,10 +316,10 @@ class ReducePosition(OKExAPI):
                     time.sleep(SLEEP)
                 else:
                     if target_position > spot_position:
-                        fprint('现货仓位不足')
+                        fprint(insufficient_spot)
                         break
                     elif target_position > swap_position:
-                        fprint('合约仓位不足')
+                        fprint(insufficient_swap)
                         break
                     else:
                         # 计算下单数量
@@ -379,7 +379,7 @@ class ReducePosition(OKExAPI):
                                 swap_order = thread2.get_result()
                             except OkexAPIException as e:
                                 if e.message == "System error" or e.code == "35003":
-                                    fprint("合约系统出错")
+                                    fprint(futures_market_down)
                                     spot_order = thread1.get_result()
                                     spot_order_info = self.spotAPI.get_order_info(instrument_id=self.spot_ID,
                                                                                   order_id=spot_order['order_id'])
@@ -396,10 +396,10 @@ class ReducePosition(OKExAPI):
                                 swap_order_state = swap_order_info['state']
                             else:
                                 if spot_order['order_id'] == '-1':
-                                    fprint("现货下单失败")
+                                    fprint(spot_order_failed)
                                     fprint(spot_order)
                                 else:
-                                    fprint("合约下单失败")
+                                    fprint(swap_order_failed)
                                     fprint(swap_order)
                                 break
 
@@ -407,7 +407,7 @@ class ReducePosition(OKExAPI):
                                 # print(spot_order_state+','+swap_order_state)
                                 if spot_order_state == '2':
                                     if swap_order_state in ['-1', '-2']:
-                                        fprint("合约撤单:", swap_order_state)
+                                        fprint(swap_order_retract, swap_order_state)
                                         try:
                                             # 市价平空合约
                                             swap_order = self.swapAPI.take_order(instrument_id=self.swap_ID, type='4',
@@ -418,10 +418,10 @@ class ReducePosition(OKExAPI):
                                             return 0
                                     else:
                                         fprint("swap_order_state", swap_order_state)
-                                        fprint("等待状态更新")
+                                        fprint(await_status_update)
                                 elif swap_order_state == '2':
                                     if spot_order_state in ['-1', '-2']:
-                                        fprint("现货撤单:", spot_order_state)
+                                        fprint(spot_order_retract, spot_order_state)
                                         try:
                                             # 市价卖出现货
                                             spot_order = self.spotAPI.take_order(instrument_id=self.spot_ID,
@@ -432,12 +432,12 @@ class ReducePosition(OKExAPI):
                                             return 0
                                     else:
                                         fprint("spot_order_state", spot_order_state)
-                                        fprint("等待状态更新")
+                                        fprint(await_status_update)
                                 elif spot_order_state in ['-1', '-2'] and swap_order_state in ['-1', '-2']:
                                     # print("下单失败")
                                     break
                                 else:
-                                    fprint("等待状态更新")
+                                    fprint(await_status_update)
 
                                 if spot_order['order_id'] != '-1' and swap_order['order_id'] != '-1':
                                     spot_order_info = self.spotAPI.get_order_info(instrument_id=self.spot_ID,
@@ -449,12 +449,12 @@ class ReducePosition(OKExAPI):
                                     time.sleep(SLEEP)
                                 else:
                                     if spot_order['order_id'] == '-1':
-                                        fprint("现货下单失败")
+                                        fprint(spot_order_failed)
                                         fprint(spot_order)
                                     else:
-                                        fprint("合约下单失败")
+                                        fprint(swap_order_failed)
                                         fprint(swap_order)
-                                    fprint("减仓", filled_sum, self.coin)
+                                    fprint(reduced_amount, filled_sum, self.coin)
                                     return usdt_release
 
                             if spot_order_state == '2' and swap_order_state == '2':
@@ -470,9 +470,9 @@ class ReducePosition(OKExAPI):
                                 swap_notional -= swap_filled * swap_price
                                 if abs(spot_filled - swap_filled) < contract_val:
                                     target_position -= swap_filled
-                                    fprint("成功对冲", swap_filled, "，剩余" + str(target_position))
+                                    fprint(hedge_success, swap_filled, remaining + str(target_position))
                                 else:
-                                    fprint("对冲失败")
+                                    fprint(hedge_fail)
                                     break
 
                             spot_position = self.spot_position()
@@ -498,12 +498,12 @@ class ReducePosition(OKExAPI):
             mydict = {'account': self.accountid, 'instrument': self.coin, 'timestamp': timestamp, 'title': "平仓"}
             mylist.append(mydict)
             Ledger.mycol.insert_many(mylist)
-        fprint("平仓", filled_sum, self.coin)
+        fprint(closed_amount, filled_sum, self.coin)
         swap_balance = self.swap_balance()
         usdt_release += swap_balance
         if usdt_release != 0:
             if self.transfer_to_spot(swap_balance):
-                fprint("平仓回收", usdt_release, "USDT")
+                fprint(spot_recoup, usdt_release, "USDT")
         mydict = {'account': self.accountid, 'instrument': self.coin, 'op': 'close'}
         OP.mycol.delete_one(mydict)
         return usdt_release

@@ -162,7 +162,7 @@ class Monitor(OKExAPI):
         """
         if not self.position_exist():
             exit()
-        fprint("开始监控", self.coin)
+        fprint(start_monitoring, self.coin)
 
         fundingRate = funding_rate.FundingRate()
         addPosition = open_position.AddPosition(self.coin, self.accountid)
@@ -209,15 +209,17 @@ class Monitor(OKExAPI):
 
                     cost = open_pd - close_pd - 2 * trade_fee
                     if (timestamp.hour + 4) % 8 == 0 and current_rate + next_rate < cost:
-                        fprint("{}当期资金费{:.3%}, 预测资金费{:.3%}".format(self.coin, current_rate, next_rate))
-                        fprint("平仓成本{:.3%}".format(cost))
-                        fprint(self.coin, "进行平仓")
+                        fprint(coin_current_next)
+                        fprint('{:8s}{:10.3%}{:10.3%}'.format(self.coin, current_rate, next_rate))
+                        fprint(cost_to_close.format(cost))
+                        fprint(proceed_to_close, self.coin)
                         reducePosition.close(price_diff=close_pd)
                         break
 
                     if timestamp.hour % 8 == 0:
                         self.record_funding()
-                        fprint("{}当期资金费{:.3%}, 预测资金费{:.3%}".format(self.coin, current_rate, next_rate))
+                        fprint(coin_current_next)
+                        fprint('{:8s}{:10.3%}{:10.3%}'.format(self.coin, current_rate, next_rate))
 
             # 线程未创建
             if not thread_started:
@@ -230,9 +232,9 @@ class Monitor(OKExAPI):
                             time.sleep(10 - delta)
                         continue
                     if not addPosition.is_hedged():
-                        fprint("{} 对冲失败，需手动检查".format(self.coin))
+                        fprint(self.coin, hedge_fail)
                         exit()
-                    fprint("接近强平价，现货减仓")
+                    fprint(approaching_liquidation)
                     mydict = {'account': self.accountid, 'instrument': self.coin, 'timestamp': timestamp,
                               'title': "自动减仓"}
                     Ledger.mycol.insert_one(mydict)
@@ -258,9 +260,9 @@ class Monitor(OKExAPI):
                             time.sleep(10 - delta)
                         continue
                     if not addPosition.is_hedged():
-                        fprint("{} 对冲失败，需手动检查".format(self.coin))
+                        fprint(self.coin, hedge_fail)
                         exit()
-                    fprint("保证金过多，现货加仓")
+                    fprint(too_much_margin)
                     mydict = {'account': self.accountid, 'instrument': self.coin, 'timestamp': timestamp,
                               'title': "自动加仓"}
                     Ledger.mycol.insert_one(mydict)

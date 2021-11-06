@@ -22,7 +22,7 @@ class AddPosition(OKExAPI):
         if abs(long - short) < contract_val:
             return True
         else:
-            fprint("{} 现货: {}, 期货: {}".format(self.coin, long, short))
+            fprint(self.coin, spot_text, long, swap_text, short)
             return False
 
     def hedge(self):
@@ -43,13 +43,13 @@ class AddPosition(OKExAPI):
         swap_balance = self.swap_balance()
 
         if usdt_size > usdt_balance + swap_balance:
-            fprint('余额不足')
+            fprint(insufficient_USDT)
             return False
         elif usdt_balance >= target_position * last:
             if swap_balance >= target_position * last / leverage:
                 return True
             else:
-                fprint('合约余额不足')
+                fprint(insufficient_margin)
                 transfer_amount = target_position * last / leverage - swap_balance
                 # 资金划转
                 # result = self.accountAPI.coin_transfer(currency='', amount='', account_from='', account_to='',
@@ -59,16 +59,16 @@ class AddPosition(OKExAPI):
                                                              account_from='1', account_to='9', instrument_id='',
                                                              to_instrument_id=self.spot_ID)
                     if transfer['result']:
-                        fprint("划转" + str(transfer_amount) + "USDT到合约账户")
+                        fprint(transfer_text + str(transfer_amount) + "USDT" + to_swap_account)
                         return True
                     else:
                         return False
                 except OkexAPIException as e:
                     fprint(e)
-                    fprint("划转失败")
+                    fprint(transfer_failed)
                     return False
         else:
-            fprint('现货余额不足')
+            fprint(insufficient_USDT)
             transfer_amount = target_position * last - usdt_balance
             # 资金划转
             # result = self.accountAPI.coin_transfer(currency='', amount='', account_from='', account_to='', type='',
@@ -78,13 +78,13 @@ class AddPosition(OKExAPI):
                                                          account_from='9', account_to='1', instrument_id=self.spot_ID,
                                                          to_instrument_id='')
                 if transfer['result']:
-                    fprint("划转" + str(transfer_amount) + "USDT到现货账户")
+                    fprint(transfer_text + str(transfer_amount) + "USDT" + to_spot_account)
                     return True
                 else:
                     return False
             except OkexAPIException as e:
                 fprint(e)
-                fprint("划转失败")
+                fprint(transfer_failed)
                 return False
 
     def set_lever(self, leverage: int):
@@ -92,8 +92,8 @@ class AddPosition(OKExAPI):
         setting = self.swapAPI.get_settings(self.swap_ID)
         while setting['margin_mode'] != 'crossed' or int(float(setting['short_leverage'])) != leverage:
             # 设定某个合约的杠杆
-            fprint("当前杠杆:", setting['short_leverage'])
-            fprint("设置杠杆:", leverage)
+            fprint(current_leverage, setting['short_leverage'])
+            fprint(set_leverage, leverage)
             self.swapAPI.set_leverage(instrument_id=self.swap_ID, leverage='{:d}'.format(leverage), side='3')
             time.sleep(1)
             setting = self.swapAPI.get_settings(self.swap_ID)
@@ -115,7 +115,7 @@ class AddPosition(OKExAPI):
             target_position = usdt_size * leverage / (leverage + 1) / last
         else:
             target_position = target_size
-        fprint(self.coin, '加仓数量:', target_position)
+        fprint(self.coin, amount_to_add, target_position)
         OP = record.Record('OP')
         mydict = {'account': self.accountid, 'instrument': self.coin, 'op': 'add'}
         OP.mycol.insert_one(mydict)
@@ -183,13 +183,13 @@ class AddPosition(OKExAPI):
                         while usdt_balance < target_position * last:
                             target_position -= min_size
                         if target_position < min_size:
-                            fprint('USDT余额不足')
+                            fprint(insufficient_USDT)
                             break
                     elif swap_balance < target_position * last / leverage:
                         while swap_balance < target_position * last / leverage:
                             target_position -= contract_val
                         if target_position < contract_val:
-                            fprint('合约余额不足')
+                            fprint(insufficient_margin)
                             break
                     else:
                         # 计算下单数量
@@ -227,7 +227,7 @@ class AddPosition(OKExAPI):
                                 swap_order = thread2.get_result()
                             except OkexAPIException as e:
                                 if e.message == "System error" or e.code == "35003":
-                                    fprint("合约系统出错")
+                                    fprint(futures_market_down)
                                     spot_order = thread1.get_result()
                                     spot_order_info = self.spotAPI.get_order_info(instrument_id=self.spot_ID,
                                                                                   order_id=spot_order['order_id'])
@@ -244,10 +244,10 @@ class AddPosition(OKExAPI):
                                 swap_order_state = swap_order_info['state']
                             else:
                                 if spot_order['order_id'] == '-1':
-                                    fprint("现货下单失败")
+                                    fprint(spot_order_failed)
                                     fprint(spot_order)
                                 else:
-                                    fprint("合约下单失败")
+                                    fprint(swap_order_failed)
                                     fprint(swap_order)
                                 break
 
@@ -255,7 +255,7 @@ class AddPosition(OKExAPI):
                                 # print(spot_order_state+','+swap_order_state)
                                 if spot_order_state == '2':
                                     if swap_order_state in ['-1', '-2']:
-                                        fprint("合约撤单:", swap_order_state)
+                                        fprint(swap_order_retract, swap_order_state)
                                         try:
                                             # 市价开空合约
                                             swap_order = self.swapAPI.take_order(instrument_id=self.swap_ID, type='2',
@@ -266,10 +266,10 @@ class AddPosition(OKExAPI):
                                             return 0
                                     else:
                                         fprint("swap_order_state", swap_order_state)
-                                        fprint("等待状态更新")
+                                        fprint(await_status_update)
                                 elif swap_order_state == '2':
                                     if spot_order_state in ['-1', '-2']:
-                                        fprint("现货撤单:", spot_order_state)
+                                        fprint(spot_order_retract, spot_order_state)
                                         # 重新定价
                                         tick_size = float(self.spot_info['tick_size'])
                                         limit_price = best_ask * (1 + 0.02)
@@ -283,12 +283,12 @@ class AddPosition(OKExAPI):
                                             return 0
                                     else:
                                         fprint("spot_order_state", spot_order_state)
-                                        fprint("等待状态更新")
+                                        fprint(await_status_update)
                                 elif spot_order_state in ['-1', '-2'] and swap_order_state in ['-1', '-2']:
                                     # print("下单失败")
                                     break
                                 else:
-                                    fprint("等待状态更新")
+                                    fprint(await_status_update)
 
                                 if spot_order['order_id'] != '-1' and swap_order['order_id'] != '-1':
                                     spot_order_info = self.spotAPI.get_order_info(instrument_id=self.spot_ID,
@@ -300,12 +300,12 @@ class AddPosition(OKExAPI):
                                     time.sleep(SLEEP)
                                 else:
                                     if spot_order['order_id'] == '-1':
-                                        fprint("现货下单失败")
+                                        fprint(spot_order_failed)
                                         fprint(spot_order)
                                     else:
-                                        fprint("合约下单失败")
+                                        fprint(swap_order_failed)
                                         fprint(swap_order)
-                                    fprint("加仓", filled_sum, self.coin)
+                                    fprint(added_amount, filled_sum, self.coin)
                                     return filled_sum
 
                             if spot_order_state == '2' and swap_order_state == '2':
@@ -320,9 +320,9 @@ class AddPosition(OKExAPI):
                                 swap_notional += swap_filled * swap_price
                                 if abs(spot_filled - swap_filled) < contract_val:
                                     target_position -= swap_filled
-                                    fprint("成功对冲", swap_filled, "，剩余" + str(target_position))
+                                    fprint(hedge_success, swap_filled, remaining + str(target_position))
                                 else:
-                                    fprint("对冲失败")
+                                    fprint(hedge_fail)
                                     break
 
                             usdt_balance = self.usdt_balance()
@@ -350,7 +350,7 @@ class AddPosition(OKExAPI):
 
         mydict = {'account': self.accountid, 'instrument': self.coin, 'op': 'add'}
         OP.mycol.delete_one(mydict)
-        fprint("加仓", filled_sum, self.coin)
+        fprint(added_amount, filled_sum, self.coin)
         return filled_sum
 
     def open(self, usdt_size=0.0, target_size=0.0, leverage=2, price_diff=0.002, accelerate_after=0):
@@ -367,7 +367,7 @@ class AddPosition(OKExAPI):
         Ledger = record.Record('Ledger')
         result = Ledger.find_last({'account': self.accountid, 'instrument': self.coin})
         if result and result['title'] != '平仓':
-            fprint("已有仓位", self.swap_position(), self.coin)
+            fprint(position_exist, self.swap_position(), self.coin)
         else:
             timestamp = datetime.utcnow()
             mydict = {'account': self.accountid, 'instrument': self.coin, 'timestamp': timestamp, 'title': "开仓"}
@@ -380,4 +380,4 @@ class AddPosition(OKExAPI):
             return self.add(usdt_size=usdt_size, leverage=leverage, price_diff=price_diff,
                             accelerate_after=accelerate_after)
         else:
-            fprint("USDT余额不足")
+            fprint(insufficient_USDT)

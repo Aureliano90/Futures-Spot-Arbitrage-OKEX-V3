@@ -4,6 +4,7 @@ import statistics
 import record
 import trading_data
 from log import fprint
+from lang import *
 
 
 class FundingRate:
@@ -71,12 +72,12 @@ class FundingRate:
                 {'instrument_id': m, 'current_rate': current_rate, 'estimated_rate': estimated_rate})
         funding_rate_list.sort(key=lambda x: x['current_rate'], reverse=True)
         # pprint(funding_rate_list)
-        fprint("币种   当期资金费  预测资金费")
+        fprint(coin_current_next)
         for n in funding_rate_list:
             instrumentID = n['instrument_id'][:n['instrument_id'].find('-')]
             current_rate = n['current_rate']
             estimated_rate = n['estimated_rate']
-            fprint('{:6s}{:8.3%}{:9.3%}'.format(instrumentID, current_rate, estimated_rate))
+            fprint('{:6s}{:9.3%}{:9.3%}'.format(instrumentID, current_rate, estimated_rate))
 
     def show_7day_rate(self):
         """显示最近7天平均资金费
@@ -103,10 +104,10 @@ class FundingRate:
         funding_rate_list.sort(key=lambda x: x['7day_funding_rate'], reverse=True)
         # 打印历史资金费
         # pprint(funding_rate_list)
-        fprint("币种   7天资金费")
+        fprint(funding_7day)
         for n in funding_rate_list:
             instrumentID = n['instrument_id'][:n['instrument_id'].find('-')]
-            fprint('{:6s}{:7.3%}'.format(instrumentID, n['7day_funding_rate']))
+            fprint('{:8s}{:6.3%}'.format(instrumentID, n['7day_funding_rate']))
 
     def show_30day_rate(self):
         """显示最近30天平均资金费
@@ -134,10 +135,10 @@ class FundingRate:
         funding_rate_list.sort(key=lambda x: x['30day_funding_rate'], reverse=True)
         # 打印历史资金费
         # pprint(funding_rate_list)
-        fprint("币种   30天资金费")
+        fprint(funding_30day)
         for n in funding_rate_list:
             instrumentID = n['instrument_id'][:n['instrument_id'].find('-')]
-            fprint('{:6s}{:7.3%}'.format(instrumentID, n['30day_funding_rate']))
+            fprint('{:8s}{:6.3%}'.format(instrumentID, n['30day_funding_rate']))
 
     def print_30day_rate(self):
         """输出最近30天平均资金费到文件
@@ -151,9 +152,10 @@ class FundingRate:
             # pprint(historical_funding_rate)
             # 永续合约上线不一定有30天
             if len(historical_funding_rate) < 21:
-                print(m + "上线不到7天。")
+                # print(m + "上线不到7天。")
+                pass
             elif len(historical_funding_rate) < 90:
-                print(m + "上线不到30天。")
+                # print(m + "上线不到30天。")
                 for n in historical_funding_rate:
                     realized_rate.append(float(n['realized_rate']))
                 funding_rate_list.append({'instrument_id': m, '7day_funding_rate': statistics.mean(realized_rate[:21]),
@@ -168,12 +170,12 @@ class FundingRate:
         funding_rate_list.sort(key=lambda x: x['7day_funding_rate'], reverse=True)
 
         funding_rate_file = open("Funding Rate.txt", "w", encoding="utf-8")
-        funding_rate_file.write("币种   7天资金费 30天资金费\n")
+        funding_rate_file.write(coin_7_30)
         for n in funding_rate_list:
             instrumentID = n['instrument_id'][:n['instrument_id'].find('-')]
             funding_rate_file.write(instrumentID.ljust(7))
             funding_rate_file.write('{:7.3%}'.format(n['7day_funding_rate']))
-            funding_rate_file.write('{:9.3%}'.format(n['30day_funding_rate']) + '\n')
+            funding_rate_file.write('{:8.3%}'.format(n['30day_funding_rate']) + '\n')
         funding_rate_file.close()
 
     def get_rate(self, days=7):
@@ -237,12 +239,12 @@ class FundingRate:
             m['estimated_rate'] = estimated_rate
         funding_rate_list.sort(key=lambda x: x['current_rate'], reverse=True)
         # pprint(funding_rate_list)
-        fprint("币种   当期资金费  预测资金费")
+        fprint(coin_current_next)
         for n in funding_rate_list:
             instrumentID = n['instrument']
             current_rate = n['current_rate']
             estimated_rate = n['estimated_rate']
-            fprint('{:6s}{:8.3%}{:9.3%}'.format(instrumentID, current_rate, estimated_rate))
+            fprint('{:6s}{:9.3%}{:9.3%}'.format(instrumentID, current_rate, estimated_rate))
 
     def show_selected_rate(self, coinlist: list):
         """显示列表币种当前资金费
@@ -264,9 +266,9 @@ class FundingRate:
             m['estimated_rate'] = estimated_rate
         funding_rate_list.sort(key=lambda x: x['current_rate'], reverse=True)
         # pprint(funding_rate_list)
-        fprint("币种   当期资金费  预测资金费")
+        fprint(coin_current_next)
         for n in funding_rate_list:
             instrumentID = n['instrument']
             current_rate = n['current_rate']
             estimated_rate = n['estimated_rate']
-            fprint('{:6s}{:8.3%}{:9.3%}'.format(instrumentID, current_rate, estimated_rate))
+            fprint('{:6s}{:9.3%}{:9.3%}'.format(instrumentID, current_rate, estimated_rate))

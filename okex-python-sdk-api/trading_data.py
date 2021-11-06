@@ -7,6 +7,7 @@ import record
 import funding_rate
 import matplotlib.pyplot as plt
 from log import fprint
+from lang import *
 
 
 def high(candle: list):
@@ -36,7 +37,6 @@ def close(candle: list):
 def profitability(days=7) -> List[dict]:
     """显示各币种资金费率除以波动率
 
-    :param rate: 最低资金费率
     :param days: 最近几天
     """
     fd = funding_rate.FundingRate()
@@ -50,8 +50,9 @@ def profitability(days=7) -> List[dict]:
         n['profitability'] = int(n['funding_rate'] / sqrt(atr) * 10000)
     funding_rate_list.sort(key=lambda x: x['profitability'], reverse=True)
     funding_rate_list = funding_rate_list[:10]
+    fprint(coin_funding_value)
     for n in funding_rate_list:
-        fprint('{:6s}资金费：{:6.3%}，投资价值：{:d}'.format(n['instrument'], n['funding_rate'], n['profitability']))
+        fprint('{:7s}{:7.3%}{:6d}'.format(n['instrument'], n['funding_rate'], n['profitability']))
     return funding_rate_list
 
 
@@ -69,7 +70,7 @@ class Stat:
 
         self.spot_info = self.spotAPI.get_instrument(self.spot_ID)
         if not self.spot_info:
-            print("不存在币种")
+            print(nonexistent_crypto)
             self.exist = False
             del self
 
@@ -408,8 +409,8 @@ class Stat:
         :param candle: 当前K线
         :param previous: 上一K线
         """
-        return max(high(candle) - low(candle), abs(close(candle) - high(previous)),
-                   abs(close(candle) - low(previous))) / close(candle)
+        return max(high(candle) - low(candle), abs(high(candle) - close(previous)),
+                   abs(low(candle) - close(previous))) / close(previous)
 
     def atr(self, candles: list, days=7):
         """平均相对振幅
@@ -418,6 +419,7 @@ class Stat:
         :param days:最近几天
         """
         tr = []
+        # Use 4h candles
         for n in range(days * 6):
             tr.append(self.tr(candles[n], candles[n + 1]))
         return statistics.mean(tr)
@@ -658,15 +660,15 @@ class Stat:
         plt.figure(figsize=(16, 8))
         # plt.axhline(y=open_pd, color='g', linestyle='-')
         # plt.axhline(y=close_pd, color='r', linestyle='-')
-        plt.plot(mylist['timestamp'], mylist['open_pd'], '.', color='g', label='开仓期现差价')
-        plt.plot(mylist['timestamp'], [open_pd] * len(mylist['timestamp']), '-', color='g', label='两个标准差')
-        plt.plot(mylist['timestamp'], mylist['close_pd'], '.', color='r', label='平仓期现差价')
-        plt.plot(mylist['timestamp'], [close_pd] * len(mylist['timestamp']), '-', color='r', label='两个标准差')
+        plt.plot(mylist['timestamp'], mylist['open_pd'], '.', color='g', label=pd_open)
+        plt.plot(mylist['timestamp'], [open_pd] * len(mylist['timestamp']), '-', color='g', label=two_std)
+        plt.plot(mylist['timestamp'], mylist['close_pd'], '.', color='r', label=pd_close)
+        plt.plot(mylist['timestamp'], [close_pd] * len(mylist['timestamp']), '-', color='r', label=two_std)
         # plt.xticks(rotation=45)
-        plt.xlabel("时间")
-        plt.ylabel("差价")
+        plt.xlabel(plot_time)
+        plt.ylabel(plot_premium)
         plt.legend(loc="best")
-        plt.title("{:s} {:d}小时期现差价".format(self.coin, hours))
+        plt.title(plot_title.format(self.coin, hours))
         plt.show()
 
 

@@ -6,6 +6,7 @@ import key
 import time
 from mythread import MyThread
 from log import fprint
+from lang import *
 
 SLEEP = 0.2
 CONFIRMATION = 3
@@ -55,7 +56,7 @@ class OKExAPI:
         # 公共-获取合约信息
         self.swap_info = self.swapAPI.get_instrument(self.swap_ID)
         if not self.swap_info:
-            fprint("币种不存在")
+            fprint(nonexistent_crypto)
             self.exist = False
             del self
 
@@ -113,14 +114,14 @@ class OKExAPI:
                                                      account_from='9', account_to='1', instrument_id=self.spot_ID,
                                                      to_instrument_id='')
             if transfer['result']:
-                fprint("划转" + str(transfer_amount) + "USDT到现货账户")
+                fprint(transfer_text + str(transfer_amount) + "USDT" + to_spot_account)
                 return True
             else:
-                fprint("划转失败")
+                fprint(transfer_failed)
                 return False
         except OkexAPIException as e:
             fprint(e)
-            fprint("划转失败")
+            fprint(transfer_failed)
             if e.code == "58110":
                 time.sleep(600)
             return False
@@ -139,14 +140,14 @@ class OKExAPI:
                                                      account_from='1', account_to='9', instrument_id='',
                                                      to_instrument_id=self.spot_ID)
             if transfer['result']:
-                print("划转" + str(transfer_amount) + "USDT到合约账户")
+                fprint(transfer_text + str(transfer_amount) + "USDT" + to_swap_account)
                 return True
             else:
-                fprint("划转失败")
+                fprint(transfer_failed)
                 return False
         except OkexAPIException as e:
             fprint(e)
-            fprint("划转失败")
+            fprint(transfer_failed)
             return False
 
     def parallel_ticker(self):

@@ -7,16 +7,16 @@ import trading_data
 import record
 from log import fprint
 import command
-
+from lang import *
 
 if __name__ == '__main__':
     print(datetime.now())
     # record.record_ticker()
-    command.get_command(2)
-    # monitor_all(2)
-    # open_diff_all(2)
-    # close_diff_all(4)
-    # back_track_all(2)
+    command.get_command(1)
+    # command.monitor_all(2)
+    # command.open_diff_all(2)
+    # command.close_diff_all(2)
+    # command.back_track_all(2)
     exit()
 
     coin = 'TORN'  # CFX, DORA, LON, XEM # BADGER, BTT, CFX, CRO, DORA, LON, MIR, SWRV, TORN, XEM
