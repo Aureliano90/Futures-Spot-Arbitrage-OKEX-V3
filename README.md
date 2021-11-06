@@ -5,9 +5,10 @@ keys may not be available anymore. Written in April for my personal use. Inherit
 Functional and stable enough for me. Then the market crashed in May and the funding rates were not appealing anymore.
 The development was halted ever since.
 
-Printouts and annotations are in Chinese. May or may not translate to English.
+Added English printouts. Annotations are in Chinese. 
 
 ## Features
+* Command line menu
 * Sort and output historical funding rates over given period
 * Analyze historical funding rates and volatility (taken as [NATR](https://www.macroption.com/normalized-atr/)) to find most profitable underlyings for arbitrage
 * Monitor existing positions and adjust leverage accordingly, i.e. increase leverage when price drops and deleverage when price rises to avoid liquidation
@@ -20,6 +21,7 @@ Printouts and annotations are in Chinese. May or may not translate to English.
   * Accelerate when a desired discount does not appear by given time
   * Automatically close a position when the predicted funding rate is low enough such that it is better off to reopen later
 * Calculate PnL, APR and APY
+* Plot the distribution of premium/discount for an underlying over a given period
 
 ## Features nice to add
 * Typical arbitrage of perpetual futures and spot is passively receiving funding fees while keeping the portfolio open. 
@@ -28,6 +30,10 @@ Printouts and annotations are in Chinese. May or may not translate to English.
 * If the program is interrupted when opening or closing positions, it will not resume. Could be improved.
 * The current program uses REST API to fetch tickers which has significant delays. WebSocket API should give more 
   responsive tickers.
+
+## Usage
+Install [MongoDB](https://www.mongodb.com/try/download/community) and required packages. Paste API keys in key.py. 
+Un-annotate "lang_en.install()" in lang.py for English support. Simply run main.py.
 
 ## Background
 Futures spot arbitrage in crypto is profitable because there is a huge demand for long leverage in the crypto market.
