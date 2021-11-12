@@ -35,11 +35,10 @@ class Monitor(OKExAPI):
         :rtype: float
         """
         Stat = trading_data.Stat(self.coin)
-        swap_account = self.swapAPI.get_coin_account(self.swap_ID)['info']
-        swap_margin = float(swap_account['equity'])
-        spot_balance = float(self.spotAPI.get_coin_account_info(self.coin)['balance'])
+        swap_margin = self.swap_margin()
+        spot_position = self.spot_position()
         last = float(self.spotAPI.get_specific_ticker(self.spot_ID)['last'])
-        holding = swap_margin + last * spot_balance
+        holding = swap_margin + last * spot_position
         timestamp = datetime.utcnow()
 
         if holding > 10:
@@ -66,6 +65,48 @@ class Monitor(OKExAPI):
         import math
         return math.exp(self.apr(days)) - 1
 
+    def back_tracking(self):
+        """补录最近七天资金费
+        """
+        Ledger = record.Record('Ledger')
+        ledger = self.swapAPI.get_ledger(instrument_id=self.swap_ID, limit='100', type='14')
+        count = 0
+        for item in ledger[0]:
+            realized_rate = float(item['amount'])
+            timestamp: str = item['timestamp']
+            timestamp: datetime = record.fromiso8601(timestamp)
+            mydict = {'account': self.accountid, 'instrument': self.coin, 'timestamp': timestamp, 'title': "资金费",
+                      'funding': realized_rate}
+            # 查重
+            if not Ledger.mycol.find_one(mydict):
+                Ledger.mycol.insert_one(mydict)
+                count += 1
+        fprint(back_track_funding.format(self.coin, count))
+
+    def record_funding(self):
+        Ledger = record.Record('Ledger')
+        ledger = self.swapAPI.get_ledger(instrument_id=self.swap_ID, limit='1', type='14')
+        realized_rate = float(ledger[0][0]['amount'])
+        timestamp = record.fromiso8601(ledger[0][0]['timestamp'])
+        fprint(received_funding.format(self.coin, realized_rate))
+        mydict = {'account': self.accountid, 'instrument': self.coin, 'timestamp': timestamp, 'title': "资金费",
+                  'funding': realized_rate}
+        Ledger.mycol.insert_one(mydict)
+        fprint(received_funding.format(self.coin, realized_rate))
+
+    def position_exist(self):
+        """判断是否有仓位
+        """
+        if self.swap_position() == 0:
+            # print(self.coin, "没有仓位")
+            return False
+        else:
+            result = record.Record('Ledger').find_last({'account': self.accountid, 'instrument': self.coin})
+            if result and result['title'] == '平仓':
+                # print(self.coin, "已平仓")
+                return False
+        return True
+
     def rebalance(self, leverage=0):
         """仓位杠杆再平衡
 
@@ -76,10 +117,15 @@ class Monitor(OKExAPI):
         reducePosition = close_position.ReducePosition(self.coin, self.accountid)
         Stat = trading_data.Stat(self.coin)
         Ledger = record.Record('Ledger')
-        current_lever = addPosition.get_lever()
+        current_lever = self.get_lever()
 
-        if leverage and leverage > current_lever:
-            addPosition.set_lever(leverage)
+        if leverage:
+            if leverage > current_lever:
+                addPosition.set_lever(leverage)
+            elif leverage < current_lever:
+                pass
+            else:
+                pass
         else:
             leverage = current_lever
         liquidation_price = self.liquidation_price()
@@ -98,6 +144,7 @@ class Monitor(OKExAPI):
             close_pd = recent['avg'] - 2 * recent['std']
 
             reducePosition.reduce(target_size=target_size, price_diff=close_pd, accelerate_after=2)
+            addPosition.set_lever(leverage)
 
         # 实际杠杆小于目标
         if liquidation_price > last * (1 + 1 / leverage):
@@ -114,48 +161,6 @@ class Monitor(OKExAPI):
 
             if self.transfer_to_spot(transfer_amount=transfer_amount):
                 addPosition.add(target_size=target_size, leverage=leverage, price_diff=open_pd, accelerate_after=2)
-                fprint("加仓{:.2f} USDT".format(transfer_amount))
-
-    def back_tracking(self):
-        """补录最近七天资金费
-        """
-        Ledger = record.Record('Ledger')
-        ledger = self.swapAPI.get_ledger(instrument_id=self.swap_ID, limit='100', type='14')
-        count = 0
-        for item in ledger[0]:
-            realized_rate = float(item['amount'])
-            timestamp: str = item['timestamp']
-            timestamp: datetime = record.fromiso8601(timestamp)
-            mydict = {'account': self.accountid, 'instrument': self.coin, 'timestamp': timestamp, 'title': "资金费",
-                      'funding': realized_rate}
-            # 查重
-            if not Ledger.mycol.find_one(mydict):
-                Ledger.mycol.insert_one(mydict)
-                count += 1
-        fprint("{}补录资金费{}条".format(self.coin, count))
-
-    def record_funding(self):
-        Ledger = record.Record('Ledger')
-        ledger = self.swapAPI.get_ledger(instrument_id=self.swap_ID, limit='1', type='14')
-        realized_rate = float(ledger[0][0]['amount'])
-        timestamp = record.fromiso8601(ledger[0][0]['timestamp'])
-        fprint("{}收到资金费{:.3f}".format(self.coin, realized_rate))
-        mydict = {'account': self.accountid, 'instrument': self.coin, 'timestamp': timestamp, 'title': "资金费",
-                  'funding': realized_rate}
-        Ledger.mycol.insert_one(mydict)
-
-    def position_exist(self):
-        """判断是否有仓位
-        """
-        if self.swap_position() == 0:
-            # print(self.coin, "没有仓位")
-            return False
-        else:
-            result = record.Record('Ledger').find_last({'account': self.accountid, 'instrument': self.coin})
-            if result and result['title'] == '平仓':
-                # print(self.coin, "已平仓")
-                return False
-        return True
 
     def watch(self):
         """监控仓位，自动加仓、减仓
@@ -190,7 +195,6 @@ class Monitor(OKExAPI):
             begin = timestamp
             swap_ticker = self.swapAPI.get_specific_ticker(self.swap_ID)
             last = float(swap_ticker['last'])
-            # 记录价格到数据库
 
             # 每小时更新一次资金费，强平价
             if timestamp.minute == 1:
@@ -210,7 +214,7 @@ class Monitor(OKExAPI):
                     cost = open_pd - close_pd - 2 * trade_fee
                     if (timestamp.hour + 4) % 8 == 0 and current_rate + next_rate < cost:
                         fprint(coin_current_next)
-                        fprint('{:8s}{:10.3%}{:10.3%}'.format(self.coin, current_rate, next_rate))
+                        fprint('{:6s}{:9.3%}{:11.3%}'.format(self.coin, current_rate, next_rate))
                         fprint(cost_to_close.format(cost))
                         fprint(proceed_to_close, self.coin)
                         reducePosition.close(price_diff=close_pd)
@@ -219,7 +223,7 @@ class Monitor(OKExAPI):
                     if timestamp.hour % 8 == 0:
                         self.record_funding()
                         fprint(coin_current_next)
-                        fprint('{:8s}{:10.3%}{:10.3%}'.format(self.coin, current_rate, next_rate))
+                        fprint('{:6s}{:9.3%}{:11.3%}'.format(self.coin, current_rate, next_rate))
 
             # 线程未创建
             if not thread_started:
@@ -275,7 +279,7 @@ class Monitor(OKExAPI):
 
                     swap_balance = self.swap_balance()
                     transfer_amount = min(target_size * last, swap_balance)
-                    print("target_size {}, swap_balance {}, transfer_amount {}".format(target_size, swap_balance, transfer_amount))
+                    # print("target_size {}, swap_balance {}, transfer_amount {}".format(target_size, swap_balance, transfer_amount))
                     if self.transfer_to_spot(transfer_amount=transfer_amount):
                         add = threading.Thread(target=addPosition.add,
                                                kwargs={'target_size': target_size, 'leverage': leverage,
@@ -286,12 +290,13 @@ class Monitor(OKExAPI):
                     else:
                         retry += 1
                         if retry == 3:
-                            print("Max retry.")
+                            print(reach_max_retry)
                             exit()
             # 线程已运行
             else:
                 # 如果减仓时间过长，加速减仓
                 if reduce.is_alive():
+                    # 迫近下下级杠杆
                     if liquidation_price < last * (1 + 1 / (leverage + 2)) and not accelerated:
                         # 已加速就不另开线程
                         reducePosition.exitFlag = True

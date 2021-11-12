@@ -77,7 +77,7 @@ class FundingRate:
             instrumentID = n['instrument_id'][:n['instrument_id'].find('-')]
             current_rate = n['current_rate']
             estimated_rate = n['estimated_rate']
-            fprint('{:6s}{:9.3%}{:9.3%}'.format(instrumentID, current_rate, estimated_rate))
+            fprint('{:6s}{:9.3%}{:11.3%}'.format(instrumentID, current_rate, estimated_rate))
 
     def show_7day_rate(self):
         """显示最近7天平均资金费
@@ -107,7 +107,7 @@ class FundingRate:
         fprint(funding_7day)
         for n in funding_rate_list:
             instrumentID = n['instrument_id'][:n['instrument_id'].find('-')]
-            fprint('{:8s}{:6.3%}'.format(instrumentID, n['7day_funding_rate']))
+            fprint('{:8s}{:8.3%}'.format(instrumentID, n['7day_funding_rate']))
 
     def show_30day_rate(self):
         """显示最近30天平均资金费
@@ -138,7 +138,7 @@ class FundingRate:
         fprint(funding_30day)
         for n in funding_rate_list:
             instrumentID = n['instrument_id'][:n['instrument_id'].find('-')]
-            fprint('{:8s}{:6.3%}'.format(instrumentID, n['30day_funding_rate']))
+            fprint('{:8s}{:8.3%}'.format(instrumentID, n['30day_funding_rate']))
 
     def print_30day_rate(self):
         """输出最近30天平均资金费到文件
@@ -244,7 +244,7 @@ class FundingRate:
             instrumentID = n['instrument']
             current_rate = n['current_rate']
             estimated_rate = n['estimated_rate']
-            fprint('{:6s}{:9.3%}{:9.3%}'.format(instrumentID, current_rate, estimated_rate))
+            fprint('{:6s}{:9.3%}{:11.3%}'.format(instrumentID, current_rate, estimated_rate))
 
     def show_selected_rate(self, coinlist: list):
         """显示列表币种当前资金费
@@ -271,4 +271,4 @@ class FundingRate:
             instrumentID = n['instrument']
             current_rate = n['current_rate']
             estimated_rate = n['estimated_rate']
-            fprint('{:6s}{:9.3%}{:9.3%}'.format(instrumentID, current_rate, estimated_rate))
+            fprint('{:6s}{:9.3%}{:11.3%}'.format(instrumentID, current_rate, estimated_rate))

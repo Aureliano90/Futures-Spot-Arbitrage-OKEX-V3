@@ -67,7 +67,8 @@ def close_all(accountid=2):
         reducePosition = close_position.ReducePosition(coin=n, accountid=accountid)
         recent = stat.recent_close_stat(4)
         close_pd = recent['avg'] - 2 * recent['std']
-        fprint(funding_close.format(n, fundingRate.current(n + '-USDT-SWAP'), recent['avg'], recent['std'], recent['min'], close_pd))
+        fprint(funding_close.format(n, fundingRate.current(n + '-USDT-SWAP'), recent['avg'], recent['std'],
+                                    recent['min'], close_pd))
         process = multiprocessing.Process(target=reducePosition.close, args=(close_pd, 2))
         process.start()
         processes.append(process)
@@ -152,8 +153,7 @@ def get_command(account=1):
                     cost = Stat.history_cost(account)
                     localtime = Stat.open_time(account).replace(tzinfo=timezone.utc).astimezone().replace(
                         tzinfo=None)
-                    fprint(open_time_pnl.format(localtime.isoformat(timespec='minutes'),
-                                                               funding + cost))
+                    fprint(open_time_pnl.format(localtime.isoformat(timespec='minutes'), funding + cost))
             elif command == 'b':
                 pass
             else:

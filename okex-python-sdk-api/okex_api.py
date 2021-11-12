@@ -90,6 +90,12 @@ class OKExAPI:
         else:
             return 0.
 
+    def swap_margin(self):
+        """获取合约占用保证金
+        """
+        swap_account = self.swapAPI.get_coin_account(self.swap_ID)['info']
+        return float(swap_account['equity'])
+
     def swap_balance(self):
         """获取可用保证金
         """

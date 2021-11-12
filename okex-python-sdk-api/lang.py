@@ -8,9 +8,9 @@ lang_zh_CN = gettext.translation(APP_NAME, LOCALE_DIR, ["zh_CN"])
 lang_en = gettext.translation(APP_NAME, LOCALE_DIR, ["en"])
 
 # 中文输出
-lang_zh_CN.install()
+# lang_zh_CN.install()
 # English support
-# lang_en.install()
+lang_en.install()
 
 input_USDT = _('Input USDT\n')
 # "输入USDT数量\n"
@@ -103,11 +103,12 @@ b   Back
 # b   返回
 # """
 
-coin_current_next = _('Crypto  Current  Predicted ')
-# '币种    当期资金费 预测资金费'
+coin_current_next = _('Crypto  Current  Predicted')
+# '币种    当期资金费   预测资金费'
 
-funding_close = _('{:6s} Funding Rate: {:7.3%}, Avg premium at close: {:7.3%}, Std: {:7.3%}, Min: {:7.3%}, minus 2 std: {:7.3%}')
-# "{:6s}资金费：{:7.3%}，平仓价差：{:7.3%}，标准差：{:7.3%}，最小值：{:7.3%}，减2个标准差：{:7.3%}"
+funding_close = _('{:6s} Funding Rate: {:7.3%}, Avg premium at close: {:7.3%}, Std: {:7.3%},'
+                  ' Min: {:7.3%}, Minus 2 std: {:7.3%}')
+# "{:6s} 资金费：{:7.3%}，平仓价差：{:7.3%}，标准差：{:7.3%}，最小值：{:7.3%}，减2个标准差：{:7.3%}"
 
 funding_7day = _('Crypto  7 day funding')
 # "币种     7天资金费"
@@ -140,7 +141,10 @@ plot_title = _('{:s} premium in {:d} hours')
 # "{:s} {:d}小时期现差价"
 
 nonexistent_crypto = _('Nonexistent crypto')
-# "不存在币种"
+# "币种不存在"
+
+nonexistent_account = _('Nonexistent account')
+# "账户不存在"
 
 transfer_failed = _('Transfer failed')
 # "划转失败"
@@ -184,6 +188,12 @@ swap_order_retract = _('Swap order retracted:')
 spot_order_retract = _('Spot order retracted:')
 # "现货撤单:"
 
+swap_order_state = _('Swap order state:')
+# "合约订单状态:"
+
+spot_order_state = _('Spot order state:')
+# "现货订单状态:"
+
 await_status_update = _('Await status update')
 # "等待状态更新"
 
@@ -223,7 +233,7 @@ approaching_liquidation = _('Approaching liquidation. Reduce spot.')
 too_much_margin = _('Too much margin. Add spot.')
 # "保证金过多，现货加仓"
 
-transfer_text = _('Transfered ')
+transfer_text = _('Transferred ')
 # "划转"
 
 to_spot_account = _('to spot account')
@@ -237,3 +247,13 @@ spot_text = _('Spot: ')
 
 swap_text = _('Swap: ')
 # "期货:"
+
+received_funding = _('{} Receive funding fee {:.3f}')
+# "{}收到资金费{:.3f}"
+
+back_track_funding = _('{} Backtrack funding fee records {}')
+# "{}补录资金费{}条"
+
+reach_max_retry = _('Reach max retry.')
+# "达到最大重试次数。"
+

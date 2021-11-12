@@ -165,7 +165,7 @@ class ReducePosition(OKExAPI):
                                                 fprint(e)
                                                 return 0
                                         else:
-                                            fprint("swap_order_state", swap_order_state)
+                                            fprint(swap_order_state, swap_order_state)
                                             fprint(await_status_update)
                                     elif swap_order_state == '2':
                                         if spot_order_state in ['-1', '-2']:
@@ -179,7 +179,7 @@ class ReducePosition(OKExAPI):
                                                 fprint(e)
                                                 return 0
                                         else:
-                                            fprint("spot_order_state", spot_order_state)
+                                            fprint(spot_order_state, spot_order_state)
                                             fprint(await_status_update)
                                     elif spot_order_state in ['-1', '-2'] and swap_order_state in ['-1', '-2']:
                                         # print("下单失败")
@@ -417,7 +417,7 @@ class ReducePosition(OKExAPI):
                                             fprint(e)
                                             return 0
                                     else:
-                                        fprint("swap_order_state", swap_order_state)
+                                        fprint(swap_order_state, swap_order_state)
                                         fprint(await_status_update)
                                 elif swap_order_state == '2':
                                     if spot_order_state in ['-1', '-2']:
@@ -431,7 +431,7 @@ class ReducePosition(OKExAPI):
                                             fprint(e)
                                             return 0
                                     else:
-                                        fprint("spot_order_state", spot_order_state)
+                                        fprint(spot_order_state, spot_order_state)
                                         fprint(await_status_update)
                                 elif spot_order_state in ['-1', '-2'] and swap_order_state in ['-1', '-2']:
                                     # print("下单失败")

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: main\n"
-"POT-Creation-Date: 2021-11-06 10:43-0500\n"
-"PO-Revision-Date: 2021-11-06 10:43-0500\n"
+"POT-Creation-Date: 2021-11-12 11:50-0600\n"
+"PO-Revision-Date: 2021-11-12 11:50-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -15,51 +15,51 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: lang.py\n"
 
-#: lang.py:13
+#: lang.py:15
 msgid "Input USDT\n"
 msgstr "Input USDT\n"
 
-#: lang.py:16
+#: lang.py:18
 msgid "Input crypto\n"
 msgstr "Input crypto\n"
 
-#: lang.py:19
+#: lang.py:21
 msgid "Hedging successful."
 msgstr "Hedging successful."
 
-#: lang.py:22
+#: lang.py:24
 msgid "Hedging failed. Inspect manually."
 msgstr "Hedging failed. Inspect manually."
 
-#: lang.py:25
+#: lang.py:27
 msgid "Position does not exist."
 msgstr "Position does not exist."
 
-#: lang.py:28
+#: lang.py:30
 msgid "{:6s} Today's APR: {:.2%}, 7 day APR: {:.2%}, overall APR: {:.2%}"
 msgstr "{:6s} Today's APR: {:.2%}, 7 day APR: {:.2%}, overall APR: {:.2%}"
 
-#: lang.py:31
+#: lang.py:33
 msgid "{:6s} Today's APY: {:.2%}, 7 day APY: {:.2%}, overall APY: {:.2%}"
 msgstr "{:6s} Today's APY: {:.2%}, 7 day APY: {:.2%}, overall APY: {:.2%}"
 
-#: lang.py:34
+#: lang.py:36
 msgid "Position opened at {}. Overall PnL: {:.2f} USDT"
 msgstr "Position opened at {}. Overall PnL: {:.2f} USDT"
 
-#: lang.py:37
+#: lang.py:39
 msgid "Wrong command"
 msgstr "Wrong command"
 
-#: lang.py:40
+#: lang.py:42
 msgid "How many days?\n"
 msgstr "How many days?\n"
 
-#: lang.py:43
+#: lang.py:45
 msgid "How many hours?\n"
 msgstr "How many hours?\n"
 
-#: lang.py:46
+#: lang.py:48
 msgid ""
 "\n"
 "1   Monitor existing positions\n"
@@ -75,7 +75,7 @@ msgstr ""
 "4   Portfolio related\n"
 "q   Quit\n"
 
-#: lang.py:61
+#: lang.py:63
 msgid ""
 "\n"
 "1   Open or add\n"
@@ -91,7 +91,7 @@ msgstr ""
 "4   PnL\n"
 "b   Back\n"
 
-#: lang.py:76
+#: lang.py:78
 msgid ""
 "\n"
 "1   Top 10 for arbitrage\n"
@@ -107,7 +107,7 @@ msgstr ""
 "4   Last 30 days funding rates for all\n"
 "b   Back\n"
 
-#: lang.py:91
+#: lang.py:93
 msgid ""
 "\n"
 "1   Backtrack funding fees\n"
@@ -121,193 +121,210 @@ msgstr ""
 "3   Premium/discount statistics\n"
 "b   Back\n"
 
-#: lang.py:104
-msgid "Crypto  Current  Predicted "
-msgstr "Crypto  Current  Predicted "
+#: lang.py:106
+msgid "Crypto  Current  Predicted"
+msgstr "Crypto  Current  Predicted"
 
-#: lang.py:107
+#: lang.py:109
 msgid ""
 "{:6s} Funding Rate: {:7.3%}, Avg premium at close: {:7.3%}, Std: {:7.3%}, "
-"Min: {:7.3%}, minus 2 std: {:7.3%}"
+"Min: {:7.3%}, Minus 2 std: {:7.3%}"
 msgstr ""
 "{:6s} Funding Rate: {:7.3%}, Avg premium at close: {:7.3%}, Std: {:7.3%}, "
-"Min: {:7.3%}, minus 2 std: {:7.3%}"
+"Min: {:7.3%}, Minus 2 std: {:7.3%}"
 
-#: lang.py:110
+#: lang.py:113
 msgid "Crypto  7 day funding"
 msgstr "Crypto  7 day funding"
 
-#: lang.py:113
+#: lang.py:116
 msgid "Crypto  30 day funding"
 msgstr "Crypto  30 day funding"
 
-#: lang.py:116
-#| msgid "Crypto 7 day  30 day\n"
+#: lang.py:119
 msgid "Crypto   7 day  30 day\n"
 msgstr "Crypto   7 day  30 day\n"
 
-#: lang.py:119
+#: lang.py:122
 msgid "Crypto Funding Profitability"
 msgstr "Crypto Funding Profitability"
 
-#: lang.py:122
+#: lang.py:125
 msgid "Premium/discount at open"
 msgstr "Premium/discount at open"
 
-#: lang.py:125
+#: lang.py:128
 msgid "Premium/discount at close"
 msgstr "Premium/discount at close"
 
-#: lang.py:128
+#: lang.py:131
 msgid "Two standard deviation"
 msgstr "Two standard deviation"
 
-#: lang.py:131
+#: lang.py:134
 msgid "Time"
 msgstr "Time"
 
-#: lang.py:134
+#: lang.py:137
 msgid "Premium"
 msgstr "Premium"
 
-#: lang.py:137
+#: lang.py:140
 msgid "{:s} premium in {:d} hours"
 msgstr "{:s} premium in {:d} hours"
 
-#: lang.py:140
+#: lang.py:143
 msgid "Nonexistent crypto"
 msgstr "Nonexistent crypto"
 
-#: lang.py:143
+#: lang.py:146
+msgid "Nonexistent account"
+msgstr "Nonexistent account"
+
+#: lang.py:149
 msgid "Transfer failed"
 msgstr "Transfer failed"
 
-#: lang.py:146
+#: lang.py:152
 msgid "amounts to add:"
 msgstr "amounts to add:"
 
-#: lang.py:149
+#: lang.py:155
 msgid "Added "
 msgstr "Added "
 
-#: lang.py:152
-#| msgid "Input USDT\n"
+#: lang.py:158
 msgid "Insufficient USDT"
 msgstr "Insufficient USDT"
 
-#: lang.py:155
+#: lang.py:161
 msgid "Insufficient margin"
 msgstr "Insufficient margin"
 
-#: lang.py:158
+#: lang.py:164
 msgid "Insufficient spot"
 msgstr "Insufficient spot"
 
-#: lang.py:161
+#: lang.py:167
 msgid "Insufficient swap"
 msgstr "Insufficient swap"
 
-#: lang.py:164
+#: lang.py:170
 msgid "Current leverage:"
 msgstr "Current leverage:"
 
-#: lang.py:167
+#: lang.py:173
 msgid "Set leverage:"
 msgstr "Set leverage:"
 
-#: lang.py:170
+#: lang.py:176
 msgid "Swap market is down"
 msgstr "Swap market is down"
 
-#: lang.py:173
+#: lang.py:179
 msgid "Spot order failed"
 msgstr "Spot order failed"
 
-#: lang.py:176
+#: lang.py:182
 msgid "Swap order failed"
 msgstr "Swap order failed"
 
-#: lang.py:179
+#: lang.py:185
 msgid "Swap order retracted:"
 msgstr "Swap order retracted:"
 
-#: lang.py:182
+#: lang.py:188
 msgid "Spot order retracted:"
 msgstr "Spot order retracted:"
 
-#: lang.py:185
+#: lang.py:191
+msgid "Swap order state:"
+msgstr "Swap order state:"
+
+#: lang.py:194
+msgid "Spot order state:"
+msgstr "Spot order state:"
+
+#: lang.py:197
 msgid "Await status update"
 msgstr "Await status update"
 
-#: lang.py:188
+#: lang.py:200
 msgid ". Remaining "
 msgstr ". Remaining "
 
-#: lang.py:191
-#| msgid "Position does not exist."
+#: lang.py:203
 msgid "Position exists"
 msgstr "Position exists"
 
-#: lang.py:194
+#: lang.py:206
 msgid "amounts to reduce:"
 msgstr "amounts to reduce:"
 
-#: lang.py:197
+#: lang.py:209
 msgid "Reduced"
 msgstr "Reduced"
 
-#: lang.py:200
+#: lang.py:212
 msgid "Spot recouped"
 msgstr "Spot recouped"
 
-#: lang.py:203
-#| msgid "Premium/discount at close"
+#: lang.py:215
 msgid "amounts to close:"
 msgstr "amounts to close:"
 
-#: lang.py:206
+#: lang.py:218
 msgid "Closed"
 msgstr "Closed"
 
-#: lang.py:209
+#: lang.py:221
 msgid "Start monitoring"
 msgstr "Start monitoring"
 
-#: lang.py:212
+#: lang.py:224
 msgid "Cost to close: {:.3%}"
 msgstr "Cost to close: {:.3%}"
 
-#: lang.py:215
+#: lang.py:227
 msgid "Proceed to close"
 msgstr "Proceed to close"
 
-#: lang.py:218
+#: lang.py:230
 msgid "Approaching liquidation. Reduce spot."
 msgstr "Approaching liquidation. Reduce spot."
 
-#: lang.py:221
+#: lang.py:233
 msgid "Too much margin. Add spot."
 msgstr "Too much margin. Add spot."
 
-#: lang.py:224
-msgid "Transfered "
-msgstr "Transfered "
+#: lang.py:236
+msgid "Transferred "
+msgstr "Transferred "
 
-#: lang.py:227
+#: lang.py:239
 msgid "to spot account"
 msgstr "to spot account"
 
-#: lang.py:230
+#: lang.py:242
 msgid "to swap account"
 msgstr "to swap account"
 
-#: lang.py:233
+#: lang.py:245
 msgid "Spot: "
 msgstr "Spot: "
 
-#: lang.py:236
+#: lang.py:248
 msgid "Swap: "
 msgstr "Swap: "
 
-#~ msgid "{} current funding rate {:.3%}, predicted funding rate {:.3%}"
-#~ msgstr "{} current funding rate {:.3%}, predicted funding rate {:.3%}"
+#: lang.py:251
+msgid "{} Receive funding fee {:.3f}"
+msgstr "{} Receive funding fee {:.3f}"
+
+#: lang.py:254
+msgid "{} Backtrack funding fee records {}"
+msgstr "{} Backtrack funding fee records {}"
+
+#: lang.py:257
+msgid "Reach max retry."
+msgstr "Reach max retry."

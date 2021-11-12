@@ -1,3 +1,6 @@
+from lang import nonexistent_account
+
+
 class Key:
 
     def __init__(self, account=1):
@@ -10,5 +13,5 @@ class Key:
             self.secret_key = ""
             self.passphrase = ""
         else:
-            print("账户不存在")
+            print(nonexistent_account)
             exit()

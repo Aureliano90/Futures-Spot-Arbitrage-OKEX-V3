@@ -11,7 +11,7 @@ class MyThread(Thread):
             if self._target:
                 self.result = self._target(*self._args, **self._kwargs)
         finally:
-            # Avoid a recycle if the thread is running a function with
+            # Avoid a refcycle if the thread is running a function with
             # an argument that has a member that points to the thread.
             del self._target, self._args, self._kwargs
 
