@@ -1,4 +1,5 @@
 # Futures-Spot-Arbitrage-OKEx-V3
+### V3 API is deprecated. Development has been moved to V5 API.
 ## Introduction
 An object-oriented program for arbitrage between perpetual futures and spot on OKEx using V3 API. However OKEx V3 API 
 keys may not be available anymore. Written in April for my personal use. Inherited and modified OKEx V3 API SDK. 
